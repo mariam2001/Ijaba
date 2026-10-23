@@ -12,10 +12,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Arabic (RTL) is the default whatever the device language; the user's
+    // choice from the Language screen is persisted by easy_localization.
     return EasyLocalization(
       path: 'assets/translations',
-      supportedLocales: const [Locale('en'), Locale('ar')],
-      fallbackLocale: const Locale('en'),
+      supportedLocales: const [Locale('ar'), Locale('en')],
+      startLocale: const Locale('ar'),
+      fallbackLocale: const Locale('ar'),
       child: const _AppView(),
     );
   }
@@ -37,7 +40,7 @@ class _AppView extends ConsumerWidget {
         debugShowCheckedModeBanner: false,
         routerConfig: router,
         theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
+        darkTheme: AppTheme.night,
         themeMode: themeMode,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,

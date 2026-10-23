@@ -1,7 +1,19 @@
 # Ijaba — project context
 
-Duaa reminder app: alerts the user at the best times for duaa. Follows
+Dua reminder app: alerts at the times dua is most likely accepted, plus athkar
+and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
+`assets/` folder lives in `branding/` here.) Follows
 `~/.claude/flutter-architecture-blueprint.md`, except where this file differs.
+
+## Non-negotiables (from the handover)
+- **Never invent or guess hadith references / dua sources.** Use a visible
+  placeholder ("[verify attribution before release]"); Mariam verifies.
+- **Don't invent design tokens.** Missing colors (paperWarm, nightInk, …) are
+  pending from the designer; ask rather than approximate.
+- Notification reliability on Mariam's **Oppo (ColorOS)** is the #1 risk:
+  prove alarms fire there (screen off, overnight) before polishing UI.
+- Transliteration: simple, no academic diacritics (`fa'fu anni`, not `ʿafuwwun`).
+- Mariam is a Java/Spring developer; briefly explain non-obvious Flutter choices.
 
 ## Local-first: no backend in v1
 - Prayer times are computed on-device, duas/athkar ship as bundled JSON, and
@@ -12,17 +24,23 @@ Duaa reminder app: alerts the user at the best times for duaa. Follows
   and pattern 1 (paginated list) doesn't apply. If an external API is added
   later (e.g. Open-Meteo for a rain alert), add Dio + `GenericCrudRepository`
   then.
-- Planned external pieces: Firebase Crashlytics, optionally Remote Config,
-  Google Play Billing for a one-time "support the app" purchase.
 
-## Structure
+## Structure & conventions
 - No buyer/seller roles: features are flat — `lib/features/<feature>/{data,presentation}`.
 - Local repositories still return `Either<Failure, T>`; wrap their work in
   `guard()` (`lib/core/error/guard.dart`).
 - `SimpleCache` reads are synchronous (preloaded in `main()`); add new keys to
   `CacheKey` in `lib/core/utils/enums.dart`.
-- Strings live in `assets/translations/{en,ar}.json`. In widgets use
+- **Arabic (RTL) is the default locale**, English second. Use directional
+  layout (`EdgeInsetsDirectional`, `AlignmentDirectional`, `start`/`end`),
+  never left/right, unless something must not mirror.
+- Strings live in `assets/translations/{ar,en}.json`. In widgets use
   `context.tr(LocaleKeys.x)` so text rebuilds on locale change.
+- Theme: tokens in `AppColors`; UI font Readex Pro (theme default), dua and
+  big Arabic titles use `AppTextStyles.dua` / `arabicTitle` (Amiri).
+  `AppTheme.night` is provisional until the night palette arrives.
+- App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,
+  `ic_stat_ijaba.xml` for notifications); legacy PNGs cover API 24–25.
 
 ## Commands
 - Codegen: `dart run build_runner build` (build_runner 2.15+ ignores

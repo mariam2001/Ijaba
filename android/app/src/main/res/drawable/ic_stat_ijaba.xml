@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Notification small icon (white silhouette: arch + star), converted from
+     branding/ic_stat_ijaba.svg. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M 16 94 L 16 54 C 16 33 29 23 39.5 16.5 C 44.5 13 49 9 50 3 C 51 9 55.5 13 60.5 16.5 C 71 23 84 33 84 54 L 84 94 L 72 94 L 72 54 C 72 40 64 32.5 55 26.5 C 52.5 25 51 22.5 50 19.5 C 49 22.5 47.5 25 45 26.5 C 36 32.5 28 40 28 54 L 28 94 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M 50 34 C 51.8 47 54 52.2 67 54 C 54 55.8 51.8 61 50 74 C 48.2 61 46 55.8 33 54 C 46 52.2 48.2 47 50 34 Z" />
+</vector>

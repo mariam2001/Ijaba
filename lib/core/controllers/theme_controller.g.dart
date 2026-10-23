@@ -8,12 +8,21 @@ part of 'theme_controller.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Light by default; the design's "night mode" (auto after Maghrib) will
+/// drive this once prayer times exist. It deliberately ignores the OS
+/// dark-mode setting.
 
 @ProviderFor(ThemeController)
 const themeControllerProvider = ThemeControllerProvider._();
 
+/// Light by default; the design's "night mode" (auto after Maghrib) will
+/// drive this once prayer times exist. It deliberately ignores the OS
+/// dark-mode setting.
 final class ThemeControllerProvider
     extends $NotifierProvider<ThemeController, ThemeMode> {
+  /// Light by default; the design's "night mode" (auto after Maghrib) will
+  /// drive this once prayer times exist. It deliberately ignores the OS
+  /// dark-mode setting.
   const ThemeControllerProvider._()
     : super(
         from: null,
@@ -41,7 +50,11 @@ final class ThemeControllerProvider
   }
 }
 
-String _$themeControllerHash() => r'419b781454b4c3e5cd33b3d355ab99d8f16a9402';
+String _$themeControllerHash() => r'99da1296ec0fb924364eef55ece3ab94a965240f';
+
+/// Light by default; the design's "night mode" (auto after Maghrib) will
+/// drive this once prayer times exist. It deliberately ignores the OS
+/// dark-mode setting.
 
 abstract class _$ThemeController extends $Notifier<ThemeMode> {
   ThemeMode build();

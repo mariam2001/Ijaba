@@ -1,4 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,7 +34,9 @@ void main() {
     await EasyLocalization.ensureInitialized();
   });
 
-  testWidgets('boots to the localized home page', (tester) async {
+  testWidgets('boots to the home page in Arabic, right-to-left', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [SimpleCache.provider.overrideWithValue(_MemoryCache())],
@@ -44,7 +46,20 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(HomePage), findsOneWidget);
-    expect(find.text('Ijaba'), findsOneWidget);
+    expect(find.text('إجابة'), findsOneWidget);
+    expect(
+      Directionality.of(tester.element(find.byType(HomePage))),
+      TextDirection.rtl,
+    );
+  });
+
+  test('ThemeController defaults to light, ignoring the OS setting', () {
+    final container = ProviderContainer(
+      overrides: [SimpleCache.provider.overrideWithValue(_MemoryCache())],
+    );
+    addTearDown(container.dispose);
+
+    expect(container.read(themeControllerProvider), ThemeMode.light);
   });
 
   test('ThemeController restores and saves the chosen theme', () async {
