@@ -39,6 +39,21 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
 - Theme: tokens in `AppColors`; UI font Readex Pro (theme default), dua and
   big Arabic titles use `AppTextStyles.dua` / `arabicTitle` (Amiri).
   `AppTheme.night` is provisional until the night palette arrives.
+- Prayer times: `features/prayer_times` (`PrayerTimesCalculator`, wraps
+  `adhan_dart`; all times are UTC instants). Windows: `features/windows`
+  (`WindowCalculator`). Timings the design doesn't specify (iqama delays,
+  after-prayer window) live in `WindowConfig` and are provisional.
+- Always give adhan_dart a noon-UTC date (its "next day" is +24h, which breaks
+  on DST-end days); its polar-circle resolution doesn't work, so the
+  calculator throws `CalculationFailure` instead of returning bad times.
+- Alerts: `features/alerts`. `AlertPlanner` (pure) → `NotificationService`
+  (flutter_local_notifications) via `AlertsRepository`. Alarms are scheduled
+  at absolute UTC instants (DST/time-zone safe), 7 days ahead, re-planned on
+  app start, resume (throttled 30 min) and language change. Window-alert ids
+  are minutes-since-epoch (≥ 1000); ids < 1000 are test alerts.
+- **Temporary, remove before release:** the `/debug/alerts` page and its
+  Home button; the Alexandria location in `prayerLocationProvider`; all
+  windows on in `enabledWindowTypesProvider`.
 - App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,
   `ic_stat_ijaba.xml` for notifications); legacy PNGs cover API 24–25.
 

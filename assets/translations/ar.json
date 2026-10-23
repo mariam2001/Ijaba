@@ -6,9 +6,33 @@
     "retry": "إعادة المحاولة"
   },
   "errors": {
-    "unknown": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    "unknown": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "location_unsupported": "لا يمكن حساب مواقيت الصلاة بدقة في موقع قريب إلى هذا الحد من القطب."
   },
   "home": {
     "welcome": "رفيقك للدعاء في أفضل أوقات الإجابة."
+  },
+  "prayers": {
+    "fajr": "الفجر",
+    "dhuhr": "الظهر",
+    "asr": "العصر",
+    "maghrib": "المغرب",
+    "isha": "العشاء"
+  },
+  "windows": {
+    "last_third": "الثلث الأخير من الليل",
+    "adhan_to_iqama": "بين الأذان والإقامة",
+    "after_prayer": "بعد الصلوات المكتوبة",
+    "friday_hour": "ساعة الإجابة يوم الجمعة",
+    "morning_adhkar": "أذكار الصباح",
+    "evening_adhkar": "أذكار المساء"
+  },
+  "alerts": {
+    "channel": "أوقات الإجابة",
+    "quiet_channel": "تذكيرات هادئة",
+    "adhan_to_iqama_of": "بين الأذان والإقامة · {prayer}",
+    "after_prayer_of": "بعد صلاة {prayer}",
+    "begins_at": "يبدأ الساعة {time}",
+    "open_until": "حتى الساعة {time}"
   }
 }

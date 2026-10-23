@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
+import 'package:ijaba/features/alerts/presentation/pages/alerts_debug_page.dart';
 import 'package:ijaba/features/home/presentation/pages/home_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,6 +14,10 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: AppRoutes.home,
         builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: AppRoutes.alertsDebug,
+        builder: (context, state) => const AlertsDebugPage(),
       ),
     ],
   );

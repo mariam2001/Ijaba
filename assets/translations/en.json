@@ -6,9 +6,33 @@
     "retry": "Retry"
   },
   "errors": {
-    "unknown": "Something went wrong. Please try again."
+    "unknown": "Something went wrong. Please try again.",
+    "location_unsupported": "Prayer times can't be calculated reliably this close to the poles."
   },
   "home": {
     "welcome": "Your duaa buddy for the best duaa times."
+  },
+  "prayers": {
+    "fajr": "Fajr",
+    "dhuhr": "Dhuhr",
+    "asr": "Asr",
+    "maghrib": "Maghrib",
+    "isha": "Isha"
+  },
+  "windows": {
+    "last_third": "Last third of the night",
+    "adhan_to_iqama": "Between adhan and iqama",
+    "after_prayer": "After the obligatory prayers",
+    "friday_hour": "The hour of response on Friday",
+    "morning_adhkar": "Morning adhkar",
+    "evening_adhkar": "Evening adhkar"
+  },
+  "alerts": {
+    "channel": "Dua windows",
+    "quiet_channel": "Quiet reminders",
+    "adhan_to_iqama_of": "Between adhan and iqama · {prayer}",
+    "after_prayer_of": "After {prayer} prayer",
+    "begins_at": "Begins at {time}",
+    "open_until": "Until {time}"
   }
 }
