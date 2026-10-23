@@ -1,0 +1,14 @@
+{
+  "app": {
+    "name": "Ijaba"
+  },
+  "common": {
+    "retry": "Retry"
+  },
+  "errors": {
+    "unknown": "Something went wrong. Please try again."
+  },
+  "home": {
+    "welcome": "Your duaa buddy for the best duaa times."
+  }
+}
