@@ -25,10 +25,13 @@ class AlertsController extends _$AlertsController {
     bool force = false,
   }) async {
     final last = _lastSuccess;
-    if (state.isLoading ||
+    final location = ref.read(prayerLocationProvider);
+    if (location == null ||
+        state.isLoading ||
         (!force &&
             last != null &&
             DateTime.now().difference(last) < const Duration(minutes: 30))) {
+      // No location until onboarding finishes; nothing to schedule yet.
       return;
     }
 
@@ -36,7 +39,7 @@ class AlertsController extends _$AlertsController {
     final result = await ref
         .read(AlertsRepository.provider)
         .reschedule(
-          location: ref.read(prayerLocationProvider),
+          location: location,
           settings: ref.read(prayerSettingsProvider),
           enabled: ref.read(enabledWindowTypesProvider),
           mode: ref.read(alarmModeControllerProvider),

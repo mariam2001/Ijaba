@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#35634F</color>
+    <!-- Launch screen: brand green, matching the Flutter splash it hands off to. -->
+    <color name="splash_background">#35634F</color>
+    <!-- Window colour behind the Flutter UI (the app's "paper" background). -->
+    <color name="paper">#F6F2E7</color>
 </resources>

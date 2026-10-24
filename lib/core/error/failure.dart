@@ -14,6 +14,11 @@ final class CacheFailure extends Failure {
   const CacheFailure(super.message);
 }
 
+/// The device position couldn't be read (permission, services off, timeout).
+final class LocationFailure extends Failure {
+  const LocationFailure(super.message);
+}
+
 /// Prayer times can't be computed for the requested place and date.
 final class CalculationFailure extends Failure {
   const CalculationFailure(super.message);

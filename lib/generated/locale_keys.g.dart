@@ -4,14 +4,92 @@
 
 abstract class LocaleKeys {
   static const app_name = 'app.name';
+  static const app_latin_name = 'app.latin_name';
   static const app = 'app';
   static const common_retry = 'common.retry';
   static const common = 'common';
   static const errors_unknown = 'errors.unknown';
   static const errors_location_unsupported = 'errors.location_unsupported';
+  static const errors_location_denied = 'errors.location_denied';
+  static const errors_location_off = 'errors.location_off';
+  static const errors_location_unavailable = 'errors.location_unavailable';
   static const errors = 'errors';
   static const home_welcome = 'home.welcome';
   static const home = 'home';
+  static const splash_verse = 'splash.verse';
+  static const splash = 'splash';
+  static const language_title = 'language.title';
+  static const language_subtitle = 'language.subtitle';
+  static const language_arabic = 'language.arabic';
+  static const language_arabic_hint = 'language.arabic_hint';
+  static const language_english = 'language.english';
+  static const language_english_hint = 'language.english_hint';
+  static const language_preview_label = 'language.preview_label';
+  static const language_preview_note = 'language.preview_note';
+  static const language_continue = 'language.continue';
+  static const language_footer = 'language.footer';
+  static const language = 'language';
+  static const welcome_title = 'welcome.title';
+  static const welcome_body = 'welcome.body';
+  static const welcome_start = 'welcome.start';
+  static const welcome = 'welcome';
+  static const location_title = 'location.title';
+  static const location_subtitle = 'location.subtitle';
+  static const location_current = 'location.current';
+  static const location_current_pending = 'location.current_pending';
+  static const location_current_detecting = 'location.current_detecting';
+  static const location_manual = 'location.manual';
+  static const location_manual_hint = 'location.manual_hint';
+  static const location_method_label = 'location.method_label';
+  static const location_continue = 'location.continue';
+  static const location_picker_title = 'location.picker_title';
+  static const location_picker_search = 'location.picker_search';
+  static const location_picker_empty = 'location.picker_empty';
+  static const location = 'location';
+  static const permissions_title = 'permissions.title';
+  static const permissions_body = 'permissions.body';
+  static const permissions_notifications = 'permissions.notifications';
+  static const permissions_notifications_hint =
+      'permissions.notifications_hint';
+  static const permissions_exact_alarms = 'permissions.exact_alarms';
+  static const permissions_exact_alarms_hint = 'permissions.exact_alarms_hint';
+  static const permissions_battery = 'permissions.battery';
+  static const permissions_battery_hint_brand =
+      'permissions.battery_hint_brand';
+  static const permissions_battery_hint_generic =
+      'permissions.battery_hint_generic';
+  static const permissions_allow_notifications =
+      'permissions.allow_notifications';
+  static const permissions_open_exact_alarms = 'permissions.open_exact_alarms';
+  static const permissions_open_brand_settings =
+      'permissions.open_brand_settings';
+  static const permissions_open_battery_settings =
+      'permissions.open_battery_settings';
+  static const permissions_later = 'permissions.later';
+  static const permissions = 'permissions';
+  static const methods_algerian = 'methods.algerian';
+  static const methods_dubai = 'methods.dubai';
+  static const methods_egyptian = 'methods.egyptian';
+  static const methods_france = 'methods.france';
+  static const methods_gulfRegion = 'methods.gulfRegion';
+  static const methods_indonesian = 'methods.indonesian';
+  static const methods_jafari = 'methods.jafari';
+  static const methods_jordan = 'methods.jordan';
+  static const methods_karachi = 'methods.karachi';
+  static const methods_kuwait = 'methods.kuwait';
+  static const methods_moonsightingCommittee = 'methods.moonsightingCommittee';
+  static const methods_morocco = 'methods.morocco';
+  static const methods_muslimWorldLeague = 'methods.muslimWorldLeague';
+  static const methods_northAmerica = 'methods.northAmerica';
+  static const methods_portugal = 'methods.portugal';
+  static const methods_qatar = 'methods.qatar';
+  static const methods_russia = 'methods.russia';
+  static const methods_singapore = 'methods.singapore';
+  static const methods_tehran = 'methods.tehran';
+  static const methods_tunisia = 'methods.tunisia';
+  static const methods_turkiye = 'methods.turkiye';
+  static const methods_ummAlQura = 'methods.ummAlQura';
+  static const methods = 'methods';
   static const prayers_fajr = 'prayers.fajr';
   static const prayers_dhuhr = 'prayers.dhuhr';
   static const prayers_asr = 'prayers.asr';
@@ -32,4 +110,8 @@ abstract class LocaleKeys {
   static const alerts_begins_at = 'alerts.begins_at';
   static const alerts_open_until = 'alerts.open_until';
   static const alerts = 'alerts';
+  static const dua_preview_arabic = 'dua_preview.arabic';
+  static const dua_preview_meaning = 'dua_preview.meaning';
+  static const dua_preview_transliteration = 'dua_preview.transliteration';
+  static const dua_preview = 'dua_preview';
 }

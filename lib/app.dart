@@ -10,7 +10,11 @@ import 'package:ijaba/features/alerts/presentation/controller/alerts_controller.
 import 'package:ijaba/generated/locale_keys.g.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  const App({super.key, this.translations = const RootBundleAssetLoader()});
+
+  /// Where the JSON translations come from: the bundled assets, or an
+  /// in-memory loader in widget tests (asset loading is unreliable there).
+  final AssetLoader translations;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +22,7 @@ class App extends StatelessWidget {
     // choice from the Language screen is persisted by easy_localization.
     return EasyLocalization(
       path: 'assets/translations',
+      assetLoader: translations,
       supportedLocales: const [Locale('ar'), Locale('en')],
       startLocale: const Locale('ar'),
       fallbackLocale: const Locale('ar'),
@@ -26,19 +31,47 @@ class App extends StatelessWidget {
   }
 }
 
-class _AppView extends HookConsumerWidget {
+class _AppView extends ConsumerWidget {
   const _AppView();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final themeMode = ref.watch(themeControllerProvider);
+
+    return ScreenUtilInit(
+      // The Figma frames are 390 × 844.
+      designSize: const Size(390, 844),
+      minTextAdapt: true,
+      builder: (context, _) => MaterialApp.router(
+        onGenerateTitle: (context) => context.tr(LocaleKeys.app_name),
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.night,
+        themeMode: themeMode,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        builder: (context, child) => _AlertScheduler(child: child!),
+      ),
+    );
+  }
+}
+
+/// Keeps the coming days' alerts scheduled: on start, when the language
+/// changes, and on each return to the foreground (throttled by the
+/// controller). It sits inside MaterialApp, which builds it only once the
+/// translations have loaded — alert text is generated at scheduling time.
+class _AlertScheduler extends HookConsumerWidget {
+  const _AlertScheduler({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final localeName = context.locale.toString();
 
-    // Keep the coming days' alerts scheduled. Runs after the first frame
-    // (translations are loaded by then; alert text is built at scheduling
-    // time), again when the language changes, and on each return to the
-    // foreground (throttled by the controller).
     void reschedule({bool force = false}) => ref
         .read(alertsControllerProvider.notifier)
         .reschedule(localeName: localeName, force: force);
@@ -52,20 +85,6 @@ class _AppView extends HookConsumerWidget {
       if (state == AppLifecycleState.resumed) reschedule();
     });
 
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      builder: (context, _) => MaterialApp.router(
-        onGenerateTitle: (context) => context.tr(LocaleKeys.app_name),
-        debugShowCheckedModeBanner: false,
-        routerConfig: router,
-        theme: AppTheme.light,
-        darkTheme: AppTheme.night,
-        themeMode: themeMode,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-      ),
-    );
+    return child;
   }
 }

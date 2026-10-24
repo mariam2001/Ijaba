@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_fonts.dart';
 import 'package:ijaba/config/themes/app_text_styles.dart';
@@ -7,17 +9,20 @@ abstract final class AppTheme {
   static ThemeData get light => _build(
     const ColorScheme.light().copyWith(
       primary: AppColors.green,
-      onPrimary: AppColors.paper,
+      onPrimary: AppColors.paperSoft,
       primaryContainer: AppColors.greenPale,
       onPrimaryContainer: AppColors.greenDeep,
       secondary: AppColors.greenMid,
-      onSecondary: AppColors.paper,
+      onSecondary: AppColors.paperSoft,
       secondaryContainer: AppColors.greenPale,
       onSecondaryContainer: AppColors.greenDeep,
       tertiary: AppColors.honey,
       onTertiary: AppColors.greenDeep,
       surface: AppColors.paper,
       onSurface: AppColors.ink,
+      onSurfaceVariant: AppColors.muted,
+      outline: AppColors.line,
+      outlineVariant: AppColors.line,
     ),
   );
 
@@ -43,8 +48,27 @@ abstract final class AppTheme {
     textTheme: AppTextStyles.textTheme,
     appBarTheme: AppBarTheme(
       centerTitle: true,
+      systemOverlayStyle: colorScheme.brightness == Brightness.light
+          ? SystemUiOverlayStyle.dark
+          : SystemUiOverlayStyle.light,
       backgroundColor: colorScheme.surface,
       foregroundColor: colorScheme.onSurface,
+    ),
+    // The design's primary button: full width, 50 tall, radius 15.
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        minimumSize: Size.fromHeight(50.h),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.r),
+        ),
+        textStyle: AppTextStyles.button,
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: AppColors.faint,
+        textStyle: AppTextStyles.caption,
+      ),
     ),
   );
 }

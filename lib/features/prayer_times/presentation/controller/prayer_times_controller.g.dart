@@ -8,20 +8,17 @@ part of 'prayer_times_controller.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Where prayer times are calculated. Fixed to Alexandria for the
-/// notification test until onboarding (step 4) lets the user choose.
+/// Where prayer times are calculated; null until onboarding saves a location.
 
 @ProviderFor(prayerLocation)
 const prayerLocationProvider = PrayerLocationProvider._();
 
-/// Where prayer times are calculated. Fixed to Alexandria for the
-/// notification test until onboarding (step 4) lets the user choose.
+/// Where prayer times are calculated; null until onboarding saves a location.
 
 final class PrayerLocationProvider
-    extends $FunctionalProvider<GeoPoint, GeoPoint, GeoPoint>
-    with $Provider<GeoPoint> {
-  /// Where prayer times are calculated. Fixed to Alexandria for the
-  /// notification test until onboarding (step 4) lets the user choose.
+    extends $FunctionalProvider<GeoPoint?, GeoPoint?, GeoPoint?>
+    with $Provider<GeoPoint?> {
+  /// Where prayer times are calculated; null until onboarding saves a location.
   const PrayerLocationProvider._()
     : super(
         from: null,
@@ -38,24 +35,24 @@ final class PrayerLocationProvider
 
   @$internal
   @override
-  $ProviderElement<GeoPoint> $createElement($ProviderPointer pointer) =>
+  $ProviderElement<GeoPoint?> $createElement($ProviderPointer pointer) =>
       $ProviderElement(pointer);
 
   @override
-  GeoPoint create(Ref ref) {
+  GeoPoint? create(Ref ref) {
     return prayerLocation(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(GeoPoint value) {
+  Override overrideWithValue(GeoPoint? value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<GeoPoint>(value),
+      providerOverride: $SyncValueProvider<GeoPoint?>(value),
     );
   }
 }
 
-String _$prayerLocationHash() => r'8c88ac5b95a827ad9bde45926255710742ddbb06';
+String _$prayerLocationHash() => r'56c9ee4d1e1a6b9dc9fad1288e332b13fb546fe6';
 
 /// Calculation settings; defaults until the Settings screen persists them.
 

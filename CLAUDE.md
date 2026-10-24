@@ -36,9 +36,21 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   never left/right, unless something must not mirror.
 - Strings live in `assets/translations/{ar,en}.json`. In widgets use
   `context.tr(LocaleKeys.x)` so text rebuilds on locale change.
-- Theme: tokens in `AppColors`; UI font Readex Pro (theme default), dua and
-  big Arabic titles use `AppTextStyles.dua` / `arabicTitle` (Amiri).
-  `AppTheme.night` is provisional until the night palette arrives.
+- Theme: tokens in `AppColors` (the handover's 8, plus 7 sampled from the
+  Figma exports — paperSoft/paperWarm names are inferred, confirm them);
+  sizes in `AppTextStyles` were measured from the exports. Readex Pro for UI
+  text (every style names its font — buttons don't inherit the theme's);
+  Amiri for dua text and Arabic titles only (`screenTitleFor(locale)` switches
+  Latin titles to Readex). `AppTheme.night` is provisional until the night
+  palette arrives. ScreenUtil design size is the Figma frame, 390 × 844.
+- Onboarding: `features/onboarding` (Splash → Language → Welcome → Location
+  → Permissions; router redirects Home until `OnboardingController` is done).
+  Location: `features/location` — GPS (coarse) labelled with the nearest city
+  from the bundled `assets/data/cities.json` (Natural Earth, public domain,
+  built by `tool/generate_cities.py`), so no geocoding API sees the location.
+- Placeholders awaiting assets/designs: `IjabaMark` and `BranchOrnament` are
+  drawn in code from the PNG exports — swap in the Figma SVGs when exported;
+  the city picker and the "pending" permission-step style have no design yet.
 - Prayer times: `features/prayer_times` (`PrayerTimesCalculator`, wraps
   `adhan_dart`; all times are UTC instants). Windows: `features/windows`
   (`WindowCalculator`). Timings the design doesn't specify (iqama delays,
@@ -52,10 +64,21 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   app start, resume (throttled 30 min) and language change. Window-alert ids
   are minutes-since-epoch (≥ 1000); ids < 1000 are test alerts.
 - **Temporary, remove before release:** the `/debug/alerts` page and its
-  Home button; the Alexandria location in `prayerLocationProvider`; all
-  windows on in `enabledWindowTypesProvider`.
+  Home button; all windows on in `enabledWindowTypesProvider`.
 - App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,
   `ic_stat_ijaba.xml` for notifications); legacy PNGs cover API 24–25.
+
+## Testing
+- Widget tests pump `App(translations: TestTranslations())` with the fakes in
+  `test/helpers/fakes.dart` (asset loading is unreliable in widget tests).
+  Never use `SynchronousFuture` in an easy_localization `AssetLoader` — it
+  combines loaders with `Future.wait`, which mishandles it (keys show raw).
+- `test/features/onboarding/onboarding_screens_test.dart` lays out every
+  onboarding screen on small/design/large phones and fails on overflow.
+- Design fidelity: `flutter test tool/design_check/design_check_test.dart`
+  renders the screens at 390 × 844 to `build/design_check/` for comparison
+  with the Figma PNG exports (the Figma MCP Starter plan allows only 20
+  reads a month, so exports are the working path).
 
 ## Commands
 - Codegen: `dart run build_runner build` (build_runner 2.15+ ignores

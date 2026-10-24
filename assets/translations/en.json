@@ -1,16 +1,95 @@
 {
   "app": {
-    "name": "Ijaba"
+    "name": "Ijaba",
+    "latin_name": "IJABA"
   },
   "common": {
     "retry": "Retry"
   },
   "errors": {
     "unknown": "Something went wrong. Please try again.",
-    "location_unsupported": "Prayer times can't be calculated reliably this close to the poles."
+    "location_unsupported": "Prayer times can't be calculated reliably this close to the poles.",
+    "location_denied": "Location access wasn't allowed. Choose your city manually.",
+    "location_off": "Location services are off. Turn them on or choose your city manually.",
+    "location_unavailable": "Couldn't find your location right now. Try again or choose your city manually."
   },
   "home": {
     "welcome": "Your duaa buddy for the best duaa times."
+  },
+  "splash": {
+    "verse": "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ"
+  },
+  "language": {
+    "title": "اختر اللغة",
+    "subtitle": "Choose your language",
+    "arabic": "العربية",
+    "arabic_hint": "النص العربي مع المعنى",
+    "english": "English",
+    "english_hint": "Arabic text, transliteration, and meaning",
+    "preview_label": "How duas will appear",
+    "preview_note": "The Arabic text always stays the same — only the translation changes.",
+    "continue": "متابعة · Continue",
+    "footer": "يمكنك تغييرها لاحقًا من الإعدادات · You can change this later"
+  },
+  "welcome": {
+    "title": "For dua, there are times when the doors open",
+    "body": "Ijaba alerts you at those times — the last third of the night, the Friday hour, between adhan and iqama. And you choose which ones reach you.",
+    "start": "Let's begin"
+  },
+  "location": {
+    "title": "Where are you?",
+    "subtitle": "Prayer times are calculated on your device — never sent to a server.",
+    "current": "Use my current location",
+    "current_pending": "Found when you continue",
+    "current_detecting": "Finding your location…",
+    "manual": "Choose a city manually",
+    "manual_hint": "For travel, or if you'd rather not share your location",
+    "method_label": "Calculation method",
+    "continue": "Continue",
+    "picker_title": "Choose your city",
+    "picker_search": "Search for a city",
+    "picker_empty": "No city with that name"
+  },
+  "permissions": {
+    "title": "So the alert reaches you",
+    "body": "Three steps. The third is the one everyone forgets — without it, your phone stops alerts while you sleep.",
+    "notifications": "Notifications",
+    "notifications_hint": "A normal permission the system asks for once.",
+    "exact_alarms": "Exact alarms",
+    "exact_alarms_hint": "Not asked automatically — we open the setting for you.",
+    "battery": "Auto launch & battery",
+    "battery_hint_brand": "A {brand} setting the system never mentions. Without it, the phone stops the alert while you sleep.",
+    "battery_hint_generic": "Some phones stop apps in the background. Let Ijaba run so alerts arrive.",
+    "allow_notifications": "Allow notifications",
+    "open_exact_alarms": "Open alarm settings",
+    "open_brand_settings": "Open {brand} settings",
+    "open_battery_settings": "Open battery settings",
+    "later": "I'll do it later — alerts may not arrive"
+  },
+  "methods": {
+    "algerian": "Algerian Ministry of Religious Affairs",
+    "dubai": "Dubai",
+    "egyptian": "Egyptian General Authority of Survey",
+    "france": "Union of Islamic Organisations of France",
+    "gulfRegion": "Gulf Region",
+    "indonesian": "Indonesia (KEMENAG)",
+    "jafari": "Jafari (Shia Ithna-Ashari)",
+    "jordan": "Jordan",
+    "karachi": "University of Islamic Sciences, Karachi",
+    "kuwait": "Kuwait",
+    "moonsightingCommittee": "Moonsighting Committee",
+    "morocco": "Morocco",
+    "muslimWorldLeague": "Muslim World League",
+    "northAmerica": "North America (ISNA)",
+    "other": "Custom",
+    "portugal": "Islamic Community of Lisbon",
+    "qatar": "Qatar",
+    "russia": "Spiritual Administration of Muslims of Russia",
+    "singapore": "Singapore",
+    "tehran": "Institute of Geophysics, University of Tehran",
+    "tunisia": "Tunisia",
+    "turkiye": "Türkiye (Diyanet)",
+    "ummAlQura": "Umm al-Qura, Makkah"
   },
   "prayers": {
     "fajr": "Fajr",
@@ -34,5 +113,10 @@
     "after_prayer_of": "After {prayer} prayer",
     "begins_at": "Begins at {time}",
     "open_until": "Until {time}"
+  },
+  "dua_preview": {
+    "arabic": "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+    "meaning": "O Allah, You are the One who pardons, and You love to pardon, so pardon me.",
+    "transliteration": "Allahumma innaka afuwwun tuhibbul afwa fa'fu anni"
   }
 }

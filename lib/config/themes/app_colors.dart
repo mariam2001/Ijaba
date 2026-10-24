@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// Brand tokens from the design (docs/HANDOVER.md).
+/// Brand tokens. The first eight come from docs/HANDOVER.md; the rest were
+/// sampled from the exported Figma screens (their names are inferred from
+/// where they're used — confirm against the Figma styles).
 ///
-/// The design also defines paperWarm, paperSoft, inkSoft, muted, faint,
-/// honeyPale, line, nightCard, nightInk, nightMuted and nightLine. Their
-/// values are pending from the designer — add them here, don't approximate.
+/// Still pending from the design: nightCard, nightInk, nightMuted, nightLine.
 abstract final class AppColors {
   /// Main background.
   static const paper = Color(0xFFF6F2E7);
@@ -29,4 +29,25 @@ abstract final class AppColors {
 
   /// Body text.
   static const ink = Color(0xFF22352C);
+
+  /// Raised surfaces (selected cards), text on green buttons.
+  static const paperSoft = Color(0xFFFFFDF6);
+
+  /// Recessed rows, e.g. the calculation-method row.
+  static const paperWarm = Color(0xFFEDE7D6);
+
+  /// Hairlines: card borders, inactive page dots.
+  static const line = Color(0xFFDDD6C4);
+
+  /// Honey-tinted fill, e.g. behind the current step's number.
+  static const honeyPale = Color(0xFFF2E3CC);
+
+  /// Secondary text: subtitles, labels, descriptions.
+  static const muted = Color(0xFF7A8C80);
+
+  /// Tertiary text and unselected radio rings.
+  static const faint = Color(0xFFA4B3A8);
+
+  /// Softer body text, e.g. a dua's meaning.
+  static const inkSoft = Color(0xFF4A5F53);
 }

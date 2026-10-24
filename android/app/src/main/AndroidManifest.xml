@@ -3,6 +3,9 @@
          and re-registering the alarms after a reboot. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- City-level location is enough for prayer times; it never leaves the
+         phone (city names come from a bundled list, not a geocoding API). -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:label="@string/app_name"
