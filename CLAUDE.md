@@ -35,7 +35,9 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   layout (`EdgeInsetsDirectional`, `AlignmentDirectional`, `start`/`end`),
   never left/right, unless something must not mirror.
 - Strings live in `assets/translations/{ar,en}.json`. In widgets use
-  `context.tr(LocaleKeys.x)` so text rebuilds on locale change.
+  `context.tr(LocaleKeys.x)` so text rebuilds on locale change. Plurals use
+  real CLDR rules (`ignorePluralRules: false` in `App`): Arabic needs
+  one/two/few/many/other ("٥ دقائق" but "١٥ دقيقة").
 - Theme: tokens in `AppColors` (the handover's 8, plus 7 sampled from the
   Figma exports — paperSoft/paperWarm names are inferred, confirm them);
   sizes in `AppTextStyles` were measured from the exports. Readex Pro for UI
@@ -43,6 +45,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   Amiri for dua text and Arabic titles only (`screenTitleFor(locale)` switches
   Latin titles to Readex). `AppTheme.night` is provisional until the night
   palette arrives. ScreenUtil design size is the Figma frame, 390 × 844.
+  Icons are Lucide (`lucide_icons_flutter`, the `…300` variants = 1.5 stroke),
+  matching the design's glyphs.
 - Onboarding: `features/onboarding` (Splash → Language → Welcome → Location
   → Permissions; router redirects Home until `OnboardingController` is done).
   Location: `features/location` — GPS (coarse) labelled with the nearest city
@@ -62,9 +66,22 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   (flutter_local_notifications) via `AlertsRepository`. Alarms are scheduled
   at absolute UTC instants (DST/time-zone safe), 7 days ahead, re-planned on
   app start, resume (throttled 30 min) and language change. Window-alert ids
-  are minutes-since-epoch (≥ 1000); ids < 1000 are test alerts.
+  are minutes-since-epoch (≥ 1000); ids < 1000 are test alerts. Heads-ups
+  come early by `AlertPlanner.leadTimes` (last third 15 min; adhan→iqama
+  5 min, from the Home design), and Home's rows show the same lead times.
+- Main tabs: `StatefulShellRoute` in `routes.dart` with `MainShell` +
+  `AppTabBar` (Home · Duas · Windows · Settings); Duas, Windows and Settings
+  are `ComingSoonView` placeholders until their designs/steps.
+- Home: `features/home`. `todayWindowsProvider` (windows open now or starting
+  in the next 24 h, from yesterday/today/tomorrow's prayer days) is recomputed
+  on each `clockProvider` tick (20 s). The hero card features the open window
+  with the highest `featurePriority`, else the next one ("up next" state is
+  ours — the design only shows "open now"). The Hijri date is Umm al-Qura by
+  civil date (package `hijri`; month names come from l10n). Search and
+  "Make dua" go to the Duas tab until step 6.
 - **Temporary, remove before release:** the `/debug/alerts` page and its
-  Home button; all windows on in `enabledWindowTypesProvider`.
+  button on the Settings placeholder; all windows on in
+  `enabledWindowTypesProvider`.
 - App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,
   `ic_stat_ijaba.xml` for notifications); legacy PNGs cover API 24–25.
 
@@ -74,11 +91,15 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   Never use `SynchronousFuture` in an easy_localization `AssetLoader` — it
   combines loaders with `Future.wait`, which mishandles it (keys show raw).
 - `test/features/onboarding/onboarding_screens_test.dart` lays out every
-  onboarding screen on small/design/large phones and fails on overflow.
+  onboarding screen on small/design/large phones and fails on overflow;
+  `test/features/home/home_page_test.dart` does the same for Home in both
+  languages. easy_localization remembers `setLocale` across tests in a file,
+  so tests set the language they need every time.
 - Design fidelity: `flutter test tool/design_check/design_check_test.dart`
   renders the screens at 390 × 844 to `build/design_check/` for comparison
   with the Figma PNG exports (the Figma MCP Starter plan allows only 20
-  reads a month, so exports are the working path).
+  reads a month, so exports are the working path). Home renders the
+  design's moment (Friday 03:12, `designTodayWindows()` in the fakes).
 
 ## Commands
 - Codegen: `dart run build_runner build` (build_runner 2.15+ ignores

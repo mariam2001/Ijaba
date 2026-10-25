@@ -38,6 +38,42 @@ abstract final class AppTextStyles {
       ? heroTitle
       : _readex(24, weight: FontWeight.w600, color: AppColors.ink);
 
+  /// Home header wordmark: Amiri in Arabic, Readex Pro for "Ijaba".
+  static TextStyle homeWordmarkFor(Locale locale) => locale.languageCode == 'ar'
+      ? _amiri(24, color: AppColors.green)
+      : _readex(21, weight: FontWeight.w600, color: AppColors.green);
+
+  /// "مفتوحة الآن" on the hero card.
+  static TextStyle get heroBadge =>
+      _readex(11, weight: FontWeight.w500, color: AppColors.honeyPale);
+
+  /// The featured window's name on the hero card.
+  static TextStyle heroWindowTitleFor(Locale locale) =>
+      locale.languageCode == 'ar'
+      ? _amiri(30, color: AppColors.paperSoft)
+      : _readex(26, height: 1.35, color: AppColors.paperSoft);
+
+  /// Secondary text on the green hero card.
+  static TextStyle get heroCaption => _readex(12, color: AppColors.greenPale);
+
+  /// The big "1:18" on the hero card.
+  static TextStyle get countdown =>
+      _readex(36, weight: FontWeight.w300, color: AppColors.paperSoft);
+
+  /// Section headings on Home ("نوافذ اليوم").
+  static TextStyle get sectionTitle =>
+      _readex(13, weight: FontWeight.w600, color: AppColors.ink);
+
+  /// Window names in lists.
+  static TextStyle get rowTitle => _readex(14, color: AppColors.ink);
+
+  /// Times at the end of list rows.
+  static TextStyle get rowTime =>
+      _readex(13, weight: FontWeight.w500, color: AppColors.ink);
+
+  /// Bottom tab-bar labels.
+  static TextStyle get tabLabel => _readex(9.5);
+
   /// One line under a screen title.
   static TextStyle get subtitle => _readex(12.5, color: AppColors.muted);
 

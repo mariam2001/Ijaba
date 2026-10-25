@@ -13,6 +13,10 @@ import 'package:ijaba/features/location/data/datasource/city_directory.dart';
 import 'package:ijaba/features/location/data/datasource/location_service.dart';
 import 'package:ijaba/features/onboarding/data/datasource/device_power_settings.dart';
 import 'package:ijaba/features/prayer_times/data/model/geo_point.dart';
+import 'package:ijaba/features/prayer_times/data/model/prayer.dart';
+import 'package:ijaba/features/windows/data/model/dua_window.dart';
+import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
+import 'package:ijaba/features/windows/data/model/today_windows.dart';
 
 class MemoryCache implements BaseCache {
   final _values = <CacheKey, String>{};
@@ -104,3 +108,40 @@ class TestTranslations extends AssetLoader {
 CityDirectory testCityDirectory() => CityDirectory.fromJson(
   jsonDecode(File('assets/data/cities.json').readAsStringSync()) as Json,
 );
+
+/// Home as the Figma frames show it: Friday 03:12 (18 Rabi al-Akhir), the
+/// last third open. Local wall-clock times, like the design.
+final designNow = DateTime(2028, 9, 8, 3, 12);
+
+TodayWindows designTodayWindows() {
+  DateTime at(int hour, int minute) =>
+      DateTime(2028, 9, 8, hour, minute).toUtc();
+  final lastThird = DuaWindow(
+    type: DuaWindowType.lastThirdOfNight,
+    start: at(2, 4),
+    end: at(4, 30),
+  );
+  return TodayWindows(
+    featured: lastThird,
+    windows: [
+      lastThird,
+      DuaWindow(
+        type: DuaWindowType.adhanToIqama,
+        start: at(4, 30),
+        end: at(4, 50),
+        prayer: Prayer.fajr,
+      ),
+      DuaWindow(
+        type: DuaWindowType.afterPrayer,
+        start: at(4, 50),
+        end: at(5, 10),
+        prayer: Prayer.fajr,
+      ),
+      DuaWindow(
+        type: DuaWindowType.fridayHour,
+        start: at(17, 6),
+        end: at(18, 6),
+      ),
+    ],
+  );
+}

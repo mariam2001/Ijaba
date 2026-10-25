@@ -4,7 +4,8 @@
     "latin_name": "IJABA"
   },
   "common": {
-    "retry": "Retry"
+    "retry": "Retry",
+    "coming_soon": "Coming soon"
   },
   "errors": {
     "unknown": "Something went wrong. Please try again.",
@@ -14,7 +15,26 @@
     "location_unavailable": "Couldn't find your location right now. Try again or choose your city manually."
   },
   "home": {
-    "welcome": "Your duaa buddy for the best duaa times."
+    "date": "{weekday}, {day} {month}",
+    "open_now": "Open now",
+    "up_next": "Up next",
+    "left": "left",
+    "starts_in": "starts in",
+    "make_dua": "Make dua now",
+    "today": "Today's windows",
+    "edit": "Edit",
+    "open_ends": "Open · ends {time}",
+    "alert_before": "{minutes} before",
+    "alert_at_start": "At the start",
+    "silent": "silent",
+    "friday_hour_hint": "last hour before maghrib",
+    "morning_adhkar_hint": "Fajr to sunrise",
+    "evening_adhkar_hint": "Asr to maghrib",
+    "nothing_left": "No more windows today",
+    "minutes": {
+      "one": "{} min",
+      "other": "{} min"
+    }
   },
   "splash": {
     "verse": "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ"
@@ -101,8 +121,8 @@
   "windows": {
     "last_third": "Last third of the night",
     "adhan_to_iqama": "Between adhan and iqama",
-    "after_prayer": "After the obligatory prayers",
-    "friday_hour": "The hour of response on Friday",
+    "after_prayer": "After the obligatory prayer",
+    "friday_hour": "The hour of response",
     "morning_adhkar": "Morning adhkar",
     "evening_adhkar": "Evening adhkar"
   },
@@ -118,5 +138,25 @@
     "arabic": "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
     "meaning": "O Allah, You are the One who pardons, and You love to pardon, so pardon me.",
     "transliteration": "Allahumma innaka afuwwun tuhibbul afwa fa'fu anni"
+  },
+  "hijri_months": {
+    "1": "Muharram",
+    "2": "Safar",
+    "3": "Rabi al-Awwal",
+    "4": "Rabi al-Akhir",
+    "5": "Jumada al-Ula",
+    "6": "Jumada al-Akhira",
+    "7": "Rajab",
+    "8": "Sha'ban",
+    "9": "Ramadan",
+    "10": "Shawwal",
+    "11": "Dhul-Qada",
+    "12": "Dhul-Hijja"
+  },
+  "tabs": {
+    "home": "Today",
+    "duas": "Duas",
+    "windows": "Windows",
+    "settings": "Settings"
   }
 }

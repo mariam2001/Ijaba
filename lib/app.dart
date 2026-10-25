@@ -26,6 +26,9 @@ class App extends StatelessWidget {
       supportedLocales: const [Locale('ar'), Locale('en')],
       startLocale: const Locale('ar'),
       fallbackLocale: const Locale('ar'),
+      // Use each language's real plural forms: Arabic needs "few" for 3–10
+      // ("٥ دقائق"), which the default value-only fallback never picks.
+      ignorePluralRules: false,
       child: const _AppView(),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
+import 'package:ijaba/config/routes/main_shell.dart';
 import 'package:ijaba/features/alerts/presentation/pages/alerts_debug_page.dart';
+import 'package:ijaba/features/duas/presentation/pages/duas_page.dart';
 import 'package:ijaba/features/home/presentation/pages/home_page.dart';
 import 'package:ijaba/features/onboarding/presentation/controller/onboarding_controller.dart';
 import 'package:ijaba/features/onboarding/presentation/pages/city_picker_page.dart';
@@ -9,6 +11,8 @@ import 'package:ijaba/features/onboarding/presentation/pages/location_page.dart'
 import 'package:ijaba/features/onboarding/presentation/pages/permissions_page.dart';
 import 'package:ijaba/features/onboarding/presentation/pages/splash_page.dart';
 import 'package:ijaba/features/onboarding/presentation/pages/welcome_page.dart';
+import 'package:ijaba/features/settings/presentation/pages/settings_page.dart';
+import 'package:ijaba/features/windows/presentation/pages/windows_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'routes.g.dart';
@@ -18,9 +22,21 @@ final appRoutes = <RouteBase>[
     path: AppRoutes.splash,
     builder: (context, state) => const SplashPage(),
   ),
-  GoRoute(
-    path: AppRoutes.home,
-    builder: (context, state) => const HomePage(),
+  // The four main tabs, each with its own navigation stack.
+  StatefulShellRoute.indexedStack(
+    builder: (context, state, navigationShell) =>
+        MainShell(navigationShell: navigationShell),
+    branches: [
+      for (final (path, page) in const [
+        (AppRoutes.home, HomePage()),
+        (AppRoutes.duas, DuasPage()),
+        (AppRoutes.windows, WindowsPage()),
+        (AppRoutes.settings, SettingsPage()),
+      ])
+        StatefulShellBranch(
+          routes: [GoRoute(path: path, builder: (context, state) => page)],
+        ),
+    ],
   ),
   GoRoute(
     path: AppRoutes.language,
@@ -52,9 +68,9 @@ final appRoutes = <RouteBase>[
 GoRouter router(Ref ref) {
   final router = GoRouter(
     initialLocation: AppRoutes.splash,
-    // Home needs a location and permissions, so it waits for onboarding.
+    // The main tabs need a location and permissions: onboarding first.
     redirect: (context, state) =>
-        state.matchedLocation == AppRoutes.home &&
+        AppRoutes.mainTabs.contains(state.matchedLocation) &&
             !ref.read(onboardingControllerProvider)
         ? AppRoutes.language
         : null,

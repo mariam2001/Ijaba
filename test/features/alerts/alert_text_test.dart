@@ -25,10 +25,23 @@ void main() {
       );
 
   test('a shared alert names every window, with its prayer', () {
+    // With no heads-ups, the Fajr adhan and morning adhkar share 05:00.
+    final shared = const AlertPlanner(leadTimes: {})
+        .plan(
+          days: [syntheticDay(2026, 10, 24)],
+          enabled: DuaWindowType.values.toSet(),
+          now: DateTime.utc(2026, 10, 24),
+        )
+        .singleWhere((alert) => alert.at == DateTime.utc(2026, 10, 24, 5));
+
     expect(
-      text.title(alertAt(5)),
+      text.title(shared),
       'alerts.adhan_to_iqama_of{prayer: prayers.fajr} · windows.morning_adhkar',
     );
+  });
+
+  test('the heads-up before the adhan says when the window begins', () {
+    expect(text.body(alertAt(4, 55)), 'alerts.begins_at{time: 5:00}');
   });
 
   test('the last-third heads-up says when it begins', () {

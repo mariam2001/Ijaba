@@ -8,17 +8,27 @@ import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 
 /// Decides which notifications to schedule for a run of days.
 class AlertPlanner {
-  const AlertPlanner({this.windowCalculator = const WindowCalculator()});
+  const AlertPlanner({
+    this.windowCalculator = const WindowCalculator(),
+    this.leadTimes = defaultLeadTimes,
+  });
 
   final WindowCalculator windowCalculator;
 
-  /// The last third gets a heads-up; every other window alerts as it opens.
-  static const lastThirdLeadTime = Duration(minutes: 15);
+  /// How long before a window opens its alert fires; windows not listed
+  /// alert as they open. From the design: a heads-up 15 minutes before the
+  /// last third, and 5 minutes before the adhan.
+  final Map<DuaWindowType, Duration> leadTimes;
 
-  static DateTime alertTimeOf(DuaWindow window) =>
-      window.type == DuaWindowType.lastThirdOfNight
-      ? window.start.subtract(lastThirdLeadTime)
-      : window.start;
+  static const defaultLeadTimes = {
+    DuaWindowType.lastThirdOfNight: Duration(minutes: 15),
+    DuaWindowType.adhanToIqama: Duration(minutes: 5),
+  };
+
+  Duration leadTimeOf(DuaWindowType type) => leadTimes[type] ?? Duration.zero;
+
+  DateTime alertTimeOf(DuaWindow window) =>
+      window.start.subtract(leadTimeOf(window.type));
 
   /// Alerts for the [enabled] windows of [days] that fire after [now],
   /// sorted by time. Alert times are floored to the minute.

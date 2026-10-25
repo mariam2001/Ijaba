@@ -1,7 +1,13 @@
 /// Route paths. Register each one in `routes.dart`.
 abstract final class AppRoutes {
   static const splash = '/';
+
+  // Main tabs.
   static const home = '/home';
+  static const duas = '/duas';
+  static const windows = '/windows';
+  static const settings = '/settings';
+  static const mainTabs = [home, duas, windows, settings];
 
   // Onboarding, in order.
   static const language = '/onboarding/language';

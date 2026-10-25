@@ -31,8 +31,23 @@ void main() {
     expect(alert.windows.single.type, DuaWindowType.lastThirdOfNight);
   });
 
-  test('windows opening in the same minute share one alert', () {
-    final fajr = alertAt(plan(), DateTime.utc(2026, 10, 24, 5));
+  test('the adhan-to-iqama heads-up comes 5 minutes before the adhan', () {
+    final alert = alertAt(plan(), DateTime.utc(2026, 10, 24, 4, 55));
+
+    expect(alert.windows.single.type, DuaWindowType.adhanToIqama);
+    expect(alert.windows.single.prayer, Prayer.fajr);
+  });
+
+  test('windows alerting in the same minute share one alert', () {
+    // With no heads-ups, the Fajr adhan and morning adhkar both alert at 05:00.
+    final fajr = alertAt(
+      const AlertPlanner(leadTimes: {}).plan(
+        days: [saturday],
+        enabled: allTypes,
+        now: DateTime.utc(2026, 10, 24),
+      ),
+      DateTime.utc(2026, 10, 24, 5),
+    );
 
     expect(fajr.windows.map((window) => window.type), [
       DuaWindowType.adhanToIqama,
