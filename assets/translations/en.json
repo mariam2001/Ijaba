@@ -142,6 +142,16 @@
     "one_each": "One alert for each",
     "footer": "Every window you turn off frees a scheduled alert — so only what matters reaches you."
   },
+  "dua": {
+    "position": "{index} of {total}",
+    "of_count": "of {total}",
+    "tap_to_count": "Tap to count",
+    "previous": "Previous",
+    "next": "Next",
+    "verify_source": "[verify attribution before release]",
+    "save": "Save dua",
+    "unsave": "Remove from saved"
+  },
   "alerts": {
     "channel": "Dua windows",
     "quiet_channel": "Quiet reminders",

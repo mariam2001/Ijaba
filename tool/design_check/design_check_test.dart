@@ -19,6 +19,8 @@ import 'package:ijaba/config/routes/routes.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/core/service/local/cache/simple_cache.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
+import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
+import 'package:ijaba/features/duas/presentation/widgets/tasbih_counter.dart';
 import 'package:ijaba/features/location/data/datasource/city_directory.dart';
 import 'package:ijaba/features/location/data/datasource/location_service.dart';
 import 'package:ijaba/features/onboarding/data/datasource/device_power_settings.dart';
@@ -28,6 +30,15 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../test/helpers/fakes.dart';
+
+Future<void> _secondDuaCountedTwice(WidgetTester tester) async {
+  await tester.tap(find.byType(FilledButton).last);
+  await tester.pumpAndSettle();
+  for (var i = 0; i < 2; i++) {
+    await tester.tap(find.byType(TasbihCounter));
+    await tester.pumpAndSettle();
+  }
+}
 
 Future<void> _loadFonts() async {
   Future<void> family(String name, List<String> assets) async {
@@ -69,20 +80,24 @@ void main() {
   });
 
   // The states the Figma frames show: Oppo phone, steps 1–2 granted, GPS
-  // already allowed and in Alexandria; Home on Friday at 03:12.
+  // already allowed and in Alexandria; Home on Friday at 03:12; the Dua
+  // screen on the second of seven duas, counted twice.
   const screens = {
-    '1_splash': (AppRoutes.splash, 'ar'),
-    '2_language': (AppRoutes.language, 'ar'),
-    '3_welcome': (AppRoutes.welcome, 'ar'),
-    '4_location': (AppRoutes.location, 'ar'),
-    '5_permissions': (AppRoutes.permissions, 'ar'),
-    '6_home': (AppRoutes.home, 'ar'),
-    '11_home_en': (AppRoutes.home, 'en'),
-    '7_windows': (AppRoutes.windows, 'ar'),
-    '12_windows_en': (AppRoutes.windows, 'en'),
+    '1_splash': (AppRoutes.splash, 'ar', null),
+    '2_language': (AppRoutes.language, 'ar', null),
+    '3_welcome': (AppRoutes.welcome, 'ar', null),
+    '4_location': (AppRoutes.location, 'ar', null),
+    '5_permissions': (AppRoutes.permissions, 'ar', null),
+    '6_home': (AppRoutes.home, 'ar', null),
+    '11_home_en': (AppRoutes.home, 'en', null),
+    '7_windows': (AppRoutes.windows, 'ar', null),
+    '12_windows_en': (AppRoutes.windows, 'en', null),
+    '8_dua': ('/dua/lastThirdOfNight', 'ar', _secondDuaCountedTwice),
+    '13_dua_en': ('/dua/lastThirdOfNight', 'en', _secondDuaCountedTwice),
   };
 
-  for (final MapEntry(key: name, value: (path, language)) in screens.entries) {
+  for (final MapEntry(key: name, value: (path, language, prepare))
+      in screens.entries) {
     testWidgets('render $name', (tester) async {
       tester.view
         ..physicalSize = const Size(390, 844)
@@ -108,6 +123,9 @@ void main() {
                 (ref) async => testCityDirectory(),
               ),
               clockProvider.overrideWith((ref) => Stream.value(designNow)),
+              duaCatalogProvider.overrideWith(
+                (ref) async => designDuaCatalog(),
+              ),
               todayWindowsProvider.overrideWith(
                 (ref) async => designTodayWindows(),
               ),
@@ -129,6 +147,7 @@ void main() {
       for (var i = 0; i < 3; i++) {
         await tester.pump(const Duration(milliseconds: 300));
       }
+      await prepare?.call(tester);
 
       await tester.runAsync(() async {
         final render =

@@ -137,6 +137,15 @@ abstract class LocaleKeys {
   static const alert_control_one_each = 'alert_control.one_each';
   static const alert_control_footer = 'alert_control.footer';
   static const alert_control = 'alert_control';
+  static const dua_position = 'dua.position';
+  static const dua_of_count = 'dua.of_count';
+  static const dua_tap_to_count = 'dua.tap_to_count';
+  static const dua_previous = 'dua.previous';
+  static const dua_next = 'dua.next';
+  static const dua_verify_source = 'dua.verify_source';
+  static const dua_save = 'dua.save';
+  static const dua_unsave = 'dua.unsave';
+  static const dua = 'dua';
   static const alerts_channel = 'alerts.channel';
   static const alerts_quiet_channel = 'alerts.quiet_channel';
   static const alerts_adhan_to_iqama_of = 'alerts.adhan_to_iqama_of';

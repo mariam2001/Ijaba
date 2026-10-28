@@ -70,18 +70,39 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   come early by `AlertPlanner.leadTimes` (last third 15 min; adhan→iqama
   5 min, from the Home design), and Home's rows show the same lead times.
 - Main tabs: `StatefulShellRoute` in `routes.dart` with `MainShell` +
-  `AppTabBar` (Home · Duas · Windows · Settings); Duas, Windows and Settings
-  are `ComingSoonView` placeholders until their designs/steps.
+  `AppTabBar` (Home · Duas · Windows · Settings); Duas and Settings are
+  `ComingSoonView` placeholders until steps 6–7.
+- Windows tab (alert control): `WindowsPage` with one `AlertToggle` per
+  switch — morning and evening adhkar share one; the design's "when it
+  rains" is left out of v1 (it would need a weather service to see the
+  location). Switches only control alerts: they're saved by
+  `EnabledWindowTypes` (`CacheKey.enabledWindows`; default all on except
+  after-prayer), and Home still lists switched-off windows, faded as
+  silent. A change re-plans the alarms through `_AlertScheduler`;
+  `AlertsController` queues a forced run asked for mid-run, so the last
+  change always lands. `AppSwitch` is drawn to the design (44 × 26) and,
+  like the design, doesn't mirror in Arabic.
 - Home: `features/home`. `todayWindowsProvider` (windows open now or starting
   in the next 24 h, from yesterday/today/tomorrow's prayer days) is recomputed
   on each `clockProvider` tick (20 s). The hero card features the open window
   with the highest `featurePriority`, else the next one ("up next" state is
   ours — the design only shows "open now"). The Hijri date is Umm al-Qura by
-  civil date (package `hijri`; month names come from l10n). Search and
-  "Make dua" go to the Duas tab until step 6.
+  civil date (package `hijri`; month names come from l10n). "Make dua now"
+  opens the Dua screen for the featured window; search goes to the Duas tab
+  until the Library exists.
+- Dua screen: `features/duas`, route `/dua/<DuaWindowType name>` (outside
+  the tab shell; notifications will deep-link there). One dua at a time with
+  Previous/Next, a tasbih counter (per dua, kept when going back) and a
+  bookmark (`SavedDuas`, `CacheKey.savedDuas`). Built in the **day palette**
+  — the design is a night screen, but the night palette isn't decided yet.
+  Content is `assets/data/duas.json` (`DuaCatalog`): `arabic`,
+  `transliteration`, `meaning`/`source` by language code, `verified`,
+  `repeat`, `windows` (none = any window; a window with no tagged duas gets
+  them all). Only the design's one dua is in it so far — Mariam supplies the
+  rest. Unverified sources show the "[verify attribution before release]"
+  flag; never add a source or set `verified` yourself.
 - **Temporary, remove before release:** the `/debug/alerts` page and its
-  button on the Settings placeholder; all windows on in
-  `enabledWindowTypesProvider`.
+  button on the Settings placeholder.
 - App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,
   `ic_stat_ijaba.xml` for notifications); legacy PNGs cover API 24–25.
 
@@ -92,8 +113,11 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   combines loaders with `Future.wait`, which mishandles it (keys show raw).
 - `test/features/onboarding/onboarding_screens_test.dart` lays out every
   onboarding screen on small/design/large phones and fails on overflow;
-  `test/features/home/home_page_test.dart` does the same for Home in both
-  languages. easy_localization remembers `setLocale` across tests in a file,
+  `test/features/home/home_page_test.dart`,
+  `test/features/windows/windows_page_test.dart` and
+  `test/features/duas/dua_page_test.dart` do the same for Home, Windows and
+  the Dua screen in both languages (the Dua tests use `designDuaCatalog()`:
+  the real dua among dummies, as "2 of 7"). easy_localization remembers `setLocale` across tests in a file,
   so tests set the language they need every time.
 - Design fidelity: `flutter test tool/design_check/design_check_test.dart`
   renders the screens at 390 × 844 to `build/design_check/` for comparison

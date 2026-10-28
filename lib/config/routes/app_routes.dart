@@ -9,6 +9,10 @@ abstract final class AppRoutes {
   static const settings = '/settings';
   static const mainTabs = [home, duas, windows, settings];
 
+  /// The Dua screen for a window: [duaFor] with its `DuaWindowType` name.
+  static const dua = '/dua';
+  static String duaFor(String window) => '$dua/$window';
+
   // Onboarding, in order.
   static const language = '/onboarding/language';
   static const welcome = '/onboarding/welcome';

@@ -9,6 +9,8 @@ import 'package:ijaba/core/service/local/cache/base_cache.dart';
 import 'package:ijaba/core/utils/enums.dart';
 import 'package:ijaba/core/utils/typedef.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
+import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
+import 'package:ijaba/features/duas/data/model/dua.dart';
 import 'package:ijaba/features/location/data/datasource/city_directory.dart';
 import 'package:ijaba/features/location/data/datasource/location_service.dart';
 import 'package:ijaba/features/onboarding/data/datasource/device_power_settings.dart';
@@ -108,6 +110,29 @@ class TestTranslations extends AssetLoader {
 CityDirectory testCityDirectory() => CityDirectory.fromJson(
   jsonDecode(File('assets/data/cities.json').readAsStringSync()) as Json,
 );
+
+/// The bundled duas, read from disk instead of the asset bundle.
+DuaCatalog testDuaCatalog() => DuaCatalog.fromJson(
+  jsonDecode(File('assets/data/duas.json').readAsStringSync()) as Json,
+);
+
+/// Seven duas for the last third with the real bundled one second, as the
+/// Dua design shows "2 of 7". The others are dummies, not content.
+DuaCatalog designDuaCatalog() {
+  final real = testDuaCatalog().duas.first;
+  Dua dummy(int n) => Dua(
+    id: 'test-$n',
+    arabic: 'دعاء تجريبي $n',
+    transliteration: 'Test dua $n',
+    meaning: {'ar': 'دعاء تجريبي $n', 'en': 'Test dua $n'},
+    windows: const [DuaWindowType.lastThirdOfNight],
+  );
+  return DuaCatalog([
+    dummy(1),
+    real,
+    for (var n = 3; n <= 7; n++) dummy(n),
+  ]);
+}
 
 /// Home as the Figma frames show it: Friday 03:12 (18 Rabi al-Akhir), the
 /// last third open. Local wall-clock times, like the design.

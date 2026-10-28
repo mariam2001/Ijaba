@@ -9,6 +9,8 @@ import 'package:ijaba/config/routes/routes.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/core/service/local/cache/simple_cache.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
+import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
+import 'package:ijaba/features/duas/presentation/pages/dua_page.dart';
 import 'package:ijaba/features/home/presentation/pages/home_page.dart';
 import 'package:ijaba/features/home/presentation/widgets/window_row.dart';
 import 'package:ijaba/features/windows/data/model/today_windows.dart';
@@ -45,6 +47,7 @@ void main() {
           SimpleCache.provider.overrideWithValue(MemoryCache()),
           NotificationService.provider.overrideWithValue(FakeNotifications()),
           clockProvider.overrideWith((ref) => Stream.value(designNow)),
+          duaCatalogProvider.overrideWith((ref) async => designDuaCatalog()),
           todayWindowsProvider.overrideWith(
             (ref) async => today ?? designTodayWindows(),
           ),
@@ -120,6 +123,18 @@ void main() {
     expect(find.text('UP NEXT'), findsOneWidget);
     expect(find.text('starts in'), findsOneWidget);
     expect(find.text('1:18'), findsOneWidget);
+  });
+
+  testWidgets('"Make dua now" opens the duas of the featured window', (
+    tester,
+  ) async {
+    await pumpHome(tester);
+
+    await tester.tap(find.text('ادعُ الآن'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(DuaPage), findsOneWidget);
+    expect(find.text('الثلث الأخير من الليل'), findsOneWidget);
   });
 
   testWidgets('says so when no windows are left', (tester) async {

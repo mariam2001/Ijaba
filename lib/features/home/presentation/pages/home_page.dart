@@ -25,7 +25,7 @@ class HomePage extends ConsumerWidget {
     final today = ref.watch(todayWindowsProvider);
     final enabled = ref.watch(enabledWindowTypesProvider);
     const planner = AlertPlanner();
-    // Until the Dua screen and Library exist (step 6), both lead to the Duas tab.
+    // Search leads to the Duas tab until the Library exists.
     void openDuas() => context.go(AppRoutes.duas);
 
     return Scaffold(
@@ -49,7 +49,8 @@ class HomePage extends ConsumerWidget {
                   WindowHeroCard(
                     window: featured,
                     now: now,
-                    onMakeDua: openDuas,
+                    onMakeDua: () =>
+                        context.push(AppRoutes.duaFor(featured.type.name)),
                   ),
                 SizedBox(height: 26.h),
                 Row(

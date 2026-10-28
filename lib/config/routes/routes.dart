@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/routes/main_shell.dart';
 import 'package:ijaba/features/alerts/presentation/pages/alerts_debug_page.dart';
+import 'package:ijaba/features/duas/presentation/pages/dua_page.dart';
 import 'package:ijaba/features/duas/presentation/pages/duas_page.dart';
 import 'package:ijaba/features/home/presentation/pages/home_page.dart';
 import 'package:ijaba/features/onboarding/presentation/controller/onboarding_controller.dart';
@@ -12,6 +13,7 @@ import 'package:ijaba/features/onboarding/presentation/pages/permissions_page.da
 import 'package:ijaba/features/onboarding/presentation/pages/splash_page.dart';
 import 'package:ijaba/features/onboarding/presentation/pages/welcome_page.dart';
 import 'package:ijaba/features/settings/presentation/pages/settings_page.dart';
+import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 import 'package:ijaba/features/windows/presentation/pages/windows_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -37,6 +39,12 @@ final appRoutes = <RouteBase>[
           routes: [GoRoute(path: path, builder: (context, state) => page)],
         ),
     ],
+  ),
+  GoRoute(
+    path: '${AppRoutes.dua}/:window',
+    builder: (context, state) => DuaPage(
+      window: DuaWindowType.values.asNameMap()[state.pathParameters['window']],
+    ),
   ),
   GoRoute(
     path: AppRoutes.language,

@@ -48,7 +48,7 @@ final class EnabledWindowTypesProvider
 }
 
 String _$enabledWindowTypesHash() =>
-    r'd16eb2c6072757d900d756d92e2e1b2cfa44abcd';
+    r'd9d3ddf4f38852e69ebec5225e929779a3952802';
 
 /// Which windows alert, as switched on the Windows screen. Windows that are
 /// off still show on Home, faded as silent.

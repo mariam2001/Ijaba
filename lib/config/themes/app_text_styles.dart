@@ -125,6 +125,39 @@ abstract final class AppTextStyles {
   /// A dua's meaning or transliteration under the Arabic.
   static TextStyle get duaMeaning => _readex(11.5, color: AppColors.inkSoft);
 
+  /// The dua on the Dua screen. Tall lines leave room for the harakat.
+  static TextStyle get duaLarge =>
+      _amiri(34, weight: FontWeight.w400, height: 2, color: AppColors.ink);
+
+  /// Simple Latin spelling under the dua (English mode).
+  static TextStyle get transliteration => _readex(12, color: AppColors.muted);
+
+  /// The meaning on the Dua screen.
+  static TextStyle get duaMeaningLarge =>
+      _readex(13.5, height: 1.85, color: AppColors.inkSoft);
+
+  /// A dua's attribution, and its "verify before release" flag.
+  static TextStyle get duaSource => _readex(
+    11,
+    weight: FontWeight.w300,
+    height: 1.65,
+    color: AppColors.muted,
+  );
+
+  /// Where the user is, atop the Dua screen ("Last third of the night").
+  static TextStyle get contextTitle =>
+      _readex(11.5, weight: FontWeight.w600, color: AppColors.green);
+
+  /// The line under [contextTitle] ("3:12 AM · 2 of 7").
+  static TextStyle get contextSubtitle => _readex(10, color: AppColors.muted);
+
+  /// The tasbih counter's figure.
+  static TextStyle get counter =>
+      _readex(32, weight: FontWeight.w300, color: AppColors.ink);
+
+  /// Labels of the paired Previous / Next buttons.
+  static TextStyle get pagerButton => _readex(12.5, weight: FontWeight.w600);
+
   static TextStyle _readex(
     double size, {
     FontWeight weight = FontWeight.w400,
@@ -141,11 +174,13 @@ abstract final class AppTextStyles {
   static TextStyle _amiri(
     double size, {
     FontWeight weight = FontWeight.w700,
+    double? height,
     Color? color,
   }) => TextStyle(
     fontFamily: AppFonts.amiri,
     fontSize: size.sp,
     fontWeight: weight,
+    height: height,
     color: color,
   );
 }
