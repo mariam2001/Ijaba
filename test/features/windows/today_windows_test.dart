@@ -12,10 +12,8 @@ void main() {
     syntheticDay(2026, 10, 23), // a Friday
     syntheticDay(2026, 10, 24),
   ];
-  final all = DuaWindowType.values.toSet();
 
-  TodayWindows at(DateTime now, {Set<DuaWindowType>? enabled}) =>
-      TodayWindows.at(now, days: days, enabled: enabled ?? all);
+  TodayWindows at(DateTime now) => TodayWindows.at(now, days: days);
 
   test("yesterday's last third is open after midnight and featured", () {
     final today = at(DateTime.utc(2026, 10, 23, 2));
@@ -51,24 +49,9 @@ void main() {
 
   test('with nothing open, the next window is featured', () {
     // 07:00: morning adhkar ended at sunrise; next is after Dhuhr at 12:25.
-    final today = at(
-      DateTime.utc(2026, 10, 23, 7),
-      enabled: {DuaWindowType.afterPrayer},
-    );
+    final today = at(DateTime.utc(2026, 10, 23, 7));
 
     expect(today.featured?.type, DuaWindowType.afterPrayer);
     expect(today.featured?.start, DateTime.utc(2026, 10, 23, 12, 25));
-  });
-
-  test('disabled windows are left out', () {
-    final today = at(
-      DateTime.utc(2026, 10, 23, 2),
-      enabled: {DuaWindowType.fridayHour},
-    );
-
-    expect(
-      today.windows.map((window) => window.type).toSet(),
-      {DuaWindowType.fridayHour},
-    );
   });
 }

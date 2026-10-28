@@ -2,7 +2,6 @@ import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/features/prayer_times/data/datasource/prayer_times_calculator.dart';
 import 'package:ijaba/features/prayer_times/presentation/controller/prayer_times_controller.dart';
 import 'package:ijaba/features/windows/data/model/today_windows.dart';
-import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'today_windows_controller.g.dart';
@@ -28,6 +27,5 @@ Future<TodayWindows> todayWindows(Ref ref) async {
           settings: settings,
         ),
     ],
-    enabled: ref.watch(enabledWindowTypesProvider),
   );
 }

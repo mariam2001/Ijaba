@@ -7,6 +7,7 @@ import 'package:ijaba/config/routes/routes.dart';
 import 'package:ijaba/config/themes/app_theme.dart';
 import 'package:ijaba/core/controllers/theme_controller.dart';
 import 'package:ijaba/features/alerts/presentation/controller/alerts_controller.dart';
+import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
 class App extends StatelessWidget {
@@ -62,10 +63,11 @@ class _AppView extends ConsumerWidget {
   }
 }
 
-/// Keeps the coming days' alerts scheduled: on start, when the language
-/// changes, and on each return to the foreground (throttled by the
-/// controller). It sits inside MaterialApp, which builds it only once the
-/// translations have loaded — alert text is generated at scheduling time.
+/// Keeps the coming days' alerts scheduled: on start, when the language or
+/// the windows switched on change, and on each return to the foreground
+/// (throttled by the controller). It sits inside MaterialApp, which builds it
+/// only once the translations have loaded — alert text is generated at
+/// scheduling time.
 class _AlertScheduler extends HookConsumerWidget {
   const _AlertScheduler({required this.child});
 
@@ -74,6 +76,7 @@ class _AlertScheduler extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final localeName = context.locale.toString();
+    final enabled = ref.watch(enabledWindowTypesProvider);
 
     void reschedule({bool force = false}) => ref
         .read(alertsControllerProvider.notifier)
@@ -83,7 +86,7 @@ class _AlertScheduler extends HookConsumerWidget {
         (_) => reschedule(force: true),
       );
       return null;
-    }, [localeName]);
+    }, [localeName, enabled]);
     useOnAppLifecycleStateChange((_, state) {
       if (state == AppLifecycleState.resumed) reschedule();
     });

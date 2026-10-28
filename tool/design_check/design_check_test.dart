@@ -78,6 +78,8 @@ void main() {
     '5_permissions': (AppRoutes.permissions, 'ar'),
     '6_home': (AppRoutes.home, 'ar'),
     '11_home_en': (AppRoutes.home, 'en'),
+    '7_windows': (AppRoutes.windows, 'ar'),
+    '12_windows_en': (AppRoutes.windows, 'en'),
   };
 
   for (final MapEntry(key: name, value: (path, language)) in screens.entries) {

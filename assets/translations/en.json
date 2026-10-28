@@ -126,6 +126,22 @@
     "morning_adhkar": "Morning adhkar",
     "evening_adhkar": "Evening adhkar"
   },
+  "alert_control": {
+    "title": "Windows of response",
+    "subtitle": "Choose only what should reach you. The rest stays silent.",
+    "alerts_on": "{on} of {total} alerts on",
+    "count": "{on} / {total}",
+    "after_prayers": "After obligatory prayers",
+    "friday_hour": "The hour of response (Friday)",
+    "adhkar": "Morning and evening adhkar",
+    "soft_chime": "soft chime",
+    "fajr_maghrib_only": "Fajr and Maghrib only",
+    "silent_no_alert": "Silent — no alert",
+    "quiet_alert": "A quiet alert, no sound",
+    "friday_hour_hint": "Last hour before maghrib",
+    "one_each": "One alert for each",
+    "footer": "Every window you turn off frees a scheduled alert — so only what matters reaches you."
+  },
   "alerts": {
     "channel": "Dua windows",
     "quiet_channel": "Quiet reminders",

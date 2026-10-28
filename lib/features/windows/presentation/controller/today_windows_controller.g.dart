@@ -56,4 +56,4 @@ final class TodayWindowsProvider
   }
 }
 
-String _$todayWindowsHash() => r'632c4a90ea1882750ef2ca325512afcc41f1a007';
+String _$todayWindowsHash() => r'694aa074a4099f3cdb5bedd57a3c5627947bda55';

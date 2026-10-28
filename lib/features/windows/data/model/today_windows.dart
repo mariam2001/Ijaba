@@ -7,23 +7,20 @@ import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 class TodayWindows {
   const TodayWindows({required this.windows, this.featured});
 
-  /// From the enabled windows of [days]: those still open at [now] or
-  /// starting within the next 24 hours, by start time. [days] should cover
-  /// yesterday (its last third ends this morning) through tomorrow.
+  /// From the windows of [days]: those still open at [now] or starting
+  /// within the next 24 hours, by start time — whether or not they alert.
+  /// [days] should cover yesterday (its last third ends this morning)
+  /// through tomorrow.
   factory TodayWindows.at(
     DateTime now, {
     required Iterable<PrayerDay> days,
-    required Set<DuaWindowType> enabled,
     WindowCalculator calculator = const WindowCalculator(),
   }) {
     final horizon = now.add(const Duration(hours: 24));
     final windows = [
       for (final day in days)
         for (final window in calculator.windowsFor(day))
-          if (enabled.contains(window.type) &&
-              window.end.isAfter(now) &&
-              window.start.isBefore(horizon))
-            window,
+          if (window.end.isAfter(now) && window.start.isBefore(horizon)) window,
     ]..sort((a, b) => a.start.compareTo(b.start));
 
     final open = windows.where((window) => window.isOpenAt(now)).toList()

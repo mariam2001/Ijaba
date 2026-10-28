@@ -10,10 +10,15 @@ part 'alerts_controller.g.dart';
 
 /// Keeps the coming days' window alerts scheduled. The app calls
 /// [reschedule] on start, on every return to the foreground, and when the
-/// language changes.
+/// language or the enabled windows change.
 @Riverpod(keepAlive: true)
 class AlertsController extends _$AlertsController {
   DateTime? _lastSuccess;
+
+  /// A forced run asked for while one was in progress (e.g. several
+  /// switches flipped quickly): it runs once the current one finishes, so
+  /// the last change always gets scheduled.
+  String? _pendingLocale;
 
   @override
   GlobalStates<ScheduleResult> build() => const GlobalStates.initial();
@@ -26,6 +31,10 @@ class AlertsController extends _$AlertsController {
   }) async {
     final last = _lastSuccess;
     final location = ref.read(prayerLocationProvider);
+    if (force && state.isLoading) {
+      _pendingLocale = localeName;
+      return;
+    }
     if (location == null ||
         state.isLoading ||
         (!force &&
@@ -52,6 +61,12 @@ class AlertsController extends _$AlertsController {
       _lastSuccess = DateTime.now();
       return GlobalStates.success(scheduled);
     });
+
+    final pending = _pendingLocale;
+    if (pending != null) {
+      _pendingLocale = null;
+      await reschedule(localeName: pending, force: true);
+    }
   }
 }
 

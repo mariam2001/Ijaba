@@ -74,6 +74,21 @@ abstract final class AppTextStyles {
   /// Bottom tab-bar labels.
   static TextStyle get tabLabel => _readex(9.5);
 
+  /// Text on a summary chip ("4 of 6 alerts on").
+  static TextStyle get chipLabel => _readex(12, color: AppColors.inkSoft);
+
+  /// The figure at the end of a summary chip ("4 / 6").
+  static TextStyle get chipValue =>
+      _readex(11.5, weight: FontWeight.w600, color: AppColors.green);
+
+  /// A light note at the foot of a screen.
+  static TextStyle get footnote => _readex(
+    11,
+    weight: FontWeight.w300,
+    height: 1.75,
+    color: AppColors.faint,
+  );
+
   /// One line under a screen title.
   static TextStyle get subtitle => _readex(12.5, color: AppColors.muted);
 

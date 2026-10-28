@@ -83,13 +83,40 @@ void main() {
     final notifications = await pumpApp(tester, cache: cache);
 
     expect(find.byType(HomePage), findsOneWidget);
-    // ~9 alerts a day for 7 days (exact count depends on today's date).
-    expect(notifications.scheduled.length, greaterThan(50));
+    // ~5 alerts a day for 7 days with the default switches (exact count
+    // depends on today's date).
+    expect(notifications.scheduled.length, greaterThan(25));
     expect(
       notifications.scheduled.map((alert) => alert.title),
       contains('الثلث الأخير من الليل'),
     );
-    expect(notifications.scheduled.any((alert) => alert.quiet), isTrue);
+    // After-prayer alerts (the quiet ones) are off by default.
+    expect(notifications.scheduled.any((alert) => alert.quiet), isFalse);
+  });
+
+  testWidgets('switching a window off on the Windows tab re-plans the alerts', (
+    tester,
+  ) async {
+    final cache = MemoryCache();
+    await cache.write(CacheKey.onboardingDone, 'true');
+    await cache.write(
+      CacheKey.location,
+      jsonEncode(
+        const SavedLocation(latitude: 31.2001, longitude: 29.9187).toJson(),
+      ),
+    );
+    final notifications = await pumpApp(tester, cache: cache);
+    bool anyAdhkar() =>
+        notifications.scheduled.any((alert) => alert.title.contains('أذكار'));
+    expect(anyAdhkar(), isTrue);
+
+    await tester.tap(find.text('النوافذ'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('أذكار الصباح والمساء'));
+    await tester.pumpAndSettle();
+
+    expect(notifications.scheduled, isNotEmpty);
+    expect(anyAdhkar(), isFalse);
   });
 
   test('ThemeController defaults to light, ignoring the OS setting', () {

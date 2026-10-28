@@ -8,25 +8,18 @@ part of 'enabled_windows_controller.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Which windows alert. All of them until the Windows screen (step 5) lets
-/// the user switch each one on or off.
+/// Which windows alert, as switched on the Windows screen. Windows that are
+/// off still show on Home, faded as silent.
 
-@ProviderFor(enabledWindowTypes)
+@ProviderFor(EnabledWindowTypes)
 const enabledWindowTypesProvider = EnabledWindowTypesProvider._();
 
-/// Which windows alert. All of them until the Windows screen (step 5) lets
-/// the user switch each one on or off.
-
+/// Which windows alert, as switched on the Windows screen. Windows that are
+/// off still show on Home, faded as silent.
 final class EnabledWindowTypesProvider
-    extends
-        $FunctionalProvider<
-          Set<DuaWindowType>,
-          Set<DuaWindowType>,
-          Set<DuaWindowType>
-        >
-    with $Provider<Set<DuaWindowType>> {
-  /// Which windows alert. All of them until the Windows screen (step 5) lets
-  /// the user switch each one on or off.
+    extends $NotifierProvider<EnabledWindowTypes, Set<DuaWindowType>> {
+  /// Which windows alert, as switched on the Windows screen. Windows that are
+  /// off still show on Home, faded as silent.
   const EnabledWindowTypesProvider._()
     : super(
         from: null,
@@ -43,14 +36,7 @@ final class EnabledWindowTypesProvider
 
   @$internal
   @override
-  $ProviderElement<Set<DuaWindowType>> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
-
-  @override
-  Set<DuaWindowType> create(Ref ref) {
-    return enabledWindowTypes(ref);
-  }
+  EnabledWindowTypes create() => EnabledWindowTypes();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(Set<DuaWindowType> value) {
@@ -62,4 +48,26 @@ final class EnabledWindowTypesProvider
 }
 
 String _$enabledWindowTypesHash() =>
-    r'ca168bce4af2a662708d7f27bfbd15c0287a5721';
+    r'd16eb2c6072757d900d756d92e2e1b2cfa44abcd';
+
+/// Which windows alert, as switched on the Windows screen. Windows that are
+/// off still show on Home, faded as silent.
+
+abstract class _$EnabledWindowTypes extends $Notifier<Set<DuaWindowType>> {
+  Set<DuaWindowType> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<Set<DuaWindowType>, Set<DuaWindowType>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<Set<DuaWindowType>, Set<DuaWindowType>>,
+              Set<DuaWindowType>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

@@ -12,6 +12,7 @@ import 'package:ijaba/features/alerts/data/datasource/alert_planner.dart';
 import 'package:ijaba/features/home/presentation/widgets/home_header.dart';
 import 'package:ijaba/features/home/presentation/widgets/window_hero_card.dart';
 import 'package:ijaba/features/home/presentation/widgets/window_row.dart';
+import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
 import 'package:ijaba/features/windows/presentation/controller/today_windows_controller.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
@@ -22,6 +23,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final now = ref.watch(clockProvider).value ?? DateTime.now();
     final today = ref.watch(todayWindowsProvider);
+    final enabled = ref.watch(enabledWindowTypesProvider);
     const planner = AlertPlanner();
     // Until the Dua screen and Library exist (step 6), both lead to the Duas tab.
     void openDuas() => context.go(AppRoutes.duas);
@@ -89,6 +91,7 @@ class HomePage extends ConsumerWidget {
                   WindowRow(
                     window: window,
                     now: now,
+                    alertOn: enabled.contains(window.type),
                     leadTime: planner.leadTimeOf(window.type),
                   ),
               ],

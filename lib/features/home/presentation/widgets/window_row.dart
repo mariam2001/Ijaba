@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_text_styles.dart';
-import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/windows/data/model/dua_window.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
+import 'package:ijaba/features/windows/presentation/alert_timing.dart';
 import 'package:ijaba/features/windows/presentation/window_names.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
 /// One line of "Today's windows": status dot, name and detail, start time.
-/// Open windows get a honey dot; silent ones (after-prayer alerts are silent
-/// by default) are drawn faded.
+/// Open windows get a honey dot; silent ones (alert switched off on the
+/// Windows screen) are drawn faded.
 class WindowRow extends StatelessWidget {
   const WindowRow({
     required this.window,
     required this.now,
+    required this.alertOn,
     required this.leadTime,
     super.key,
   });
@@ -23,16 +24,17 @@ class WindowRow extends StatelessWidget {
   final DuaWindow window;
   final DateTime now;
 
+  /// Whether this kind of window alerts.
+  final bool alertOn;
+
   /// How long before the window its alert fires (from the alert planner).
   final Duration leadTime;
-
-  bool get _silent => window.type == DuaWindowType.afterPrayer;
 
   @override
   Widget build(BuildContext context) {
     final language = context.locale.languageCode;
     final open = window.isOpenAt(now);
-    final faded = _silent && !open;
+    final faded = !alertOn && !open;
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 14.h),
@@ -68,6 +70,7 @@ class WindowRow extends StatelessWidget {
                   _detail(context, language, open: open),
                   style: AppTextStyles.caption.copyWith(
                     fontSize: 10.5.sp,
+                    fontWeight: FontWeight.w300,
                     color: AppColors.muted,
                   ),
                 ),
@@ -99,36 +102,26 @@ class WindowRow extends StatelessWidget {
     final prayer = window.prayer;
     final parts = [
       if (prayer != null) context.tr(prayerNameKey(prayer)),
-      switch (window.type) {
-        DuaWindowType.afterPrayer => context.tr(LocaleKeys.home_silent),
-        DuaWindowType.fridayHour =>
-          '${DateFormat.EEEE(language).format(window.start.toLocal())} · '
-              '${context.tr(LocaleKeys.home_friday_hour_hint)}',
-        DuaWindowType.morningAdhkar => context.tr(
-          LocaleKeys.home_morning_adhkar_hint,
-        ),
-        DuaWindowType.eveningAdhkar => context.tr(
-          LocaleKeys.home_evening_adhkar_hint,
-        ),
-        DuaWindowType.lastThirdOfNight ||
-        DuaWindowType.adhanToIqama => _alertTiming(context, language),
-      },
+      if (!alertOn)
+        context.tr(LocaleKeys.home_silent)
+      else
+        switch (window.type) {
+          DuaWindowType.afterPrayer => context.tr(
+            LocaleKeys.alert_control_quiet_alert,
+          ),
+          DuaWindowType.fridayHour =>
+            '${DateFormat.EEEE(language).format(window.start.toLocal())} · '
+                '${context.tr(LocaleKeys.home_friday_hour_hint)}',
+          DuaWindowType.morningAdhkar => context.tr(
+            LocaleKeys.home_morning_adhkar_hint,
+          ),
+          DuaWindowType.eveningAdhkar => context.tr(
+            LocaleKeys.home_evening_adhkar_hint,
+          ),
+          DuaWindowType.lastThirdOfNight ||
+          DuaWindowType.adhanToIqama => alertTimingText(context, leadTime),
+        },
     ];
     return parts.join(' · ');
-  }
-
-  String _alertTiming(BuildContext context, String language) {
-    final minutes = leadTime.inMinutes;
-    if (minutes == 0) return context.tr(LocaleKeys.home_alert_at_start);
-    return context.tr(
-      LocaleKeys.home_alert_before,
-      namedArgs: {
-        'minutes': context.plural(
-          LocaleKeys.home_minutes,
-          minutes,
-          args: [localizedDigits(minutes, language)],
-        ),
-      },
-    );
   }
 }

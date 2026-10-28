@@ -10,19 +10,19 @@ part of 'alerts_controller.dart';
 // ignore_for_file: type=lint, type=warning
 /// Keeps the coming days' window alerts scheduled. The app calls
 /// [reschedule] on start, on every return to the foreground, and when the
-/// language changes.
+/// language or the enabled windows change.
 
 @ProviderFor(AlertsController)
 const alertsControllerProvider = AlertsControllerProvider._();
 
 /// Keeps the coming days' window alerts scheduled. The app calls
 /// [reschedule] on start, on every return to the foreground, and when the
-/// language changes.
+/// language or the enabled windows change.
 final class AlertsControllerProvider
     extends $NotifierProvider<AlertsController, GlobalStates<ScheduleResult>> {
   /// Keeps the coming days' window alerts scheduled. The app calls
   /// [reschedule] on start, on every return to the foreground, and when the
-  /// language changes.
+  /// language or the enabled windows change.
   const AlertsControllerProvider._()
     : super(
         from: null,
@@ -50,11 +50,11 @@ final class AlertsControllerProvider
   }
 }
 
-String _$alertsControllerHash() => r'f3bf155571b21a499cc074846aa31fdc047fcc02';
+String _$alertsControllerHash() => r'3eb4da661f3be9b4324b356c71c08dec2f41429a';
 
 /// Keeps the coming days' window alerts scheduled. The app calls
 /// [reschedule] on start, on every return to the foreground, and when the
-/// language changes.
+/// language or the enabled windows change.
 
 abstract class _$AlertsController
     extends $Notifier<GlobalStates<ScheduleResult>> {

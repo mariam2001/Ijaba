@@ -120,6 +120,23 @@ abstract class LocaleKeys {
   static const windows_morning_adhkar = 'windows.morning_adhkar';
   static const windows_evening_adhkar = 'windows.evening_adhkar';
   static const windows = 'windows';
+  static const alert_control_title = 'alert_control.title';
+  static const alert_control_subtitle = 'alert_control.subtitle';
+  static const alert_control_alerts_on = 'alert_control.alerts_on';
+  static const alert_control_count = 'alert_control.count';
+  static const alert_control_after_prayers = 'alert_control.after_prayers';
+  static const alert_control_friday_hour = 'alert_control.friday_hour';
+  static const alert_control_adhkar = 'alert_control.adhkar';
+  static const alert_control_soft_chime = 'alert_control.soft_chime';
+  static const alert_control_fajr_maghrib_only =
+      'alert_control.fajr_maghrib_only';
+  static const alert_control_silent_no_alert = 'alert_control.silent_no_alert';
+  static const alert_control_quiet_alert = 'alert_control.quiet_alert';
+  static const alert_control_friday_hour_hint =
+      'alert_control.friday_hour_hint';
+  static const alert_control_one_each = 'alert_control.one_each';
+  static const alert_control_footer = 'alert_control.footer';
+  static const alert_control = 'alert_control';
   static const alerts_channel = 'alerts.channel';
   static const alerts_quiet_channel = 'alerts.quiet_channel';
   static const alerts_adhan_to_iqama_of = 'alerts.adhan_to_iqama_of';
