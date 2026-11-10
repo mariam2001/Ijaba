@@ -46,7 +46,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   Latin titles to Readex). `AppTheme.night` is provisional until the night
   palette arrives. ScreenUtil design size is the Figma frame, 390 × 844.
   Icons are Lucide (`lucide_icons_flutter`, the `…300` variants = 1.5 stroke),
-  matching the design's glyphs.
+  matching the design's glyphs. Readex styles fall back to Amiri for glyphs
+  Readex lacks (ﷺ).
 - Onboarding: `features/onboarding` (Splash → Language → Welcome → Location
   → Permissions; router redirects Home until `OnboardingController` is done).
   Location: `features/location` — GPS (coarse) labelled with the nearest city
@@ -96,11 +97,17 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   bookmark (`SavedDuas`, `CacheKey.savedDuas`). Built in the **day palette**
   — the design is a night screen, but the night palette isn't decided yet.
   Content is `assets/data/duas.json` (`DuaCatalog`): `arabic`,
-  `transliteration`, `meaning`/`source` by language code, `verified`,
-  `repeat`, `windows` (none = any window; a window with no tagged duas gets
-  them all). Only the design's one dua is in it so far — Mariam supplies the
-  rest. Unverified sources show the "[verify attribution before release]"
-  flag; never add a source or set `verified` yourself.
+  `transliteration`, `meaning`/`source` by language code, `url` (where to
+  check it), `verified`, `repeat`, `windows` (none = any window; a window
+  with no tagged duas gets them all; file order is display order).
+- The base dua list (51, researched with Mariam's go-ahead) and how it was
+  made — sources, grading bar, exclusions — is in `docs/DUA_SOURCES.md`.
+  When adding duas: cut the Arabic from the source (sunnah.com primary page,
+  official Hisn al-Muslim text, Quran API) rather than retyping it; only
+  well-authenticated narrations; cite the reference you checked, with its
+  link. `verified` stays `false` until Mariam checks it — a test enforces
+  this. Arabic-mode meanings exist only where written (Arabic mode hides an
+  empty one); long duas (> 120 chars) render smaller.
 - **Temporary, remove before release:** the `/debug/alerts` page and its
   button on the Settings placeholder.
 - App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,

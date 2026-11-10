@@ -15,10 +15,14 @@ class DuaView extends StatelessWidget {
 
   final Dua dua;
 
+  /// Characters (with harakat) beyond which the dua is set smaller.
+  static const _longText = 120;
+
   @override
   Widget build(BuildContext context) {
     final language = context.locale.languageCode;
     final arabic = language == 'ar';
+    final meaning = dua.meaningIn(language);
     final source = dua.sourceIn(language);
 
     return Column(
@@ -29,7 +33,11 @@ class DuaView extends StatelessWidget {
           textAlign: TextAlign.center,
           // The dua is Arabic whatever the app language.
           textDirection: TextDirection.rtl,
-          style: AppTextStyles.duaLarge,
+          // Long texts (Ayat al-Kursi, the three Quls) smaller, so they
+          // don't need much scrolling.
+          style: dua.arabic.length > _longText
+              ? AppTextStyles.duaLarge.copyWith(fontSize: 26.sp)
+              : AppTextStyles.duaLarge,
         ),
         if (!arabic) ...[
           SizedBox(height: 28.h),
@@ -48,12 +56,14 @@ class DuaView extends StatelessWidget {
           )
         else
           Container(width: 54.w, height: 1.5, color: AppColors.line),
-        SizedBox(height: arabic ? 43.h : 24.h),
-        Text(
-          dua.meaningIn(language),
-          textAlign: TextAlign.center,
-          style: AppTextStyles.duaMeaningLarge,
-        ),
+        if (meaning.isNotEmpty) ...[
+          SizedBox(height: arabic ? 43.h : 24.h),
+          Text(
+            meaning,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.duaMeaningLarge,
+          ),
+        ],
         SizedBox(height: 24.h),
         Text(
           [

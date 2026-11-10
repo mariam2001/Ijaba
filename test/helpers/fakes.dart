@@ -116,10 +116,13 @@ DuaCatalog testDuaCatalog() => DuaCatalog.fromJson(
   jsonDecode(File('assets/data/duas.json').readAsStringSync()) as Json,
 );
 
-/// Seven duas for the last third with the real bundled one second, as the
-/// Dua design shows "2 of 7". The others are dummies, not content.
+/// Seven duas for the last third with the design's dua second, as the Dua
+/// design shows "2 of 7", counted to 3 as in its sample. The others are
+/// dummies, not content.
 DuaCatalog designDuaCatalog() {
-  final real = testDuaCatalog().duas.first;
+  final real = testDuaCatalog().duas
+      .singleWhere((dua) => dua.id == 'afw')
+      .copyWith(repeat: 3);
   Dua dummy(int n) => Dua(
     id: 'test-$n',
     arabic: 'دعاء تجريبي $n',

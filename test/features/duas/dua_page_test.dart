@@ -12,6 +12,7 @@ import 'package:ijaba/core/utils/enums.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
 import 'package:ijaba/features/duas/presentation/pages/dua_page.dart';
+import 'package:ijaba/features/duas/presentation/widgets/dua_view.dart';
 import 'package:ijaba/features/duas/presentation/widgets/tasbih_counter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,7 +100,7 @@ void main() {
         await pumpDua(tester, size: size, language: language);
         await tapText(tester, language == 'ar' ? 'التالي' : 'Next');
 
-        expect(find.textContaining('عَفُوٌّ'), findsOneWidget);
+        expect(tester.widget<DuaView>(find.byType(DuaView)).dua.id, 'afw');
         // A RenderFlex overflow is reported as an exception.
         expect(tester.takeException(), isNull);
       });

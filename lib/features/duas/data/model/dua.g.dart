@@ -17,6 +17,7 @@ _Dua _$DuaFromJson(Map<String, dynamic> json) => _Dua(
       ) ??
       const {},
   verified: json['verified'] as bool? ?? false,
+  url: json['url'] as String?,
   repeat: (json['repeat'] as num?)?.toInt() ?? 1,
   windows:
       (json['windows'] as List<dynamic>?)
@@ -32,6 +33,7 @@ Map<String, dynamic> _$DuaToJson(_Dua instance) => <String, dynamic>{
   'meaning': instance.meaning,
   'source': instance.source,
   'verified': instance.verified,
+  'url': instance.url,
   'repeat': instance.repeat,
   'windows': instance.windows.map((e) => _$DuaWindowTypeEnumMap[e]!).toList(),
 };

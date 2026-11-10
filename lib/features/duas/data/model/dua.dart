@@ -18,13 +18,18 @@ abstract class Dua with _$Dua {
     /// Simple Latin spelling, shown in English mode.
     required String transliteration,
 
-    /// By language code: "ar" (a plain-Arabic rendering) and "en".
+    /// By language code: "en", and optionally "ar" (a plain-Arabic
+    /// rendering; none yet for most duas, so Arabic mode shows none).
     required Map<String, String> meaning,
 
     /// The attribution, by language code. Shown with a "verify" flag until
     /// [verified] — Mariam checks every source before release.
     @Default({}) Map<String, String> source,
     @Default(false) bool verified,
+
+    /// Where to check the source (sunnah.com, quran.com) — for review, not
+    /// shown in the app.
+    String? url,
 
     /// Times to repeat it (the tasbih counter's target).
     @Default(1) int repeat,
@@ -35,8 +40,8 @@ abstract class Dua with _$Dua {
 
   factory Dua.fromJson(Json json) => _$DuaFromJson(json);
 
-  String meaningIn(String languageCode) =>
-      meaning[languageCode] ?? meaning['ar'] ?? '';
+  /// The meaning in [languageCode]; empty when there's none in it.
+  String meaningIn(String languageCode) => meaning[languageCode] ?? '';
 
   String? sourceIn(String languageCode) => source[languageCode] ?? source['ar'];
 }

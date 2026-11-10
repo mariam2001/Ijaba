@@ -165,6 +165,8 @@ abstract final class AppTextStyles {
     Color? color,
   }) => TextStyle(
     fontFamily: AppFonts.readexPro,
+    // Readex Pro lacks some Arabic glyphs, like ﷺ; Amiri has them.
+    fontFamilyFallback: const [AppFonts.amiri],
     fontSize: size.sp,
     fontWeight: weight,
     height: height,
