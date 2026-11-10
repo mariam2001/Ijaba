@@ -92,7 +92,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   opens the Dua screen for the featured window; search goes to the Duas tab
   until the Library exists.
 - Dua screen: `features/duas`, route `/dua/<DuaWindowType name>` (outside
-  the tab shell; notifications will deep-link there). One dua at a time with
+  the tab shell; tapped alerts open it — see below; opened alone, Back goes
+  Home). One dua at a time with
   Previous/Next, a tasbih counter (per dua, kept when going back) and a
   bookmark (`SavedDuas`, `CacheKey.savedDuas`). Built in the **day palette**
   — the design is a night screen, but the night palette isn't decided yet.
@@ -108,6 +109,14 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   link. `verified` stays `false` until Mariam checks it — a test enforces
   this. Arabic-mode meanings exist only where written (Arabic mode hides an
   empty one); long duas (> 120 chars) render smaller.
+- Alert taps: each alert's payload is its window names (`AlertPayload`); a
+  tap opens the Dua screen of the one Home would feature. While the app
+  runs, `_AlertTapHandler` (app.dart) pushes it over the current screen. A
+  tap that launched the app is followed by the **splash** when it moves on
+  (`launchLinkProvider`, or `PendingAlertLink` if the plugin reported it as
+  a live tap during the splash) — navigating any earlier loses to GoRouter's
+  initial route and the splash timer. Verified on the emulator, warm and
+  cold. The developer test alert opens the last third, to check this too.
 - **Temporary, remove before release:** the `/debug/alerts` page and its
   button on the Settings placeholder.
 - App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,

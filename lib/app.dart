@@ -1,12 +1,18 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/routes/routes.dart';
 import 'package:ijaba/config/themes/app_theme.dart';
 import 'package:ijaba/core/controllers/theme_controller.dart';
+import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/alerts/presentation/controller/alerts_controller.dart';
+import 'package:ijaba/features/alerts/presentation/controller/launch_link_controller.dart';
+import 'package:ijaba/features/onboarding/presentation/controller/onboarding_controller.dart';
 import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
@@ -57,7 +63,8 @@ class _AppView extends ConsumerWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        builder: (context, child) => _AlertScheduler(child: child!),
+        builder: (context, child) =>
+            _AlertScheduler(child: _AlertTapHandler(child: child!)),
       ),
     );
   }
@@ -90,6 +97,39 @@ class _AlertScheduler extends HookConsumerWidget {
     useOnAppLifecycleStateChange((_, state) {
       if (state == AppLifecycleState.resumed) reschedule();
     });
+
+    return child;
+  }
+}
+
+/// Opens the duas of the window an alert tapped while the app runs was for,
+/// over whatever was showing. A tap that launched the app is the splash
+/// screen's to follow (see `launchLinkProvider`), so one arriving while the
+/// splash shows is handed to it rather than pushed under its timer.
+class _AlertTapHandler extends HookConsumerWidget {
+  const _AlertTapHandler({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    useEffect(() {
+      final notifications = ref.read(NotificationService.provider);
+
+      final taps = notifications.taps.listen((payload) {
+        final link = linkFor(payload);
+        // Before onboarding is done there's no Home to return to.
+        if (link == null || !ref.read(onboardingControllerProvider)) return;
+        final router = ref.read(routerProvider);
+        if (router.routerDelegate.currentConfiguration.uri.path ==
+            AppRoutes.splash) {
+          ref.read(pendingAlertLinkProvider.notifier).hold(link);
+        } else {
+          unawaited(router.push(link));
+        }
+      });
+      return taps.cancel;
+    }, const []);
 
     return child;
   }

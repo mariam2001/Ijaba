@@ -9,6 +9,8 @@ import 'package:ijaba/core/controllers/theme_controller.dart';
 import 'package:ijaba/core/service/local/cache/simple_cache.dart';
 import 'package:ijaba/core/utils/enums.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
+import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
+import 'package:ijaba/features/duas/presentation/pages/dua_page.dart';
 import 'package:ijaba/features/home/presentation/pages/home_page.dart';
 import 'package:ijaba/features/location/data/model/saved_location.dart';
 import 'package:ijaba/features/onboarding/presentation/pages/language_page.dart';
@@ -31,27 +33,43 @@ void main() {
   Future<FakeNotifications> pumpApp(
     WidgetTester tester, {
     required MemoryCache cache,
+    FakeNotifications? notifications,
+    void Function(FakeNotifications notifications)? duringSplash,
   }) async {
     tester.view
       ..physicalSize = const Size(390, 844)
       ..devicePixelRatio = 1;
     addTearDown(tester.view.reset);
 
-    final notifications = FakeNotifications();
+    notifications ??= FakeNotifications();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           SimpleCache.provider.overrideWithValue(cache),
           NotificationService.provider.overrideWithValue(notifications),
+          duaCatalogProvider.overrideWith((ref) async => testDuaCatalog()),
         ],
         child: App(translations: TestTranslations()),
       ),
     );
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.byType(SplashPage), findsOneWidget);
+    duringSplash?.call(notifications);
     await tester.pump(SplashPage.duration);
     await tester.pumpAndSettle();
     return notifications;
+  }
+
+  /// Onboarding done, in Alexandria.
+  Future<MemoryCache> onboardedCache() async {
+    final cache = MemoryCache();
+    await cache.write(CacheKey.onboardingDone, 'true');
+    await cache.write(
+      CacheKey.location,
+      jsonEncode(
+        const SavedLocation(latitude: 31.2001, longitude: 29.9187).toJson(),
+      ),
+    );
+    return cache;
   }
 
   testWidgets('first launch: splash, then the language screen, in Arabic RTL', (
@@ -117,6 +135,69 @@ void main() {
 
     expect(notifications.scheduled, isNotEmpty);
     expect(anyAdhkar(), isFalse);
+  });
+
+  testWidgets(
+    'an alert that launched the app opens its window, Back leads Home',
+    (
+      tester,
+    ) async {
+      await pumpApp(
+        tester,
+        cache: await onboardedCache(),
+        notifications: FakeNotifications(
+          launchedWith: 'adhanToIqama,morningAdhkar',
+        ),
+      );
+
+      expect(find.byType(DuaPage), findsOneWidget);
+      expect(find.text('بين الأذان والإقامة'), findsOneWidget);
+
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      expect(find.byType(HomePage), findsOneWidget);
+    },
+  );
+
+  testWidgets('an alert tapped while the app runs opens over the screen', (
+    tester,
+  ) async {
+    final notifications = await pumpApp(tester, cache: await onboardedCache());
+
+    notifications.tap('lastThirdOfNight');
+    await tester.pumpAndSettle();
+    expect(find.byType(DuaPage), findsOneWidget);
+    expect(find.text('الثلث الأخير من الليل'), findsOneWidget);
+
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    expect(find.byType(DuaPage), findsNothing);
+    expect(find.byType(HomePage), findsOneWidget);
+  });
+
+  testWidgets('a launching tap reported during the splash is followed too', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      cache: await onboardedCache(),
+      duringSplash: (notifications) => notifications.tap('fridayHour'),
+    );
+
+    expect(find.byType(DuaPage), findsOneWidget);
+    expect(find.text('ساعة الإجابة'), findsOneWidget);
+  });
+
+  testWidgets('before onboarding is done, alert taps are ignored', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      cache: MemoryCache(),
+      notifications: FakeNotifications(launchedWith: 'lastThirdOfNight'),
+    );
+
+    expect(find.byType(LanguagePage), findsOneWidget);
   });
 
   test('ThemeController defaults to light, ignoring the OS setting', () {

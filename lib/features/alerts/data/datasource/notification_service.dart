@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
@@ -23,6 +25,7 @@ class NotificationService {
   static const _quietChannelId = 'dua_windows_quiet';
 
   final FlutterLocalNotificationsPlugin _plugin;
+  final _taps = StreamController<String?>.broadcast();
   Future<void>? _initialization;
   String _channelName = 'Dua windows';
   String _quietChannelName = 'Quiet reminders';
@@ -41,7 +44,23 @@ class NotificationService {
         requestSoundPermission: false,
       ),
     ),
+    onDidReceiveNotificationResponse: (response) => _taps.add(response.payload),
   );
+
+  /// Payloads of alerts tapped while the app is running, in front or behind.
+  Stream<String?> get taps {
+    unawaited(_ensureInitialized());
+    return _taps.stream;
+  }
+
+  /// The payload of the alert whose tap launched the app, if one did.
+  Future<String?> launchPayload() async {
+    await _ensureInitialized();
+    final details = await _plugin.getNotificationAppLaunchDetails();
+    return (details?.didNotificationLaunchApp ?? false)
+        ? details?.notificationResponse?.payload
+        : null;
+  }
 
   Future<bool> notificationsEnabled() async {
     await _ensureInitialized();

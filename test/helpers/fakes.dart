@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -36,9 +37,22 @@ class MemoryCache implements BaseCache {
   Future<void> clear() async => _values.clear();
 }
 
-/// Both permissions granted; records what gets scheduled.
+/// Both permissions granted; records what gets scheduled. [launchedWith]
+/// plays an alert tap that launched the app; [tap] one while it runs.
 class FakeNotifications extends Fake implements NotificationService {
+  FakeNotifications({this.launchedWith});
+
+  final String? launchedWith;
   final scheduled = <({int id, String title, bool quiet})>[];
+  final _taps = StreamController<String?>.broadcast();
+
+  void tap(String? payload) => _taps.add(payload);
+
+  @override
+  Stream<String?> get taps => _taps.stream;
+
+  @override
+  Future<String?> launchPayload() async => launchedWith;
 
   @override
   Future<bool> notificationsEnabled() async => true;

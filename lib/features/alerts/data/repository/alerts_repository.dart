@@ -6,6 +6,7 @@ import 'package:ijaba/core/utils/typedef.dart';
 import 'package:ijaba/features/alerts/data/datasource/alert_planner.dart';
 import 'package:ijaba/features/alerts/data/datasource/alert_text.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
+import 'package:ijaba/features/alerts/data/model/alert_payload.dart';
 import 'package:ijaba/features/alerts/data/model/planned_alert.dart';
 import 'package:ijaba/features/prayer_times/data/datasource/prayer_times_calculator.dart';
 import 'package:ijaba/features/prayer_times/data/model/geo_point.dart';
@@ -83,7 +84,7 @@ class AlertsRepository {
         body: text.body(alert),
         mode: effectiveMode,
         quiet: alert.isQuiet,
-        payload: alert.windows.map((window) => window.type.name).join(','),
+        payload: AlertPayload.encode(alert.windows.map((w) => w.type)),
       );
     }
     return (alerts: alerts, mode: effectiveMode);
@@ -109,6 +110,8 @@ class AlertsRepository {
           'Scheduled for ${DateFormat.Hms().format(at.toLocal())} '
           '(${effectiveMode.name})',
       mode: effectiveMode,
+      // Tapping it opens the last third's duas, to check the deep link too.
+      payload: AlertPayload.encode([DuaWindowType.lastThirdOfNight]),
     );
     return at;
   });

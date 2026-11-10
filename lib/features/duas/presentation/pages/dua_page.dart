@@ -37,14 +37,22 @@ class DuaPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final catalog = ref.watch(duaCatalogProvider);
-    return Scaffold(
-      body: SafeArea(
-        bottom: false,
-        child: catalog.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => ErrorView(error: error),
-          data: (catalog) =>
-              _DuaSequence(window: window, duas: catalog.forWindow(window)),
+    // Opened from a notification it's the only page: Back then goes Home
+    // rather than closing the app.
+    return PopScope(
+      canPop: context.canPop(),
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) context.go(AppRoutes.home);
+      },
+      child: Scaffold(
+        body: SafeArea(
+          bottom: false,
+          child: catalog.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, _) => ErrorView(error: error),
+            data: (catalog) =>
+                _DuaSequence(window: window, duas: catalog.forWindow(window)),
+          ),
         ),
       ),
     );
