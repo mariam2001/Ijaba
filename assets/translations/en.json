@@ -152,6 +152,31 @@
     "save": "Save dua",
     "unsave": "Remove from saved"
   },
+  "library": {
+    "title": "Duas & adhkar",
+    "search_hint": "Search duas…",
+    "no_results": "No results",
+    "morning": "Morning adhkar",
+    "evening": "Evening adhkar",
+    "last_third": "Duas for the last third",
+    "mathur": "Authentic duas",
+    "saved": "Saved",
+    "adhkar_count": {
+      "zero": "No adhkar",
+      "one": "{} dhikr",
+      "other": "{} adhkar"
+    },
+    "duas_count": {
+      "zero": "No duas",
+      "one": "{} dua",
+      "other": "{} duas"
+    },
+    "saved_count": {
+      "zero": "Nothing saved yet",
+      "one": "{} saved",
+      "other": "{} saved"
+    }
+  },
   "alerts": {
     "channel": "Dua windows",
     "quiet_channel": "Quiet reminders",

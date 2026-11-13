@@ -71,8 +71,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   come early by `AlertPlanner.leadTimes` (last third 15 min; adhan→iqama
   5 min, from the Home design), and Home's rows show the same lead times.
 - Main tabs: `StatefulShellRoute` in `routes.dart` with `MainShell` +
-  `AppTabBar` (Home · Duas · Windows · Settings); Duas and Settings are
-  `ComingSoonView` placeholders until steps 6–7.
+  `AppTabBar` (Home · Duas · Windows · Settings); Settings is a
+  `ComingSoonView` placeholder until step 7.
 - Windows tab (alert control): `WindowsPage` with one `AlertToggle` per
   switch — morning and evening adhkar share one; the design's "when it
   rains" is left out of v1 (it would need a weather service to see the
@@ -89,11 +89,13 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   with the highest `featurePriority`, else the next one ("up next" state is
   ours — the design only shows "open now"). The Hijri date is Umm al-Qura by
   civil date (package `hijri`; month names come from l10n). "Make dua now"
-  opens the Dua screen for the featured window; search goes to the Duas tab
-  until the Library exists.
-- Dua screen: `features/duas`, route `/dua/<DuaWindowType name>` (outside
-  the tab shell; tapped alerts open it — see below; opened alone, Back goes
-  Home). One dua at a time with
+  opens the Dua screen for the featured window; search goes to the Library
+  (Duas tab).
+- Dua screen: `features/duas`, outside the tab shell; opened alone (a
+  tapped alert), Back goes Home. It steps through a `DuaSelection`: a
+  window's duas (`/dua/<DuaWindowType name>` — Home, alerts), a Library
+  shelf (`/library/<LibraryCategory name>`) or one search hit
+  (`/library/dua/<id>`); the list is fixed for the visit. One dua at a time with
   Previous/Next, a tasbih counter (per dua, kept when going back) and a
   bookmark (`SavedDuas`, `CacheKey.savedDuas`). Built in the **day palette**
   — the design is a night screen, but the night palette isn't decided yet.
@@ -101,6 +103,14 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   `transliteration`, `meaning`/`source` by language code, `url` (where to
   check it), `verified`, `repeat`, `windows` (none = any window; a window
   with no tagged duas gets them all; file order is display order).
+- Library (Duas tab): `LibraryPage` — search (`DuaCatalog.search`, via
+  `searchable()` in `core/utils/search_text.dart`, shared with the city
+  search: harakat- and hamza-insensitive, over Arabic, transliteration and
+  meanings) and five shelves (`LibraryCategory`): morning, evening and last
+  third follow `windows`; "ma'thur" is the duas flagged `general: true`;
+  saved is the bookmarks (an empty shelf can't be opened). The tiles are
+  plain colour as in the design (no icons); search results have no design
+  and borrow the card style. Arabic only in the export; English mirrors it.
 - The base dua list (51, researched with Mariam's go-ahead) and how it was
   made — sources, grading bar, exclusions — is in `docs/DUA_SOURCES.md`.
   When adding duas: cut the Arabic from the source (sunnah.com primary page,

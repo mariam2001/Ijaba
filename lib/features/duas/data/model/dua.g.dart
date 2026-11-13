@@ -24,6 +24,7 @@ _Dua _$DuaFromJson(Map<String, dynamic> json) => _Dua(
           ?.map((e) => $enumDecode(_$DuaWindowTypeEnumMap, e))
           .toList() ??
       const [],
+  general: json['general'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$DuaToJson(_Dua instance) => <String, dynamic>{
@@ -36,6 +37,7 @@ Map<String, dynamic> _$DuaToJson(_Dua instance) => <String, dynamic>{
   'url': instance.url,
   'repeat': instance.repeat,
   'windows': instance.windows.map((e) => _$DuaWindowTypeEnumMap[e]!).toList(),
+  'general': instance.general,
 };
 
 const _$DuaWindowTypeEnumMap = {

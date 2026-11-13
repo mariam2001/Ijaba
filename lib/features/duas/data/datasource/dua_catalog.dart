@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:ijaba/core/utils/search_text.dart';
 import 'package:ijaba/core/utils/typedef.dart';
 import 'package:ijaba/features/duas/data/model/dua.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
@@ -26,6 +27,25 @@ class DuaCatalog {
         if (window != null && dua.windows.contains(window)) dua,
     ];
     return tagged.isNotEmpty ? tagged : duas;
+  }
+
+  Dua? byId(String id) => duas.where((dua) => dua.id == id).firstOrNull;
+
+  /// Duas whose Arabic, transliteration or meaning contains [query] —
+  /// without regard to harakat, hamza forms or case. Nothing for under two
+  /// letters.
+  List<Dua> search(String query) {
+    final needle = searchable(query);
+    if (needle.length < 2) return const [];
+    return [
+      for (final dua in duas)
+        if ([
+          dua.arabic,
+          dua.transliteration,
+          ...dua.meaning.values,
+        ].any((text) => searchable(text).contains(needle)))
+          dua,
+    ];
   }
 }
 

@@ -94,6 +94,7 @@ void main() {
     '12_windows_en': (AppRoutes.windows, 'en', null),
     '8_dua': ('/dua/lastThirdOfNight', 'ar', _secondDuaCountedTwice),
     '13_dua_en': ('/dua/lastThirdOfNight', 'en', _secondDuaCountedTwice),
+    '9_library': (AppRoutes.duas, 'ar', null),
   };
 
   for (final MapEntry(key: name, value: (path, language, prepare))
@@ -124,7 +125,10 @@ void main() {
               ),
               clockProvider.overrideWith((ref) => Stream.value(designNow)),
               duaCatalogProvider.overrideWith(
-                (ref) async => designDuaCatalog(),
+                // The Dua frames show "2 of 7"; elsewhere, the real duas.
+                (ref) async => path.startsWith('${AppRoutes.dua}/')
+                    ? designDuaCatalog()
+                    : testDuaCatalog(),
               ),
               todayWindowsProvider.overrideWith(
                 (ref) async => designTodayWindows(),

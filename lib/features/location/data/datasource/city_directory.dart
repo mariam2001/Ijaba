@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
+import 'package:ijaba/core/utils/search_text.dart';
 import 'package:ijaba/core/utils/typedef.dart';
 import 'package:ijaba/features/location/data/model/city.dart';
 import 'package:ijaba/features/prayer_times/data/model/geo_point.dart';
@@ -77,17 +78,8 @@ class CityDirectory {
         .toList();
   }
 
-  static final _diacritics = RegExp('[ً-ٰٟـ]');
-
-  /// Lowercase, no Arabic diacritics/tatweel, and one form of alef, yaa and
-  /// taa marbuta, so "الاسكندريه" finds "الإسكندرية".
-  static String normalize(String text) => text
-      .toLowerCase()
-      .replaceAll(_diacritics, '')
-      .replaceAll(RegExp('[إأآٱ]'), 'ا')
-      .replaceAll('ى', 'ي')
-      .replaceAll('ة', 'ه')
-      .trim();
+  /// See [searchable].
+  static String normalize(String text) => searchable(text);
 
   static double _distanceKm(
     double lat1,

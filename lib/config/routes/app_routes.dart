@@ -13,6 +13,12 @@ abstract final class AppRoutes {
   static const dua = '/dua';
   static String duaFor(String window) => '$dua/$window';
 
+  /// The Dua screen for a Library shelf (a `LibraryCategory` name), or for
+  /// one dua (its id).
+  static const library = '/library';
+  static String libraryCategory(String category) => '$library/$category';
+  static String libraryDua(String id) => '$library/dua/$id';
+
   // Onboarding, in order.
   static const language = '/onboarding/language';
   static const welcome = '/onboarding/welcome';

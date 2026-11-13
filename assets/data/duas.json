@@ -274,7 +274,8 @@
         "lastThirdOfNight",
         "adhanToIqama",
         "fridayHour"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "sayyid-al-istighfar",
@@ -294,7 +295,8 @@
         "lastThirdOfNight",
         "morningAdhkar",
         "eveningAdhkar"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "zalamtu-nafsi",
@@ -314,7 +316,8 @@
         "lastThirdOfNight",
         "adhanToIqama",
         "fridayHour"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "ighfir-li-ma-qaddamtu",
@@ -332,7 +335,8 @@
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "rabbighfir-li-wa-tub",
@@ -350,7 +354,8 @@
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "dua-yunus",
@@ -369,7 +374,8 @@
       "windows": [
         "lastThirdOfNight",
         "fridayHour"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "rabbana-atina",
@@ -389,7 +395,8 @@
         "lastThirdOfNight",
         "adhanToIqama",
         "fridayHour"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "al-jannah",
@@ -409,7 +416,8 @@
         "adhanToIqama",
         "fridayHour",
         "lastThirdOfNight"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "huda-tuqa",
@@ -429,7 +437,8 @@
         "lastThirdOfNight",
         "adhanToIqama",
         "fridayHour"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "aslih-li-dini",
@@ -447,7 +456,8 @@
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "ya-muqallib",
@@ -466,7 +476,8 @@
       "windows": [
         "lastThirdOfNight",
         "fridayHour"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "la-tuzigh-qulubana",
@@ -484,7 +495,8 @@
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "zalamna-anfusana",
@@ -502,7 +514,8 @@
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "walidayya",
@@ -521,7 +534,8 @@
       "windows": [
         "lastThirdOfNight",
         "fridayHour"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "hab-lana",
@@ -540,7 +554,8 @@
       "windows": [
         "fridayHour",
         "lastThirdOfNight"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "hamm-wal-hazan",
@@ -559,7 +574,8 @@
       "windows": [
         "lastThirdOfNight",
         "fridayHour"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "ibn-masud",
@@ -577,7 +593,8 @@
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "rahmataka-arju",
@@ -595,7 +612,8 @@
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "ishrah-sadri",
@@ -613,7 +631,8 @@
       "repeat": 1,
       "windows": [
         "adhanToIqama"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "zidni-ilma",
@@ -631,7 +650,8 @@
       "repeat": 1,
       "windows": [
         "adhanToIqama"
-      ]
+      ],
+      "general": true
     },
     {
       "id": "asbahna-wal-mulk",

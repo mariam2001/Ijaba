@@ -24,7 +24,8 @@ mixin _$Dua {
 /// shown in the app.
  String? get url;/// Times to repeat it (the tasbih counter's target).
  int get repeat;/// Windows it belongs to; none means any window.
- List<DuaWindowType> get windows;
+ List<DuaWindowType> get windows;/// A general supplication, for any time — the Library's "ma'thur duas".
+ bool get general;
 /// Create a copy of Dua
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,16 +38,16 @@ $DuaCopyWith<Dua> get copyWith => _$DuaCopyWithImpl<Dua>(this as Dua, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dua&&(identical(other.id, id) || other.id == id)&&(identical(other.arabic, arabic) || other.arabic == arabic)&&(identical(other.transliteration, transliteration) || other.transliteration == transliteration)&&const DeepCollectionEquality().equals(other.meaning, meaning)&&const DeepCollectionEquality().equals(other.source, source)&&(identical(other.verified, verified) || other.verified == verified)&&(identical(other.url, url) || other.url == url)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&const DeepCollectionEquality().equals(other.windows, windows));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dua&&(identical(other.id, id) || other.id == id)&&(identical(other.arabic, arabic) || other.arabic == arabic)&&(identical(other.transliteration, transliteration) || other.transliteration == transliteration)&&const DeepCollectionEquality().equals(other.meaning, meaning)&&const DeepCollectionEquality().equals(other.source, source)&&(identical(other.verified, verified) || other.verified == verified)&&(identical(other.url, url) || other.url == url)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&const DeepCollectionEquality().equals(other.windows, windows)&&(identical(other.general, general) || other.general == general));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,arabic,transliteration,const DeepCollectionEquality().hash(meaning),const DeepCollectionEquality().hash(source),verified,url,repeat,const DeepCollectionEquality().hash(windows));
+int get hashCode => Object.hash(runtimeType,id,arabic,transliteration,const DeepCollectionEquality().hash(meaning),const DeepCollectionEquality().hash(source),verified,url,repeat,const DeepCollectionEquality().hash(windows),general);
 
 @override
 String toString() {
-  return 'Dua(id: $id, arabic: $arabic, transliteration: $transliteration, meaning: $meaning, source: $source, verified: $verified, url: $url, repeat: $repeat, windows: $windows)';
+  return 'Dua(id: $id, arabic: $arabic, transliteration: $transliteration, meaning: $meaning, source: $source, verified: $verified, url: $url, repeat: $repeat, windows: $windows, general: $general)';
 }
 
 
@@ -57,7 +58,7 @@ abstract mixin class $DuaCopyWith<$Res>  {
   factory $DuaCopyWith(Dua value, $Res Function(Dua) _then) = _$DuaCopyWithImpl;
 @useResult
 $Res call({
- String id, String arabic, String transliteration, Map<String, String> meaning, Map<String, String> source, bool verified, String? url, int repeat, List<DuaWindowType> windows
+ String id, String arabic, String transliteration, Map<String, String> meaning, Map<String, String> source, bool verified, String? url, int repeat, List<DuaWindowType> windows, bool general
 });
 
 
@@ -74,7 +75,7 @@ class _$DuaCopyWithImpl<$Res>
 
 /// Create a copy of Dua
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? arabic = null,Object? transliteration = null,Object? meaning = null,Object? source = null,Object? verified = null,Object? url = freezed,Object? repeat = null,Object? windows = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? arabic = null,Object? transliteration = null,Object? meaning = null,Object? source = null,Object? verified = null,Object? url = freezed,Object? repeat = null,Object? windows = null,Object? general = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,arabic: null == arabic ? _self.arabic : arabic // ignore: cast_nullable_to_non_nullable
@@ -85,7 +86,8 @@ as Map<String, String>,verified: null == verified ? _self.verified : verified //
 as bool,url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String?,repeat: null == repeat ? _self.repeat : repeat // ignore: cast_nullable_to_non_nullable
 as int,windows: null == windows ? _self.windows : windows // ignore: cast_nullable_to_non_nullable
-as List<DuaWindowType>,
+as List<DuaWindowType>,general: null == general ? _self.general : general // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -170,10 +172,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String arabic,  String transliteration,  Map<String, String> meaning,  Map<String, String> source,  bool verified,  String? url,  int repeat,  List<DuaWindowType> windows)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String arabic,  String transliteration,  Map<String, String> meaning,  Map<String, String> source,  bool verified,  String? url,  int repeat,  List<DuaWindowType> windows,  bool general)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Dua() when $default != null:
-return $default(_that.id,_that.arabic,_that.transliteration,_that.meaning,_that.source,_that.verified,_that.url,_that.repeat,_that.windows);case _:
+return $default(_that.id,_that.arabic,_that.transliteration,_that.meaning,_that.source,_that.verified,_that.url,_that.repeat,_that.windows,_that.general);case _:
   return orElse();
 
 }
@@ -191,10 +193,10 @@ return $default(_that.id,_that.arabic,_that.transliteration,_that.meaning,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String arabic,  String transliteration,  Map<String, String> meaning,  Map<String, String> source,  bool verified,  String? url,  int repeat,  List<DuaWindowType> windows)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String arabic,  String transliteration,  Map<String, String> meaning,  Map<String, String> source,  bool verified,  String? url,  int repeat,  List<DuaWindowType> windows,  bool general)  $default,) {final _that = this;
 switch (_that) {
 case _Dua():
-return $default(_that.id,_that.arabic,_that.transliteration,_that.meaning,_that.source,_that.verified,_that.url,_that.repeat,_that.windows);case _:
+return $default(_that.id,_that.arabic,_that.transliteration,_that.meaning,_that.source,_that.verified,_that.url,_that.repeat,_that.windows,_that.general);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -211,10 +213,10 @@ return $default(_that.id,_that.arabic,_that.transliteration,_that.meaning,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String arabic,  String transliteration,  Map<String, String> meaning,  Map<String, String> source,  bool verified,  String? url,  int repeat,  List<DuaWindowType> windows)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String arabic,  String transliteration,  Map<String, String> meaning,  Map<String, String> source,  bool verified,  String? url,  int repeat,  List<DuaWindowType> windows,  bool general)?  $default,) {final _that = this;
 switch (_that) {
 case _Dua() when $default != null:
-return $default(_that.id,_that.arabic,_that.transliteration,_that.meaning,_that.source,_that.verified,_that.url,_that.repeat,_that.windows);case _:
+return $default(_that.id,_that.arabic,_that.transliteration,_that.meaning,_that.source,_that.verified,_that.url,_that.repeat,_that.windows,_that.general);case _:
   return null;
 
 }
@@ -226,7 +228,7 @@ return $default(_that.id,_that.arabic,_that.transliteration,_that.meaning,_that.
 @JsonSerializable()
 
 class _Dua extends Dua {
-  const _Dua({required this.id, required this.arabic, required this.transliteration, required final  Map<String, String> meaning, final  Map<String, String> source = const {}, this.verified = false, this.url, this.repeat = 1, final  List<DuaWindowType> windows = const []}): _meaning = meaning,_source = source,_windows = windows,super._();
+  const _Dua({required this.id, required this.arabic, required this.transliteration, required final  Map<String, String> meaning, final  Map<String, String> source = const {}, this.verified = false, this.url, this.repeat = 1, final  List<DuaWindowType> windows = const [], this.general = false}): _meaning = meaning,_source = source,_windows = windows,super._();
   factory _Dua.fromJson(Map<String, dynamic> json) => _$DuaFromJson(json);
 
 @override final  String id;
@@ -270,6 +272,8 @@ class _Dua extends Dua {
   return EqualUnmodifiableListView(_windows);
 }
 
+/// A general supplication, for any time — the Library's "ma'thur duas".
+@override@JsonKey() final  bool general;
 
 /// Create a copy of Dua
 /// with the given fields replaced by the non-null parameter values.
@@ -284,16 +288,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dua&&(identical(other.id, id) || other.id == id)&&(identical(other.arabic, arabic) || other.arabic == arabic)&&(identical(other.transliteration, transliteration) || other.transliteration == transliteration)&&const DeepCollectionEquality().equals(other._meaning, _meaning)&&const DeepCollectionEquality().equals(other._source, _source)&&(identical(other.verified, verified) || other.verified == verified)&&(identical(other.url, url) || other.url == url)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&const DeepCollectionEquality().equals(other._windows, _windows));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dua&&(identical(other.id, id) || other.id == id)&&(identical(other.arabic, arabic) || other.arabic == arabic)&&(identical(other.transliteration, transliteration) || other.transliteration == transliteration)&&const DeepCollectionEquality().equals(other._meaning, _meaning)&&const DeepCollectionEquality().equals(other._source, _source)&&(identical(other.verified, verified) || other.verified == verified)&&(identical(other.url, url) || other.url == url)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&const DeepCollectionEquality().equals(other._windows, _windows)&&(identical(other.general, general) || other.general == general));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,arabic,transliteration,const DeepCollectionEquality().hash(_meaning),const DeepCollectionEquality().hash(_source),verified,url,repeat,const DeepCollectionEquality().hash(_windows));
+int get hashCode => Object.hash(runtimeType,id,arabic,transliteration,const DeepCollectionEquality().hash(_meaning),const DeepCollectionEquality().hash(_source),verified,url,repeat,const DeepCollectionEquality().hash(_windows),general);
 
 @override
 String toString() {
-  return 'Dua(id: $id, arabic: $arabic, transliteration: $transliteration, meaning: $meaning, source: $source, verified: $verified, url: $url, repeat: $repeat, windows: $windows)';
+  return 'Dua(id: $id, arabic: $arabic, transliteration: $transliteration, meaning: $meaning, source: $source, verified: $verified, url: $url, repeat: $repeat, windows: $windows, general: $general)';
 }
 
 
@@ -304,7 +308,7 @@ abstract mixin class _$DuaCopyWith<$Res> implements $DuaCopyWith<$Res> {
   factory _$DuaCopyWith(_Dua value, $Res Function(_Dua) _then) = __$DuaCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String arabic, String transliteration, Map<String, String> meaning, Map<String, String> source, bool verified, String? url, int repeat, List<DuaWindowType> windows
+ String id, String arabic, String transliteration, Map<String, String> meaning, Map<String, String> source, bool verified, String? url, int repeat, List<DuaWindowType> windows, bool general
 });
 
 
@@ -321,7 +325,7 @@ class __$DuaCopyWithImpl<$Res>
 
 /// Create a copy of Dua
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? arabic = null,Object? transliteration = null,Object? meaning = null,Object? source = null,Object? verified = null,Object? url = freezed,Object? repeat = null,Object? windows = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? arabic = null,Object? transliteration = null,Object? meaning = null,Object? source = null,Object? verified = null,Object? url = freezed,Object? repeat = null,Object? windows = null,Object? general = null,}) {
   return _then(_Dua(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,arabic: null == arabic ? _self.arabic : arabic // ignore: cast_nullable_to_non_nullable
@@ -332,7 +336,8 @@ as Map<String, String>,verified: null == verified ? _self.verified : verified //
 as bool,url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String?,repeat: null == repeat ? _self.repeat : repeat // ignore: cast_nullable_to_non_nullable
 as int,windows: null == windows ? _self._windows : windows // ignore: cast_nullable_to_non_nullable
-as List<DuaWindowType>,
+as List<DuaWindowType>,general: null == general ? _self.general : general // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

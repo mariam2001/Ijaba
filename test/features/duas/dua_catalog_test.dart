@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
 import 'package:ijaba/features/duas/data/model/dua.dart';
+import 'package:ijaba/features/duas/data/model/library_category.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 
 import '../../helpers/fakes.dart';
@@ -47,6 +48,56 @@ void main() {
           reason: dua.id,
         );
       }
+    });
+  });
+
+  group('search', () {
+    final catalog = testDuaCatalog();
+    List<String> ids(String query) =>
+        catalog.search(query).map((dua) => dua.id).toList();
+
+    test('finds Arabic without harakat, transliteration and meaning', () {
+      expect(ids('انك عفو'), contains('afw'));
+      expect(ids('AFUWWUN'), contains('afw'));
+      expect(ids('pardon me'), contains('afw'));
+    });
+
+    test('needs two letters, and finds nothing for nonsense', () {
+      expect(ids('ع'), isEmpty);
+      expect(ids('qqqq'), isEmpty);
+    });
+  });
+
+  group('Library shelves', () {
+    final catalog = testDuaCatalog();
+
+    test('follow the windows, the general flag and the bookmarks', () {
+      expect(
+        LibraryCategory.morning.of(catalog, {}),
+        everyElement(
+          predicate<Dua>(
+            (dua) => dua.windows.contains(DuaWindowType.morningAdhkar),
+          ),
+        ),
+      );
+      expect(
+        LibraryCategory.mathur.of(catalog, {}),
+        everyElement(predicate<Dua>((dua) => dua.general)),
+      );
+      for (final category in LibraryCategory.values) {
+        if (category == LibraryCategory.saved) continue;
+        expect(category.of(catalog, {}), isNotEmpty, reason: category.name);
+      }
+    });
+
+    test('saved holds just the bookmarked, in catalog order', () {
+      expect(LibraryCategory.saved.of(catalog, {}), isEmpty);
+      expect(
+        LibraryCategory.saved
+            .of(catalog, {'rabbana-atina', 'afw'})
+            .map((dua) => dua.id),
+        ['afw', 'rabbana-atina'],
+      );
     });
   });
 

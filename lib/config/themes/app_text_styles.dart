@@ -155,6 +155,17 @@ abstract final class AppTextStyles {
   static TextStyle get counter =>
       _readex(32, weight: FontWeight.w300, color: AppColors.ink);
 
+  /// Titles on Library cards ("أذكار الصباح").
+  static TextStyle get listCardTitle =>
+      _readex(14, weight: FontWeight.w500, color: AppColors.ink);
+
+  /// The line under a Library card's title ("٢٣ ذكرًا").
+  static TextStyle get listCardCaption =>
+      _readex(11, weight: FontWeight.w300, color: AppColors.muted);
+
+  /// Text typed in a search field (its hint takes [AppColors.faint]).
+  static TextStyle get searchInput => _readex(13, color: AppColors.ink);
+
   /// Labels of the paired Previous / Next buttons.
   static TextStyle get pagerButton => _readex(12.5, weight: FontWeight.w600);
 

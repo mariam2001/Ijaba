@@ -36,6 +36,9 @@ abstract class Dua with _$Dua {
 
     /// Windows it belongs to; none means any window.
     @Default([]) List<DuaWindowType> windows,
+
+    /// A general supplication, for any time — the Library's "ma'thur duas".
+    @Default(false) bool general,
   }) = _Dua;
 
   factory Dua.fromJson(Json json) => _$DuaFromJson(json);

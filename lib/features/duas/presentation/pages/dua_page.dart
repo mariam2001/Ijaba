@@ -13,26 +13,22 @@ import 'package:ijaba/config/themes/app_text_styles.dart';
 import 'package:ijaba/core/components/error_view.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
-import 'package:ijaba/features/duas/data/model/dua.dart';
 import 'package:ijaba/features/duas/presentation/controller/saved_duas_controller.dart';
+import 'package:ijaba/features/duas/presentation/dua_selection.dart';
 import 'package:ijaba/features/duas/presentation/widgets/dua_header.dart';
 import 'package:ijaba/features/duas/presentation/widgets/dua_view.dart';
 import 'package:ijaba/features/duas/presentation/widgets/tasbih_counter.dart';
-import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
-import 'package:ijaba/features/windows/presentation/window_names.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
-/// The duas for a window, one at a time: read, count, move on. Opened from
-/// Home's "Make dua now"; `/dua/<window>` is also what notifications will
-/// open (step 6).
+/// Duas one at a time: read, count, move on. Opened for a window (Home's
+/// "Make dua now", a tapped alert), a Library shelf, or one search result.
 ///
 /// Day colours for now: the design shows it at night, and the night palette
 /// isn't settled yet.
 class DuaPage extends ConsumerWidget {
-  const DuaPage({this.window, super.key});
+  const DuaPage({required this.selection, super.key});
 
-  /// Null when opened without one (an unknown name in the link).
-  final DuaWindowType? window;
+  final DuaSelection selection;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,7 +47,7 @@ class DuaPage extends ConsumerWidget {
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, _) => ErrorView(error: error),
             data: (catalog) =>
-                _DuaSequence(window: window, duas: catalog.forWindow(window)),
+                _DuaSequence(selection: selection, catalog: catalog),
           ),
         ),
       ),
@@ -60,23 +56,35 @@ class DuaPage extends ConsumerWidget {
 }
 
 class _DuaSequence extends HookConsumerWidget {
-  const _DuaSequence({required this.window, required this.duas});
+  const _DuaSequence({required this.selection, required this.catalog});
 
-  final DuaWindowType? window;
-  final List<Dua> duas;
+  final DuaSelection selection;
+  final DuaCatalog catalog;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Fixed for the visit: un-saving a dua while reading the saved ones
+    // shouldn't pull it out from under the reader.
+    final duas = useMemoized(
+      () => selection.duasIn(catalog, ref.read(savedDuasProvider)),
+      [catalog],
+    );
     final index = useState(0);
     // Taps so far, per dua — kept when going back to an earlier one.
     final counts = useState(const <String, int>{});
     final now = ref.watch(clockProvider).value ?? DateTime.now();
     final saved = ref.watch(savedDuasProvider);
-    if (duas.isEmpty) return const SizedBox.shrink();
+    if (duas.isEmpty) {
+      return Center(
+        child: Text(
+          context.tr(LocaleKeys.library_no_results),
+          style: AppTextStyles.subtitle,
+        ),
+      );
+    }
 
     final dua = duas[index.value];
     final count = counts.value[dua.id] ?? 0;
-    final window = this.window;
 
     void countOne() {
       if (count >= dua.repeat) return;
@@ -93,9 +101,7 @@ class _DuaSequence extends HookConsumerWidget {
         Padding(
           padding: EdgeInsets.fromLTRB(22.w, 20.h, 22.w, 0),
           child: DuaHeader(
-            title: context.tr(
-              window == null ? LocaleKeys.tabs_duas : windowNameKey(window),
-            ),
+            title: selection.title(context),
             now: now,
             position: index.value + 1,
             total: duas.length,

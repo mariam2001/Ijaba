@@ -2,8 +2,10 @@ import 'package:go_router/go_router.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/routes/main_shell.dart';
 import 'package:ijaba/features/alerts/presentation/pages/alerts_debug_page.dart';
+import 'package:ijaba/features/duas/data/model/library_category.dart';
+import 'package:ijaba/features/duas/presentation/dua_selection.dart';
 import 'package:ijaba/features/duas/presentation/pages/dua_page.dart';
-import 'package:ijaba/features/duas/presentation/pages/duas_page.dart';
+import 'package:ijaba/features/duas/presentation/pages/library_page.dart';
 import 'package:ijaba/features/home/presentation/pages/home_page.dart';
 import 'package:ijaba/features/onboarding/presentation/controller/onboarding_controller.dart';
 import 'package:ijaba/features/onboarding/presentation/pages/city_picker_page.dart';
@@ -31,7 +33,7 @@ final appRoutes = <RouteBase>[
     branches: [
       for (final (path, page) in const [
         (AppRoutes.home, HomePage()),
-        (AppRoutes.duas, DuasPage()),
+        (AppRoutes.duas, LibraryPage()),
         (AppRoutes.windows, WindowsPage()),
         (AppRoutes.settings, SettingsPage()),
       ])
@@ -43,8 +45,27 @@ final appRoutes = <RouteBase>[
   GoRoute(
     path: '${AppRoutes.dua}/:window',
     builder: (context, state) => DuaPage(
-      window: DuaWindowType.values.asNameMap()[state.pathParameters['window']],
+      selection: WindowDuas(
+        DuaWindowType.values.asNameMap()[state.pathParameters['window']],
+      ),
     ),
+  ),
+  GoRoute(
+    path: '${AppRoutes.library}/dua/:id',
+    builder: (context, state) =>
+        DuaPage(selection: OneDua(state.pathParameters['id']!)),
+  ),
+  GoRoute(
+    path: '${AppRoutes.library}/:category',
+    builder: (context, state) {
+      final category = LibraryCategory.values
+          .asNameMap()[state.pathParameters['category']];
+      return DuaPage(
+        selection: category == null
+            ? const WindowDuas(null)
+            : CategoryDuas(category),
+      );
+    },
   ),
   GoRoute(
     path: AppRoutes.language,
