@@ -71,8 +71,7 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   come early by `AlertPlanner.leadTimes` (last third 15 min; adhan→iqama
   5 min, from the Home design), and Home's rows show the same lead times.
 - Main tabs: `StatefulShellRoute` in `routes.dart` with `MainShell` +
-  `AppTabBar` (Home · Duas · Windows · Settings); Settings is a
-  `ComingSoonView` placeholder until step 7.
+  `AppTabBar` (Home · Duas · Windows · Settings).
 - Windows tab (alert control): `WindowsPage` with one `AlertToggle` per
   switch — morning and evening adhkar share one; the design's "when it
   rains" is left out of v1 (it would need a weather service to see the
@@ -127,8 +126,19 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   a live tap during the splash) — navigating any earlier loses to GoRouter's
   initial route and the splash timer. Verified on the emulator, warm and
   cold. The developer test alert opens the last third, to check this too.
-- **Temporary, remove before release:** the `/debug/alerts` page and its
-  button on the Settings placeholder.
+- Settings tab: `SettingsPage` — rows (`SettingsSection`/`SettingsRow`) open
+  bottom sheets (`showOptionSheet`/`showAppSheet` in core/components; no
+  design for them yet). Prayer settings (method — all adhan_dart methods but
+  "other"; Asr madhab; per-prayer adjustment ±30 min) are saved by
+  `PrayerSettingsController` (`CacheKey.prayerSettings`);
+  `prayerSettingsProvider` reads it. Location re-uses onboarding's GPS
+  detection and city picker. Location and settings changes re-plan the
+  alerts. Alert tone and vibration open Android's settings for the alert
+  channel (a channel's sound and vibration can't be changed by the app once
+  created, and we have no sound files); night mode is shown inert until the
+  night palette exists.
+- **Temporary, remove before release:** the `/debug/alerts` page; its link
+  at the bottom of Settings shows in debug builds only.
 - App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,
   `ic_stat_ijaba.xml` for notifications); legacy PNGs cover API 24–25.
 

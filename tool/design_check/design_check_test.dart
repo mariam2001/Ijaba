@@ -3,6 +3,7 @@
 // the design exports. Not part of the normal test run:
 //
 //   flutter test tool/design_check/design_check_test.dart
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -18,13 +19,16 @@ import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/routes/routes.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/core/service/local/cache/simple_cache.dart';
+import 'package:ijaba/core/utils/enums.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
 import 'package:ijaba/features/duas/presentation/widgets/tasbih_counter.dart';
 import 'package:ijaba/features/location/data/datasource/city_directory.dart';
 import 'package:ijaba/features/location/data/datasource/location_service.dart';
+import 'package:ijaba/features/location/data/model/saved_location.dart';
 import 'package:ijaba/features/onboarding/data/datasource/device_power_settings.dart';
 import 'package:ijaba/features/onboarding/presentation/pages/splash_page.dart';
+import 'package:ijaba/features/prayer_times/data/model/geo_point.dart';
 import 'package:ijaba/features/windows/presentation/controller/today_windows_controller.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,6 +42,18 @@ Future<void> _secondDuaCountedTwice(WidgetTester tester) async {
     await tester.tap(find.byType(TasbihCounter));
     await tester.pumpAndSettle();
   }
+}
+
+Future<MemoryCache> _cacheInAlexandria() async {
+  final city = testCityDirectory().nearest(
+    const GeoPoint(latitude: 31.2001, longitude: 29.9187),
+  )!;
+  final cache = MemoryCache();
+  await cache.write(
+    CacheKey.location,
+    jsonEncode(SavedLocation.ofCity(city).toJson()),
+  );
+  return cache;
 }
 
 Future<void> _loadFonts() async {
@@ -95,6 +111,7 @@ void main() {
     '8_dua': ('/dua/lastThirdOfNight', 'ar', _secondDuaCountedTwice),
     '13_dua_en': ('/dua/lastThirdOfNight', 'en', _secondDuaCountedTwice),
     '9_library': (AppRoutes.duas, 'ar', null),
+    '10_settings': (AppRoutes.settings, 'ar', null),
   };
 
   for (final MapEntry(key: name, value: (path, language, prepare))
@@ -112,7 +129,12 @@ void main() {
           key: boundary,
           child: ProviderScope(
             overrides: [
-              SimpleCache.provider.overrideWithValue(MemoryCache()),
+              SimpleCache.provider.overrideWithValue(
+                // Settings shows the saved location; onboarding finds it.
+                path == AppRoutes.settings
+                    ? await _cacheInAlexandria()
+                    : MemoryCache(),
+              ),
               NotificationService.provider.overrideWithValue(
                 FakeNotifications(),
               ),

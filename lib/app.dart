@@ -13,6 +13,7 @@ import 'package:ijaba/features/alerts/data/datasource/notification_service.dart'
 import 'package:ijaba/features/alerts/presentation/controller/alerts_controller.dart';
 import 'package:ijaba/features/alerts/presentation/controller/launch_link_controller.dart';
 import 'package:ijaba/features/onboarding/presentation/controller/onboarding_controller.dart';
+import 'package:ijaba/features/prayer_times/presentation/controller/prayer_times_controller.dart';
 import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
@@ -70,8 +71,9 @@ class _AppView extends ConsumerWidget {
   }
 }
 
-/// Keeps the coming days' alerts scheduled: on start, when the language or
-/// the windows switched on change, and on each return to the foreground
+/// Keeps the coming days' alerts scheduled: on start, when the language,
+/// the windows switched on, the location or the prayer-time settings
+/// change, and on each return to the foreground
 /// (throttled by the controller). It sits inside MaterialApp, which builds it
 /// only once the translations have loaded — alert text is generated at
 /// scheduling time.
@@ -84,6 +86,8 @@ class _AlertScheduler extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final localeName = context.locale.toString();
     final enabled = ref.watch(enabledWindowTypesProvider);
+    final location = ref.watch(prayerLocationProvider);
+    final settings = ref.watch(prayerSettingsProvider);
 
     void reschedule({bool force = false}) => ref
         .read(alertsControllerProvider.notifier)
@@ -93,7 +97,7 @@ class _AlertScheduler extends HookConsumerWidget {
         (_) => reschedule(force: true),
       );
       return null;
-    }, [localeName, enabled]);
+    }, [localeName, enabled, location, settings]);
     useOnAppLifecycleStateChange((_, state) {
       if (state == AppLifecycleState.resumed) reschedule();
     });

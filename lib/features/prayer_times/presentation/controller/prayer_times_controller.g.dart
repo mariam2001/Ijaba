@@ -54,17 +54,17 @@ final class PrayerLocationProvider
 
 String _$prayerLocationHash() => r'56c9ee4d1e1a6b9dc9fad1288e332b13fb546fe6';
 
-/// Calculation settings; defaults until the Settings screen persists them.
+/// Calculation settings, as chosen in Settings (stored on the device).
 
 @ProviderFor(prayerSettings)
 const prayerSettingsProvider = PrayerSettingsProvider._();
 
-/// Calculation settings; defaults until the Settings screen persists them.
+/// Calculation settings, as chosen in Settings (stored on the device).
 
 final class PrayerSettingsProvider
     extends $FunctionalProvider<PrayerSettings, PrayerSettings, PrayerSettings>
     with $Provider<PrayerSettings> {
-  /// Calculation settings; defaults until the Settings screen persists them.
+  /// Calculation settings, as chosen in Settings (stored on the device).
   const PrayerSettingsProvider._()
     : super(
         from: null,
@@ -98,4 +98,58 @@ final class PrayerSettingsProvider
   }
 }
 
-String _$prayerSettingsHash() => r'648ee116956926fc84d23e88bec7714d2c8d4f27';
+String _$prayerSettingsHash() => r'3bcbcec7d94666a0bbef1da7fe57283a1e498e0e';
+
+@ProviderFor(PrayerSettingsController)
+const prayerSettingsControllerProvider = PrayerSettingsControllerProvider._();
+
+final class PrayerSettingsControllerProvider
+    extends $NotifierProvider<PrayerSettingsController, PrayerSettings> {
+  const PrayerSettingsControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'prayerSettingsControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$prayerSettingsControllerHash();
+
+  @$internal
+  @override
+  PrayerSettingsController create() => PrayerSettingsController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(PrayerSettings value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<PrayerSettings>(value),
+    );
+  }
+}
+
+String _$prayerSettingsControllerHash() =>
+    r'8e3e737ba718cb27b3a445f73d79803cbef3e49e';
+
+abstract class _$PrayerSettingsController extends $Notifier<PrayerSettings> {
+  PrayerSettings build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<PrayerSettings, PrayerSettings>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<PrayerSettings, PrayerSettings>,
+              PrayerSettings,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

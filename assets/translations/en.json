@@ -177,6 +177,30 @@
       "other": "{} saved"
     }
   },
+  "settings": {
+    "title": "Settings",
+    "section_times": "Prayer times",
+    "section_alerts": "Alerts",
+    "section_app": "App",
+    "location": "Location",
+    "method": "Calculation method",
+    "madhab": "Asr madhab",
+    "adjustment": "Manual time adjustment",
+    "tone": "Alert tone",
+    "vibration": "Vibration",
+    "night_mode": "Night mode",
+    "language": "Language",
+    "about": "About Ijaba",
+    "in_phone_settings": "In phone settings",
+    "madhab_shafi": "Shafi'i",
+    "madhab_shafi_hint": "also Maliki and Hanbali",
+    "madhab_hanafi": "Hanafi",
+    "no_adjustment": "±0 min",
+    "adjustment_hint": "Minutes added to or taken from each calculated time.",
+    "about_body": "Ijaba alerts you at the times when dua is most hoped to be accepted. Prayer times are calculated on your device; your location is never sent to a server.",
+    "about_sources": "Duas are from the Quran and the authentic Sunnah; each one shows its source.",
+    "licenses": "Licenses"
+  },
   "alerts": {
     "channel": "Dua windows",
     "quiet_channel": "Quiet reminders",

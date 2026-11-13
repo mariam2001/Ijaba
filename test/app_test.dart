@@ -188,6 +188,28 @@ void main() {
     expect(find.text('ساعة الإجابة'), findsOneWidget);
   });
 
+  testWidgets('changing the calculation method in Settings re-plans alerts', (
+    tester,
+  ) async {
+    final notifications = await pumpApp(tester, cache: await onboardedCache());
+    final before = notifications.scheduled.map((alert) => alert.id).toSet();
+    expect(before, isNotEmpty);
+
+    await tester.tap(find.text('الإعدادات'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('طريقة الحساب'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('أم القرى، مكة المكرمة'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('أم القرى، مكة المكرمة'));
+    await tester.pumpAndSettle();
+
+    final after = notifications.scheduled.map((alert) => alert.id).toSet();
+    expect(after, isNotEmpty);
+    // Alert ids are their minutes: a different method moves some of them.
+    expect(after, isNot(equals(before)));
+  });
+
   testWidgets('before onboarding is done, alert taps are ignored', (
     tester,
   ) async {

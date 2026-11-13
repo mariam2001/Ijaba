@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
@@ -136,6 +138,29 @@ class NotificationService {
         ),
       ),
     );
+  }
+
+  /// Opens the phone's settings for the alerts' channel, where the user picks
+  /// its sound and vibration (Android doesn't let an app change a channel's
+  /// once created). Falls back to the app's notification settings.
+  Future<void> openAlertChannelSettings() async {
+    const package = 'com.absolutedevs.ijaba';
+    try {
+      await const AndroidIntent(
+        action: 'android.settings.CHANNEL_NOTIFICATION_SETTINGS',
+        arguments: {
+          'android.provider.extra.APP_PACKAGE': package,
+          'android.provider.extra.CHANNEL_ID': _channelId,
+        },
+        flags: [Flag.FLAG_ACTIVITY_NEW_TASK],
+      ).launch();
+    } on Object {
+      await const AndroidIntent(
+        action: 'android.settings.APP_NOTIFICATION_SETTINGS',
+        arguments: {'android.provider.extra.APP_PACKAGE': package},
+        flags: [Flag.FLAG_ACTIVITY_NEW_TASK],
+      ).launch();
+    }
   }
 
   /// Cancels every scheduled window alert, leaving test alerts alone.

@@ -208,8 +208,8 @@ return $default(_that.method,_that.madhab,_that.adjustments);case _:
 /// @nodoc
 
 
-class _PrayerSettings implements PrayerSettings {
-  const _PrayerSettings({this.method = CalculationMethod.egyptian, this.madhab = Madhab.shafi, final  Map<Prayer, int> adjustments = const <Prayer, int>{}}): _adjustments = adjustments;
+class _PrayerSettings extends PrayerSettings {
+  const _PrayerSettings({this.method = CalculationMethod.egyptian, this.madhab = Madhab.shafi, final  Map<Prayer, int> adjustments = const <Prayer, int>{}}): _adjustments = adjustments,super._();
   
 
 @override@JsonKey() final  CalculationMethod method;

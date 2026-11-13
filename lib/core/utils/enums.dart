@@ -6,4 +6,5 @@ enum CacheKey {
   onboardingDone,
   enabledWindows,
   savedDuas,
+  prayerSettings,
 }

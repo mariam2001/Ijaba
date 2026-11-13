@@ -163,6 +163,9 @@ abstract final class AppTextStyles {
   static TextStyle get listCardCaption =>
       _readex(11, weight: FontWeight.w300, color: AppColors.muted);
 
+  /// A setting's current value ("الإسكندرية، مصر").
+  static TextStyle get settingsValue => _readex(11.5, color: AppColors.muted);
+
   /// Text typed in a search field (its hint takes [AppColors.faint]).
   static TextStyle get searchInput => _readex(13, color: AppColors.ink);
 
