@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/core/error/failure.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Full-area error message for an `AsyncValue` error, with optional retry.
 class ErrorView extends StatelessWidget {
@@ -24,7 +25,7 @@ class ErrorView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.error_outline,
+              LucideIcons.circleAlert300,
               size: 48.r,
               color: Theme.of(context).colorScheme.error,
             ),

@@ -10,6 +10,7 @@ import 'package:ijaba/features/alerts/data/datasource/notification_service.dart'
 import 'package:ijaba/features/alerts/data/repository/alerts_repository.dart';
 import 'package:ijaba/features/alerts/presentation/controller/alarm_mode_controller.dart';
 import 'package:ijaba/features/alerts/presentation/controller/alerts_controller.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 const _colorOsChecklist = '''
 For Ijaba on the Oppo (wording varies by ColorOS version):
@@ -175,7 +176,7 @@ class _PermissionRow extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Icon(
-        granted ? Icons.check_circle : Icons.error_outline,
+        granted ? LucideIcons.circleCheck300 : LucideIcons.circleAlert300,
         color: granted ? colors.primary : colors.error,
       ),
       title: Text(label),
@@ -204,9 +205,7 @@ class _ScheduledList extends StatelessWidget {
             dense: true,
             contentPadding: EdgeInsets.zero,
             leading: Icon(
-              alert.isQuiet
-                  ? Icons.notifications_off_outlined
-                  : Icons.notifications_active_outlined,
+              alert.isQuiet ? LucideIcons.bellOff300 : LucideIcons.bellRing300,
             ),
             title: Text(text.title(alert)),
             subtitle: Text(

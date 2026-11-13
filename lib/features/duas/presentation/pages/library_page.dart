@@ -20,11 +20,20 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 /// The Duas tab: search, and the shelves — morning, evening, last third,
 /// ma'thur, saved. A shelf opens in the Dua screen, one dua at a time.
 class LibraryPage extends HookConsumerWidget {
-  const LibraryPage({super.key});
+  const LibraryPage({this.searchRequest, super.key});
+
+  /// Set (to a new value each time) when opened to search, from Home: the
+  /// search field takes the focus.
+  final String? searchRequest;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final search = useTextEditingController();
+    final searchFocus = useFocusNode();
+    useEffect(() {
+      if (searchRequest != null) searchFocus.requestFocus();
+      return null;
+    }, [searchRequest]);
     final query = useValueListenable(search).text.trim();
     final catalog = ref.watch(duaCatalogProvider);
     final saved = ref.watch(savedDuasProvider);
@@ -40,7 +49,7 @@ class LibraryPage extends HookConsumerWidget {
               style: AppTextStyles.screenTitleFor(context.locale),
             ),
             SizedBox(height: 14.h),
-            _SearchField(controller: search),
+            _SearchField(controller: search, focusNode: searchFocus),
             SizedBox(height: 22.h),
             ...catalog.when(
               loading: () => [const Center(child: CircularProgressIndicator())],
@@ -106,9 +115,10 @@ class _Spaced extends StatelessWidget {
 }
 
 class _SearchField extends StatelessWidget {
-  const _SearchField({required this.controller});
+  const _SearchField({required this.controller, required this.focusNode});
 
   final TextEditingController controller;
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +130,7 @@ class _SearchField extends StatelessWidget {
       height: 44.h,
       child: TextField(
         controller: controller,
+        focusNode: focusNode,
         textInputAction: TextInputAction.search,
         style: AppTextStyles.searchInput,
         cursorColor: AppColors.green,

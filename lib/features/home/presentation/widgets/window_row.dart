@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/features/windows/data/model/dua_window.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 import 'package:ijaba/features/windows/presentation/alert_timing.dart';
+import 'package:ijaba/features/windows/presentation/window_art.dart';
 import 'package:ijaba/features/windows/presentation/window_names.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
-/// One line of "Today's windows": status dot, name and detail, start time.
-/// Open windows get a honey dot; silent ones (alert switched off on the
-/// Windows screen) are drawn faded.
+/// One line of "Today's windows": the window's icon, name and detail, start
+/// time. Open windows get a honey icon; silent ones (alert switched off on
+/// the Windows screen) are drawn faded.
 class WindowRow extends StatelessWidget {
   const WindowRow({
     required this.window,
@@ -43,17 +45,14 @@ class WindowRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            width: 7.r,
-            height: 7.r,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: open
-                  ? AppColors.honey
-                  : faded
-                  ? AppColors.line
-                  : AppColors.greenMid,
-            ),
+          AppIconView(
+            windowIcon(window.type),
+            size: 20.r,
+            color: open
+                ? AppColors.honey
+                : faded
+                ? AppColors.faint
+                : AppColors.greenMid,
           ),
           SizedBox(width: 12.w),
           Expanded(

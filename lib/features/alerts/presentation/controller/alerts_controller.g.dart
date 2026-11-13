@@ -50,7 +50,7 @@ final class AlertsControllerProvider
   }
 }
 
-String _$alertsControllerHash() => r'3eb4da661f3be9b4324b356c71c08dec2f41429a';
+String _$alertsControllerHash() => r'ba4dedd534558bf6d6205e971764314b312c8e8b';
 
 /// Keeps the coming days' window alerts scheduled. The app calls
 /// [reschedule] on start, on every return to the foreground, and when the

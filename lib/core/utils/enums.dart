@@ -7,4 +7,5 @@ enum CacheKey {
   enabledWindows,
   savedDuas,
   prayerSettings,
+  windowConfig,
 }

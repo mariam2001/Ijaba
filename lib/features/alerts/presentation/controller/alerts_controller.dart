@@ -4,6 +4,7 @@ import 'package:ijaba/features/alerts/data/repository/alerts_repository.dart';
 import 'package:ijaba/features/alerts/presentation/controller/alarm_mode_controller.dart';
 import 'package:ijaba/features/prayer_times/presentation/controller/prayer_times_controller.dart';
 import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
+import 'package:ijaba/features/windows/presentation/controller/window_config_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'alerts_controller.g.dart';
@@ -52,6 +53,7 @@ class AlertsController extends _$AlertsController {
           settings: ref.read(prayerSettingsProvider),
           enabled: ref.read(enabledWindowTypesProvider),
           mode: ref.read(alarmModeControllerProvider),
+          config: ref.read(windowConfigProvider),
           localeName: localeName,
         );
     if (!ref.mounted) return;

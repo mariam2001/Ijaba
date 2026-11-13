@@ -25,8 +25,7 @@ class HomePage extends ConsumerWidget {
     final today = ref.watch(todayWindowsProvider);
     final enabled = ref.watch(enabledWindowTypesProvider);
     const planner = AlertPlanner();
-    // Search leads to the Duas tab until the Library exists.
-    void openDuas() => context.go(AppRoutes.duas);
+    void search() => context.go(AppRoutes.librarySearch());
 
     return Scaffold(
       body: SafeArea(
@@ -34,7 +33,7 @@ class HomePage extends ConsumerWidget {
         child: ListView(
           padding: EdgeInsets.fromLTRB(22.w, 27.h, 22.w, 24.h),
           children: [
-            HomeHeader(now: now, onSearch: openDuas),
+            HomeHeader(now: now, onSearch: search),
             SizedBox(height: 13.h),
             // Recomputed on every clock tick: keep showing the last result.
             ...today.when(

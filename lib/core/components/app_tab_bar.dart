@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -13,14 +14,20 @@ class AppTabBar extends StatelessWidget {
   final int index;
   final ValueChanged<int> onSelect;
 
-  // Lucide icons with a 1.5 stroke (the "300" variants), as in the design.
-  // The Duas icon is a plain rounded square there — kept as drawn.
-  static const _tabs = [
-    (LucideIcons.house300, LocaleKeys.tabs_home),
-    (LucideIcons.square300, LocaleKeys.tabs_duas),
-    (LucideIcons.clock300, LocaleKeys.tabs_windows),
-    (LucideIcons.settings300, LocaleKeys.tabs_settings),
+  // 1.5-stroke line icons: Lucide's "300" variants, and the app's own
+  // hands for Duas.
+  static final _tabs = <(Widget Function(Color color), String)>[
+    (_lucide(LucideIcons.house300), LocaleKeys.tabs_home),
+    (
+      (color) => AppIconView(AppIcon.duaHands, size: 20.r, color: color),
+      LocaleKeys.tabs_duas,
+    ),
+    (_lucide(LucideIcons.clock300), LocaleKeys.tabs_windows),
+    (_lucide(LucideIcons.settings300), LocaleKeys.tabs_settings),
   ];
+
+  static Widget Function(Color color) _lucide(IconData icon) =>
+      (color) => Icon(icon, size: 20.r, color: color);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +69,8 @@ class _TabItem extends StatelessWidget {
     required this.onTap,
   });
 
-  final IconData icon;
+  /// Draws the tab's icon in the given colour.
+  final Widget Function(Color color) icon;
   final String label;
   final bool selected;
   final VoidCallback onTap;
@@ -79,7 +87,7 @@ class _TabItem extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 20.r, color: color),
+            icon(color),
             SizedBox(height: 5.h),
             Text(
               label,

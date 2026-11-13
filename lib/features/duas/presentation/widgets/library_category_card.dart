@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
 import 'package:ijaba/features/duas/presentation/library_categories.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-/// A Library shelf: tinted tile, name, how many it holds, and a chevron.
-/// The design's tiles are plain colour — no icons yet.
+/// A Library shelf: its icon on a tinted tile, name, how many it holds, and
+/// a chevron.
 class LibraryCategoryCard extends StatelessWidget {
   const LibraryCategoryCard({
     required this.category,
@@ -43,9 +44,15 @@ class LibraryCategoryCard extends StatelessWidget {
               Container(
                 width: 42.r,
                 height: 42.r,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: category.tileColor,
                   borderRadius: BorderRadius.circular(11.r),
+                ),
+                child: AppIconView(
+                  category.icon,
+                  size: 22.r,
+                  color: category.iconColor,
                 ),
               ),
               SizedBox(width: 13.w),

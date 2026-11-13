@@ -180,6 +180,14 @@ abstract class LocaleKeys {
   static const settings_about_body = 'settings.about_body';
   static const settings_about_sources = 'settings.about_sources';
   static const settings_licenses = 'settings.licenses';
+  static const settings_iqama = 'settings.iqama';
+  static const settings_iqama_hint = 'settings.iqama_hint';
+  static const settings_iqama_after = 'settings.iqama_after';
+  static const settings_prayer_length = 'settings.prayer_length';
+  static const settings_after_prayer_length = 'settings.after_prayer_length';
+  static const settings_defaults = 'settings.defaults';
+  static const settings_custom = 'settings.custom';
+  static const settings_reset = 'settings.reset';
   static const settings = 'settings';
   static const alerts_channel = 'alerts.channel';
   static const alerts_quiet_channel = 'alerts.quiet_channel';

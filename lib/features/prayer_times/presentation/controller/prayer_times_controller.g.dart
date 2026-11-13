@@ -133,7 +133,7 @@ final class PrayerSettingsControllerProvider
 }
 
 String _$prayerSettingsControllerHash() =>
-    r'8e3e737ba718cb27b3a445f73d79803cbef3e49e';
+    r'4da5e7359d9117dc3b71e5a7b4743deab48402bf';
 
 abstract class _$PrayerSettingsController extends $Notifier<PrayerSettings> {
   PrayerSettings build();

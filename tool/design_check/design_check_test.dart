@@ -44,6 +44,17 @@ Future<void> _secondDuaCountedTwice(WidgetTester tester) async {
   }
 }
 
+/// Opens a Settings sheet by its row; [nudges] taps the first "+" (Fajr's).
+Future<void> Function(WidgetTester) _openSheet(String row, {int nudges = 0}) =>
+    (tester) async {
+      await tester.tap(find.text(row));
+      await tester.pumpAndSettle();
+      for (var i = 0; i < nudges; i++) {
+        await tester.tap(find.byTooltip('+').first);
+        await tester.pumpAndSettle();
+      }
+    };
+
 Future<MemoryCache> _cacheInAlexandria() async {
   final city = testCityDirectory().nearest(
     const GeoPoint(latitude: 31.2001, longitude: 29.9187),
@@ -98,7 +109,7 @@ void main() {
   // The states the Figma frames show: Oppo phone, steps 1–2 granted, GPS
   // already allowed and in Alexandria; Home on Friday at 03:12; the Dua
   // screen on the second of seven duas, counted twice.
-  const screens = {
+  final screens = {
     '1_splash': (AppRoutes.splash, 'ar', null),
     '2_language': (AppRoutes.language, 'ar', null),
     '3_welcome': (AppRoutes.welcome, 'ar', null),
@@ -112,6 +123,17 @@ void main() {
     '13_dua_en': ('/dua/lastThirdOfNight', 'en', _secondDuaCountedTwice),
     '9_library': (AppRoutes.duas, 'ar', null),
     '10_settings': (AppRoutes.settings, 'ar', null),
+    // The sheets have no design yet; rendered to check them by eye.
+    '14_adjust_sheet': (
+      AppRoutes.settings,
+      'ar',
+      _openSheet('تعديل أوقات الأذان', nudges: 2),
+    ),
+    '15_iqama_sheet': (
+      AppRoutes.settings,
+      'ar',
+      _openSheet('الإقامة والصلاة', nudges: 1),
+    ),
   };
 
   for (final MapEntry(key: name, value: (path, language, prepare))

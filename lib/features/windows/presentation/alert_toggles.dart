@@ -1,4 +1,8 @@
+import 'package:flutter/painting.dart';
+import 'package:ijaba/config/themes/app_colors.dart';
+import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
+import 'package:ijaba/features/windows/presentation/window_art.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
 /// The switches on the Windows screen, in order. Morning and evening adhkar
@@ -27,4 +31,12 @@ enum AlertToggle {
   final Set<DuaWindowType> types;
 
   bool isOnIn(Set<DuaWindowType> enabled) => enabled.containsAll(types);
+
+  /// Its first window's icon (the adhkar switch shows the morning one).
+  AppIcon get icon => windowIcon(types.first);
+
+  Color get tileColor =>
+      this == adhkar ? AppColors.honeyPale : AppColors.greenPale;
+
+  Color get iconColor => this == adhkar ? AppColors.honey : AppColors.green;
 }

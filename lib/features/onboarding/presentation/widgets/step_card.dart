@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_text_styles.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 enum StepStatus { done, current, pending }
 
@@ -93,7 +94,7 @@ class _Badge extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(color: background, shape: BoxShape.circle),
       child: state == StepStatus.done
-          ? Icon(Icons.check_rounded, size: 17.r, color: foreground)
+          ? Icon(LucideIcons.check300, size: 17.r, color: foreground)
           : Text(
               localizedDigits(number, context.locale.languageCode),
               style: AppTextStyles.cardSubtitle.copyWith(

@@ -61,6 +61,8 @@ Future<T?> showAppSheet<T>({
   required Widget child,
 }) => showModalBottomSheet<T>(
   context: context,
+  // Over the tab bar too, not just the tab's own screen.
+  useRootNavigator: true,
   isScrollControlled: true,
   backgroundColor: AppColors.paper,
   shape: RoundedRectangleBorder(

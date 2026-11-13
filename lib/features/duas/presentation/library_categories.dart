@@ -1,9 +1,10 @@
 import 'package:flutter/painting.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
+import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
-/// How each Library shelf is labelled and tinted, as in the design.
+/// How each Library shelf is labelled, drawn and tinted.
 extension LibraryCategoryLabels on LibraryCategory {
   String get titleKey => switch (this) {
     LibraryCategory.morning => LocaleKeys.library_morning,
@@ -22,9 +23,24 @@ extension LibraryCategoryLabels on LibraryCategory {
     LibraryCategory.saved => LocaleKeys.library_saved_count,
   };
 
-  Color get tileColor => switch (this) {
-    LibraryCategory.morning || LibraryCategory.lastThird => AppColors.greenPale,
-    LibraryCategory.evening => AppColors.honeyPale,
-    LibraryCategory.mathur || LibraryCategory.saved => AppColors.paperWarm,
+  AppIcon get icon => switch (this) {
+    LibraryCategory.morning => AppIcon.morning,
+    LibraryCategory.evening => AppIcon.evening,
+    LibraryCategory.lastThird => AppIcon.lastThird,
+    LibraryCategory.mathur => AppIcon.duaHands,
+    LibraryCategory.saved => AppIcon.saved,
   };
+
+  /// Honey for morning, evening and saved; green for the last third and
+  /// the ma'thur duas.
+  bool get _honey => switch (this) {
+    LibraryCategory.morning ||
+    LibraryCategory.evening ||
+    LibraryCategory.saved => true,
+    LibraryCategory.lastThird || LibraryCategory.mathur => false,
+  };
+
+  Color get tileColor => _honey ? AppColors.honeyPale : AppColors.greenPale;
+
+  Color get iconColor => _honey ? AppColors.honey : AppColors.green;
 }

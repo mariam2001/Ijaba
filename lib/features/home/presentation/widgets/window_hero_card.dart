@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_text_styles.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/windows/data/model/dua_window.dart';
+import 'package:ijaba/features/windows/presentation/window_art.dart';
 import 'package:ijaba/features/windows/presentation/window_names.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
@@ -25,8 +27,47 @@ class WindowHeroCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final language = context.locale.languageCode;
-    final arabic = language == 'ar';
     final open = window.isOpenAt(now);
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(22.r),
+      child: ColoredBox(
+        color: AppColors.green,
+        child: Stack(
+          children: [
+            // The window's art in the top-end corner, running off it a
+            // little and fading into the card at its foot — part of the
+            // card, like a weather widget, not a picture beside the text.
+            PositionedDirectional(
+              top: -6.h,
+              end: -16.w,
+              child: ShaderMask(
+                blendMode: BlendMode.dstIn,
+                shaderCallback: (bounds) => const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.white, Colors.white, Colors.transparent],
+                  stops: [0, 0.72, 1],
+                ).createShader(bounds),
+                child: SvgPicture.asset(
+                  windowIllustration(window.type),
+                  width: 190.w,
+                  height: 142.w,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(22.w, 23.h, 22.w, 22.h),
+              child: _content(context, language, open: open),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _content(BuildContext context, String language, {required bool open}) {
+    final arabic = language == 'ar';
     final countdown = Text(
       _hoursMinutes(open ? window.end : window.start, language),
       style: AppTextStyles.countdown,
@@ -35,95 +76,92 @@ class WindowHeroCard extends StatelessWidget {
       context.tr(open ? LocaleKeys.home_left : LocaleKeys.home_starts_in),
       style: AppTextStyles.heroCaption.copyWith(fontSize: 12.sp),
     );
-
-    return Container(
-      padding: EdgeInsets.fromLTRB(22.w, 23.h, 22.w, 22.h),
-      decoration: BoxDecoration(
-        color: AppColors.green,
-        borderRadius: BorderRadius.circular(22.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 7.r,
-                height: 7.r,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: open ? AppColors.honey : AppColors.greenPale,
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 7.r,
+              height: 7.r,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: open ? AppColors.honey : AppColors.greenPale,
               ),
-              SizedBox(width: 9.w),
-              Text(
-                arabic
-                    ? context.tr(
-                        open
-                            ? LocaleKeys.home_open_now
-                            : LocaleKeys.home_up_next,
-                      )
-                    : context
-                          .tr(
-                            open
-                                ? LocaleKeys.home_open_now
-                                : LocaleKeys.home_up_next,
-                          )
-                          .toUpperCase(),
-                // Tracking only for Latin: spacing breaks Arabic letter joins.
-                style: AppTextStyles.heroBadge.copyWith(
-                  letterSpacing: arabic ? null : 1.sp,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 6.h),
-          Text(
-            context.tr(windowNameKey(window.type)),
-            style: AppTextStyles.heroWindowTitleFor(context.locale),
-          ),
-          SizedBox(height: 5.h),
-          Text(
-            _timeRange(context, language),
-            style: AppTextStyles.heroCaption,
-          ),
-          SizedBox(height: 13.h),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              if (open) ...[
-                countdown,
-                SizedBox(width: 5.w),
-                countdownLabel,
-              ] else ...[
-                countdownLabel,
-                SizedBox(width: 5.w),
-                countdown,
-              ],
-            ],
-          ),
-          SizedBox(height: 2.h),
-          _Progress(fraction: open ? _elapsed : null),
-          SizedBox(height: 6.h),
-          SizedBox(
-            width: double.infinity,
-            height: 47.h,
-            child: FilledButton(
-              onPressed: onMakeDua,
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColors.paperSoft,
-                foregroundColor: AppColors.green,
-                minimumSize: Size.zero,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14.r),
-                ),
-              ),
-              child: Text(context.tr(LocaleKeys.home_make_dua)),
             ),
+            SizedBox(width: 9.w),
+            Text(
+              arabic
+                  ? context.tr(
+                      open ? LocaleKeys.home_open_now : LocaleKeys.home_up_next,
+                    )
+                  : context
+                        .tr(
+                          open
+                              ? LocaleKeys.home_open_now
+                              : LocaleKeys.home_up_next,
+                        )
+                        .toUpperCase(),
+              // Tracking only for Latin: spacing breaks Arabic letter joins.
+              style: AppTextStyles.heroBadge.copyWith(
+                letterSpacing: arabic ? null : 1.sp,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 6.h),
+        // Beside the art: wraps rather than running under it.
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 168.w),
+          child: Text(
+            context.tr(windowNameKey(window.type)),
+            style: AppTextStyles.heroWindowTitleFor(
+              context.locale,
+            ).copyWith(height: arabic ? 1.3 : 1.25),
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 5.h),
+        Text(
+          _timeRange(context, language),
+          style: AppTextStyles.heroCaption,
+        ),
+        SizedBox(height: 8.h),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            if (open) ...[
+              countdown,
+              SizedBox(width: 5.w),
+              countdownLabel,
+            ] else ...[
+              countdownLabel,
+              SizedBox(width: 5.w),
+              countdown,
+            ],
+          ],
+        ),
+        SizedBox(height: 2.h),
+        // Empty until the window opens.
+        _Progress(fraction: open ? _elapsed : 0),
+        SizedBox(height: 6.h),
+        SizedBox(
+          width: double.infinity,
+          height: 47.h,
+          child: FilledButton(
+            onPressed: onMakeDua,
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.paperSoft,
+              foregroundColor: AppColors.green,
+              minimumSize: Size.zero,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14.r),
+              ),
+            ),
+            child: Text(context.tr(LocaleKeys.home_make_dua)),
+          ),
+        ),
+      ],
     );
   }
 
@@ -161,29 +199,26 @@ class WindowHeroCard extends StatelessWidget {
 class _Progress extends StatelessWidget {
   const _Progress({required this.fraction});
 
-  /// Elapsed share of the window; null hides the bar (window not open yet).
-  final double? fraction;
+  /// Elapsed share of the window (0 before it opens: just the track).
+  final double fraction;
 
   @override
   Widget build(BuildContext context) {
-    final fraction = this.fraction;
     return SizedBox(
       width: double.infinity,
       height: 4.h,
-      child: fraction == null
-          ? null
-          : ClipRRect(
-              borderRadius: BorderRadius.circular(2.r),
-              child: ColoredBox(
-                color: AppColors.greenDeep,
-                // Fills from the start side: right to left in Arabic.
-                child: FractionallySizedBox(
-                  alignment: AlignmentDirectional.centerStart,
-                  widthFactor: fraction,
-                  child: const ColoredBox(color: AppColors.honey),
-                ),
-              ),
-            ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(2.r),
+        child: ColoredBox(
+          color: AppColors.greenDeep,
+          // Fills from the start side: right to left in Arabic.
+          child: FractionallySizedBox(
+            alignment: AlignmentDirectional.centerStart,
+            widthFactor: fraction,
+            child: const ColoredBox(color: AppColors.honey),
+          ),
+        ),
+      ),
     );
   }
 }

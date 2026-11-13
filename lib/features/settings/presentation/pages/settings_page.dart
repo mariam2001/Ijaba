@@ -17,7 +17,10 @@ import 'package:ijaba/features/prayer_times/data/model/prayer.dart';
 import 'package:ijaba/features/prayer_times/presentation/controller/prayer_times_controller.dart';
 import 'package:ijaba/features/settings/presentation/widgets/about_sheet.dart';
 import 'package:ijaba/features/settings/presentation/widgets/adjustment_sheet.dart';
+import 'package:ijaba/features/settings/presentation/widgets/iqama_sheet.dart';
 import 'package:ijaba/features/settings/presentation/widgets/settings_section.dart';
+import 'package:ijaba/features/windows/data/model/window_config.dart';
+import 'package:ijaba/features/windows/presentation/controller/window_config_controller.dart';
 import 'package:ijaba/features/windows/presentation/window_names.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
@@ -32,6 +35,7 @@ class SettingsPage extends ConsumerWidget {
     final language = context.locale.languageCode;
     final location = ref.watch(locationControllerProvider);
     final settings = ref.watch(prayerSettingsProvider);
+    final windowConfig = ref.watch(windowConfigProvider);
     final controller = ref.read(prayerSettingsControllerProvider.notifier);
     final notifications = ref.read(NotificationService.provider);
 
@@ -124,6 +128,19 @@ class SettingsPage extends ConsumerWidget {
                     context: context,
                     title: context.tr(LocaleKeys.settings_adjustment),
                     child: const AdjustmentSheet(),
+                  ),
+                ),
+                SettingsRow(
+                  title: context.tr(LocaleKeys.settings_iqama),
+                  value: context.tr(
+                    windowConfig == const WindowConfig()
+                        ? LocaleKeys.settings_defaults
+                        : LocaleKeys.settings_custom,
+                  ),
+                  onTap: () => showAppSheet<void>(
+                    context: context,
+                    title: context.tr(LocaleKeys.settings_iqama),
+                    child: const IqamaSheet(),
                   ),
                 ),
               ],

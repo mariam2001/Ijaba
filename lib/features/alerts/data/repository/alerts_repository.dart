@@ -11,7 +11,9 @@ import 'package:ijaba/features/alerts/data/model/planned_alert.dart';
 import 'package:ijaba/features/prayer_times/data/datasource/prayer_times_calculator.dart';
 import 'package:ijaba/features/prayer_times/data/model/geo_point.dart';
 import 'package:ijaba/features/prayer_times/data/model/prayer_settings.dart';
+import 'package:ijaba/features/windows/data/datasource/window_calculator.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
+import 'package:ijaba/features/windows/data/model/window_config.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
 /// What [AlertsRepository.reschedule] scheduled, and with which alarm type
@@ -49,6 +51,7 @@ class AlertsRepository {
     required Set<DuaWindowType> enabled,
     required AndroidScheduleMode mode,
     required String localeName,
+    WindowConfig config = const WindowConfig(),
   }) => guard(() async {
     final now = DateTime.now();
     final days = [
@@ -61,7 +64,11 @@ class AlertsRepository {
           settings: settings,
         ),
     ];
-    final alerts = _planner.plan(
+    final planner = AlertPlanner(
+      windowCalculator: WindowCalculator(config: config),
+      leadTimes: _planner.leadTimes,
+    );
+    final alerts = planner.plan(
       days: days,
       enabled: enabled,
       now: now.toUtc(),

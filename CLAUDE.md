@@ -46,20 +46,27 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   Latin titles to Readex). `AppTheme.night` is provisional until the night
   palette arrives. ScreenUtil design size is the Figma frame, 390 × 844.
   Icons are Lucide (`lucide_icons_flutter`, the `…300` variants = 1.5 stroke),
-  matching the design's glyphs. Readex styles fall back to Amiri for glyphs
-  Readex lacks (ﷺ).
+  matching the design's glyphs — no Material icons. The app's own glyphs
+  (one per window, dua hands, saved, …) are the handover's SVGs in
+  `assets/icons/` via `AppIcon`/`AppIconView` (flutter_svg, tinted with a
+  colour filter); `window_art.dart` maps each window to its icon and its
+  hero illustration (`assets/illustrations/`). Readex styles fall back to
+  Amiri for glyphs Readex lacks (ﷺ).
 - Onboarding: `features/onboarding` (Splash → Language → Welcome → Location
   → Permissions; router redirects Home until `OnboardingController` is done).
   Location: `features/location` — GPS (coarse) labelled with the nearest city
   from the bundled `assets/data/cities.json` (Natural Earth, public domain,
   built by `tool/generate_cities.py`), so no geocoding API sees the location.
 - Placeholders awaiting assets/designs: `IjabaMark` and `BranchOrnament` are
-  drawn in code from the PNG exports — swap in the Figma SVGs when exported;
-  the city picker and the "pending" permission-step style have no design yet.
+  drawn in code from the PNG exports — swap in the Figma SVGs when exported
+  (the handover's small `ic_ijaba_mark` is in `AppIcon`, meant for About and
+  empty states, not the splash logo); the city picker and the "pending" permission-step style have no design yet.
 - Prayer times: `features/prayer_times` (`PrayerTimesCalculator`, wraps
   `adhan_dart`; all times are UTC instants). Windows: `features/windows`
-  (`WindowCalculator`). Timings the design doesn't specify (iqama delays,
-  after-prayer window) live in `WindowConfig` and are provisional.
+  (`WindowCalculator`). Timings with no fixed Islamic value (iqama delay per
+  prayer, prayer length, after-prayer window) are `WindowConfig`, adjustable
+  in Settings (`WindowConfigController`, `CacheKey.windowConfig`; ranges
+  there) and read through `windowConfigProvider` by Home and the alerts.
 - Always give adhan_dart a noon-UTC date (its "next day" is +24h, which breaks
   on DST-end days); its polar-circle resolution doesn't work, so the
   calculator throws `CalculationFailure` instead of returning bad times.
@@ -81,15 +88,23 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   silent. A change re-plans the alarms through `_AlertScheduler`;
   `AlertsController` queues a forced run asked for mid-run, so the last
   change always lands. `AppSwitch` is drawn to the design (44 × 26) and,
-  like the design, doesn't mirror in Arabic.
+  like the design, doesn't mirror in Arabic. Each row starts with the
+  window's icon on a small tile (honey for adhkar, green otherwise; faded
+  when off).
 - Home: `features/home`. `todayWindowsProvider` (windows open now or starting
   in the next 24 h, from yesterday/today/tomorrow's prayer days) is recomputed
   on each `clockProvider` tick (20 s). The hero card features the open window
   with the highest `featurePriority`, else the next one ("up next" state is
-  ours — the design only shows "open now"). The Hijri date is Umm al-Qura by
+  ours — the design only shows "open now"; it gets the "التالية" badge and
+  an empty progress bar). The card is the handover's mockup: the window's
+  illustration sits in the top-end corner, partly off the edge and faded out
+  at the bottom (`ShaderMask`), with the title kept narrow beside it; the
+  card colour and Amiri title stay as in the design. Rows show the window's
+  icon in place of the status dot, tinted by status. The Hijri date is Umm al-Qura by
   civil date (package `hijri`; month names come from l10n). "Make dua now"
-  opens the Dua screen for the featured window; search goes to the Library
-  (Duas tab).
+  opens the Dua screen for the featured window; search opens the Library
+  (Duas tab) with its search field focused (`AppRoutes.librarySearch()`, a
+  fresh `?search=` value each time so a repeat tap focuses again).
 - Dua screen: `features/duas`, outside the tab shell; opened alone (a
   tapped alert), Back goes Home. It steps through a `DuaSelection`: a
   window's duas (`/dua/<DuaWindowType name>` — Home, alerts), a Library
@@ -107,8 +122,9 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   search: harakat- and hamza-insensitive, over Arabic, transliteration and
   meanings) and five shelves (`LibraryCategory`): morning, evening and last
   third follow `windows`; "ma'thur" is the duas flagged `general: true`;
-  saved is the bookmarks (an empty shelf can't be opened). The tiles are
-  plain colour as in the design (no icons); search results have no design
+  saved is the bookmarks (an empty shelf can't be opened). The tiles hold
+  the shelf's icon (the export has plain tiles; the handover's icons came
+  later); search results have no design
   and borrow the card style. Arabic only in the export; English mirrors it.
 - The base dua list (51, researched with Mariam's go-ahead) and how it was
   made — sources, grading bar, exclusions — is in `docs/DUA_SOURCES.md`.
@@ -128,15 +144,21 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   cold. The developer test alert opens the last third, to check this too.
 - Settings tab: `SettingsPage` — rows (`SettingsSection`/`SettingsRow`) open
   bottom sheets (`showOptionSheet`/`showAppSheet` in core/components; no
-  design for them yet). Prayer settings (method — all adhan_dart methods but
-  "other"; Asr madhab; per-prayer adjustment ±30 min) are saved by
+  design for them yet; they open on the root navigator so they cover the
+  tab bar). Prayer settings (method — all adhan_dart methods but "other";
+  Asr madhab; per-prayer adhan adjustment ±30 min, whose sheet shows today's
+  calculated time → adjusted time) are saved by
   `PrayerSettingsController` (`CacheKey.prayerSettings`);
-  `prayerSettingsProvider` reads it. Location re-uses onboarding's GPS
+  `prayerSettingsProvider` reads it. "Iqama & prayer" (`IqamaSheet`) edits
+  `WindowConfig`; both sheets use `StepperRow`. Signed minutes are wrapped in
+  LTR isolate marks (`signedMinutes`) so "+٢" keeps its sign first in
+  Arabic. Location re-uses onboarding's GPS
   detection and city picker. Location and settings changes re-plan the
   alerts. Alert tone and vibration open Android's settings for the alert
   channel (a channel's sound and vibration can't be changed by the app once
   created, and we have no sound files); night mode is shown inert until the
-  night palette exists.
+  night palette is built (handover `ijaba-assets/ASSETS.md` has the tokens;
+  it will follow the phone by default, changeable here).
 - **Temporary, remove before release:** the `/debug/alerts` page; its link
   at the bottom of Settings shows in debug builds only.
 - App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,
@@ -159,7 +181,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   renders the screens at 390 × 844 to `build/design_check/` for comparison
   with the Figma PNG exports (the Figma MCP Starter plan allows only 20
   reads a month, so exports are the working path). Home renders the
-  design's moment (Friday 03:12, `designTodayWindows()` in the fakes).
+  design's moment (Friday 03:12, `designTodayWindows()` in the fakes). The
+  Settings sheets (no design) are rendered too, to check by eye.
 
 ## Commands
 - Codegen: `dart run build_runner build` (build_runner 2.15+ ignores

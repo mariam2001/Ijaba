@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/core/components/app_switch.dart';
 import 'package:ijaba/features/alerts/data/datasource/alert_planner.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
@@ -38,6 +39,21 @@ class AlertToggleRow extends StatelessWidget {
           ),
           child: Row(
             children: [
+              Container(
+                width: 36.r,
+                height: 36.r,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: on ? toggle.tileColor : AppColors.paperWarm,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: AppIconView(
+                  toggle.icon,
+                  size: 20.r,
+                  color: on ? toggle.iconColor : AppColors.faint,
+                ),
+              ),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

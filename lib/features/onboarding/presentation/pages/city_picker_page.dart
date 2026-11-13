@@ -9,6 +9,7 @@ import 'package:ijaba/config/themes/app_text_styles.dart';
 import 'package:ijaba/core/components/error_view.dart';
 import 'package:ijaba/features/location/data/datasource/city_directory.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Searchable list of the bundled cities; pops with the chosen `City`.
 ///
@@ -42,7 +43,10 @@ class CityPickerPage extends HookConsumerWidget {
               decoration: InputDecoration(
                 hintText: context.tr(LocaleKeys.location_picker_search),
                 hintStyle: AppTextStyles.cardSubtitle,
-                prefixIcon: const Icon(Icons.search, color: AppColors.muted),
+                prefixIcon: const Icon(
+                  LucideIcons.search300,
+                  color: AppColors.muted,
+                ),
                 filled: true,
                 fillColor: AppColors.paperSoft,
                 border: OutlineInputBorder(

@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/routes/main_shell.dart';
@@ -31,14 +32,21 @@ final appRoutes = <RouteBase>[
     builder: (context, state, navigationShell) =>
         MainShell(navigationShell: navigationShell),
     branches: [
-      for (final (path, page) in const [
-        (AppRoutes.home, HomePage()),
-        (AppRoutes.duas, LibraryPage()),
-        (AppRoutes.windows, WindowsPage()),
-        (AppRoutes.settings, SettingsPage()),
+      for (final (path, page) in <(String, Widget Function(GoRouterState))>[
+        (AppRoutes.home, (_) => const HomePage()),
+        (
+          AppRoutes.duas,
+          (state) => LibraryPage(
+            searchRequest: state.uri.queryParameters[AppRoutes.searchParam],
+          ),
+        ),
+        (AppRoutes.windows, (_) => const WindowsPage()),
+        (AppRoutes.settings, (_) => const SettingsPage()),
       ])
         StatefulShellBranch(
-          routes: [GoRoute(path: path, builder: (context, state) => page)],
+          routes: [
+            GoRoute(path: path, builder: (context, state) => page(state)),
+          ],
         ),
     ],
   ),

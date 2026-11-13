@@ -17,6 +17,7 @@ import 'package:ijaba/features/location/presentation/controller/location_control
 import 'package:ijaba/features/onboarding/presentation/widgets/onboarding_layout.dart';
 import 'package:ijaba/features/prayer_times/presentation/controller/prayer_times_controller.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Current location (GPS, labelled with the nearest bundled city) or a city
 /// picked by hand. Either way the position stays on the device.
@@ -102,7 +103,7 @@ class LocationPage extends HookConsumerWidget {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              Icons.location_on_outlined,
+              LucideIcons.mapPin300,
               size: 28.r,
               color: AppColors.green,
             ),

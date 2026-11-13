@@ -10,6 +10,7 @@ import 'package:ijaba/core/service/local/cache/simple_cache.dart';
 import 'package:ijaba/core/utils/enums.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/settings/presentation/pages/settings_page.dart';
+import 'package:ijaba/features/settings/presentation/widgets/adjustment_sheet.dart';
 import 'package:ijaba/features/settings/presentation/widgets/settings_section.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -69,7 +70,7 @@ void main() {
       testWidgets('Settings ($language) fits a $phone phone', (tester) async {
         await pumpSettings(tester, size: size, language: language);
 
-        expect(find.byType(SettingsRow), findsNWidgets(9));
+        expect(find.byType(SettingsRow), findsNWidgets(10));
         // A RenderFlex overflow is reported as an exception.
         expect(tester.takeException(), isNull);
       });
@@ -103,7 +104,7 @@ void main() {
   testWidgets('a prayer\'s adjustment shows in the row', (tester) async {
     await pumpSettings(tester, language: 'en');
 
-    await tester.tap(find.text('Manual time adjustment'));
+    await tester.tap(find.text('Adjust adhan times'));
     await tester.pumpAndSettle();
     // The first "+" is Fajr's.
     await tester.tap(find.byTooltip('+').first);
@@ -112,7 +113,30 @@ void main() {
     await tester.tapAt(const Offset(195, 40)); // Close the sheet.
     await tester.pumpAndSettle();
 
-    expect(find.text('Fajr +2'), findsOneWidget);
+    // "+2", kept left-to-right by invisible isolate marks.
+    expect(find.text('Fajr ${signedMinutes(2, 'en')}'), findsOneWidget);
+  });
+
+  testWidgets('iqama timings: a change shows as custom, and resets', (
+    tester,
+  ) async {
+    final cache = await pumpSettings(tester, language: 'en');
+    expect(find.text('Default'), findsOneWidget);
+
+    await tester.tap(find.text('Iqama & prayer'));
+    await tester.pumpAndSettle();
+    // The first "+" is Fajr's iqama: 20 → 21 minutes.
+    await tester.tap(find.byTooltip('+').first);
+    await tester.pumpAndSettle();
+    expect(find.text('21'), findsOneWidget);
+    expect(cache.read(CacheKey.windowConfig), contains('"fajr":21'));
+
+    await tester.tap(find.text('Reset to default'));
+    await tester.pumpAndSettle();
+    expect(find.text('21'), findsNothing);
+    await tester.tapAt(const Offset(195, 40)); // Close the sheet.
+    await tester.pumpAndSettle();
+    expect(find.text('Default'), findsOneWidget);
   });
 
   testWidgets('switching the language to English', (tester) async {
