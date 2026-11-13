@@ -29,39 +29,14 @@ class WindowHeroCard extends StatelessWidget {
     final language = context.locale.languageCode;
     final open = window.isOpenAt(now);
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(22.r),
-      child: ColoredBox(
+    return DecoratedBox(
+      decoration: BoxDecoration(
         color: AppColors.green,
-        child: Stack(
-          children: [
-            // The window's art in the top-end corner, running off it a
-            // little and fading into the card at its foot — part of the
-            // card, like a weather widget, not a picture beside the text.
-            PositionedDirectional(
-              top: -6.h,
-              end: -16.w,
-              child: ShaderMask(
-                blendMode: BlendMode.dstIn,
-                shaderCallback: (bounds) => const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.white, Colors.white, Colors.transparent],
-                  stops: [0, 0.72, 1],
-                ).createShader(bounds),
-                child: SvgPicture.asset(
-                  windowIllustration(window.type),
-                  width: 190.w,
-                  height: 142.w,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(22.w, 23.h, 22.w, 22.h),
-              child: _content(context, language, open: open),
-            ),
-          ],
-        ),
+        borderRadius: BorderRadius.circular(22.r),
+      ),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(22.w, 23.h, 22.w, 22.h),
+        child: _content(context, language, open: open),
       ),
     );
   }
@@ -76,7 +51,7 @@ class WindowHeroCard extends StatelessWidget {
       context.tr(open ? LocaleKeys.home_left : LocaleKeys.home_starts_in),
       style: AppTextStyles.heroCaption.copyWith(fontSize: 12.sp),
     );
-    return Column(
+    final details = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
@@ -110,15 +85,11 @@ class WindowHeroCard extends StatelessWidget {
           ],
         ),
         SizedBox(height: 6.h),
-        // Beside the art: wraps rather than running under it.
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 168.w),
-          child: Text(
-            context.tr(windowNameKey(window.type)),
-            style: AppTextStyles.heroWindowTitleFor(
-              context.locale,
-            ).copyWith(height: arabic ? 1.3 : 1.25),
-          ),
+        Text(
+          context.tr(windowNameKey(window.type)),
+          style: AppTextStyles.heroWindowTitleFor(
+            context.locale,
+          ).copyWith(height: arabic ? 1.3 : 1.25),
         ),
         SizedBox(height: 5.h),
         Text(
@@ -126,19 +97,44 @@ class WindowHeroCard extends StatelessWidget {
           style: AppTextStyles.heroCaption,
         ),
         SizedBox(height: 8.h),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            if (open) ...[
-              countdown,
-              SizedBox(width: 5.w),
-              countdownLabel,
-            ] else ...[
-              countdownLabel,
-              SizedBox(width: 5.w),
-              countdown,
+        // Shrinks rather than overflowing with a large system font size.
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: AlignmentDirectional.centerStart,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              if (open) ...[
+                countdown,
+                SizedBox(width: 5.w),
+                countdownLabel,
+              ] else ...[
+                countdownLabel,
+                SizedBox(width: 5.w),
+                countdown,
+              ],
             ],
+          ),
+        ),
+      ],
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // The window's art at the end of the text (left in Arabic), centred
+        // on the whole block from the badge down to the countdown.
+        Row(
+          children: [
+            Expanded(child: details),
+            SizedBox(width: 10.w),
+            SvgPicture.asset(
+              windowIllustration(window.type),
+              width: 140.w,
+              height: 105.w,
+            ),
           ],
         ),
         SizedBox(height: 2.h),

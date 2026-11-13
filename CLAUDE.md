@@ -96,10 +96,11 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   on each `clockProvider` tick (20 s). The hero card features the open window
   with the highest `featurePriority`, else the next one ("up next" state is
   ours — the design only shows "open now"; it gets the "التالية" badge and
-  an empty progress bar). The card is the handover's mockup: the window's
-  illustration sits in the top-end corner, partly off the edge and faded out
-  at the bottom (`ShaderMask`), with the title kept narrow beside it; the
-  card colour and Amiri title stay as in the design. Rows show the window's
+  an empty progress bar). The window's illustration sits at the end of the
+  text (left in Arabic), centred on the block from the badge down to the
+  countdown — Mariam's call over the handover's corner placement, which
+  looked stuck to the top; the progress bar and button run full width below.
+  The card colour and Amiri title stay as in the design. Rows show the window's
   icon in place of the status dot, tinted by status. The Hijri date is Umm al-Qura by
   civil date (package `hijri`; month names come from l10n). "Make dua now"
   opens the Dua screen for the featured window; search opens the Library
