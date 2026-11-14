@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/features/windows/data/model/dua_window.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
@@ -40,8 +39,8 @@ class WindowRow extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 14.h),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.line)),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: context.colors.line)),
       ),
       child: Row(
         children: [
@@ -49,10 +48,10 @@ class WindowRow extends StatelessWidget {
             windowIcon(window.type),
             size: 20.r,
             color: open
-                ? AppColors.honey
+                ? context.colors.honey
                 : faded
-                ? AppColors.faint
-                : AppColors.greenMid,
+                ? context.colors.faint
+                : context.colors.greenMid,
           ),
           SizedBox(width: 12.w),
           Expanded(
@@ -61,16 +60,16 @@ class WindowRow extends StatelessWidget {
               children: [
                 Text(
                   context.tr(windowNameKey(window.type)),
-                  style: AppTextStyles.rowTitle.copyWith(
-                    color: faded ? AppColors.faint : AppColors.ink,
+                  style: context.textStyles.rowTitle.copyWith(
+                    color: faded ? context.colors.faint : context.colors.ink,
                   ),
                 ),
                 Text(
                   _detail(context, language, open: open),
-                  style: AppTextStyles.caption.copyWith(
+                  style: context.textStyles.caption.copyWith(
                     fontSize: 10.5.sp,
                     fontWeight: FontWeight.w300,
-                    color: AppColors.muted,
+                    color: context.colors.muted,
                   ),
                 ),
               ],
@@ -78,8 +77,8 @@ class WindowRow extends StatelessWidget {
           ),
           Text(
             DateFormat('h:mm', language).format(window.start.toLocal()),
-            style: AppTextStyles.rowTime.copyWith(
-              color: faded ? AppColors.faint : AppColors.ink,
+            style: context.textStyles.rowTime.copyWith(
+              color: faded ? context.colors.faint : context.colors.ink,
             ),
           ),
         ],

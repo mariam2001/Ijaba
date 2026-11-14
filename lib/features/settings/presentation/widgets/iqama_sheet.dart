@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/prayer_times/data/model/prayer.dart';
 import 'package:ijaba/features/settings/presentation/widgets/stepper_row.dart';
@@ -47,12 +47,12 @@ class IqamaSheet extends ConsumerWidget {
         children: [
           Text(
             context.tr(LocaleKeys.settings_iqama_hint),
-            style: AppTextStyles.listCardCaption,
+            style: context.textStyles.listCardCaption,
           ),
           SizedBox(height: 12.h),
           Text(
             context.tr(LocaleKeys.settings_iqama_after),
-            style: AppTextStyles.sectionLabel,
+            style: context.textStyles.sectionLabel,
           ),
           for (final p in Prayer.values)
             StepperRow(

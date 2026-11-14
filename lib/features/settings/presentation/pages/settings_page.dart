@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/option_sheet.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/location/data/model/city.dart';
@@ -15,6 +15,7 @@ import 'package:ijaba/features/location/data/repository/location_repository.dart
 import 'package:ijaba/features/location/presentation/controller/location_controller.dart';
 import 'package:ijaba/features/prayer_times/data/model/prayer.dart';
 import 'package:ijaba/features/prayer_times/presentation/controller/prayer_times_controller.dart';
+import 'package:ijaba/features/settings/presentation/controller/theme_controller.dart';
 import 'package:ijaba/features/settings/presentation/widgets/about_sheet.dart';
 import 'package:ijaba/features/settings/presentation/widgets/adjustment_sheet.dart';
 import 'package:ijaba/features/settings/presentation/widgets/iqama_sheet.dart';
@@ -38,6 +39,7 @@ class SettingsPage extends ConsumerWidget {
     final windowConfig = ref.watch(windowConfigProvider);
     final controller = ref.read(prayerSettingsControllerProvider.notifier);
     final notifications = ref.read(NotificationService.provider);
+    final themePreference = ref.watch(themeControllerProvider);
 
     String madhabName(Madhab madhab) => context.tr(
       madhab == Madhab.hanafi
@@ -60,7 +62,7 @@ class SettingsPage extends ConsumerWidget {
           children: [
             Text(
               context.tr(LocaleKeys.settings_title),
-              style: AppTextStyles.screenTitleFor(context.locale),
+              style: context.textStyles.screenTitleFor(context.locale),
             ),
             SizedBox(height: 17.h),
             SettingsSection(
@@ -161,11 +163,34 @@ class SettingsPage extends ConsumerWidget {
                   value: context.tr(LocaleKeys.settings_in_phone_settings),
                   onTap: notifications.openAlertChannelSettings,
                 ),
-                // Waits for the night palette.
                 SettingsRow(
                   title: context.tr(LocaleKeys.settings_night_mode),
-                  value: context.tr(LocaleKeys.common_coming_soon),
-                  onTap: null,
+                  value: context.tr(_themeLabel(themePreference)),
+                  onTap: () async {
+                    final preference = await showOptionSheet(
+                      context: context,
+                      title: context.tr(LocaleKeys.settings_night_mode),
+                      selected: themePreference,
+                      options: [
+                        for (final preference in ThemePreference.values)
+                          (
+                            value: preference,
+                            label: context.tr(_themeLabel(preference)),
+                            hint: preference == ThemePreference.afterMaghrib
+                                ? context.tr(
+                                    LocaleKeys
+                                        .settings_theme_after_maghrib_hint,
+                                  )
+                                : null,
+                          ),
+                      ],
+                    );
+                    if (preference != null) {
+                      await ref
+                          .read(themeControllerProvider.notifier)
+                          .setPreference(preference);
+                    }
+                  },
                 ),
               ],
             ),
@@ -227,6 +252,13 @@ class SettingsPage extends ConsumerWidget {
       ),
     );
   }
+
+  static String _themeLabel(ThemePreference preference) => switch (preference) {
+    ThemePreference.system => LocaleKeys.settings_theme_system,
+    ThemePreference.afterMaghrib => LocaleKeys.settings_theme_after_maghrib,
+    ThemePreference.light => LocaleKeys.settings_theme_light,
+    ThemePreference.dark => LocaleKeys.settings_theme_dark,
+  };
 
   /// GPS (labelled with the nearest bundled city) or a city picked by hand —
   /// as in onboarding; the position stays on the device either way.

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 
 /// A selectable option: title and description on the start side, a radio on
 /// the end side. Selected cards are raised (paperSoft) with a green border.
@@ -22,7 +21,7 @@ class ChoiceCard extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  /// Overrides [AppTextStyles.cardTitle], e.g. Amiri for "العربية".
+  /// Overrides [context.textStyles.cardTitle], e.g. Amiri for "العربية".
   final TextStyle? titleStyle;
 
   /// Overrides the default insets, for taller (Amiri) titles.
@@ -37,14 +36,14 @@ class ChoiceCard extends StatelessWidget {
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(18.r),
       side: selected
-          ? BorderSide(color: AppColors.green, width: 1.5.w)
-          : BorderSide(color: AppColors.line, width: 1.w),
+          ? BorderSide(color: context.colors.greenInk, width: 1.5.w)
+          : BorderSide(color: context.colors.line, width: 1.w),
     );
     return Semantics(
       selected: selected,
       inMutuallyExclusiveGroup: true,
       child: Material(
-        color: selected ? AppColors.paperSoft : AppColors.paper,
+        color: selected ? context.colors.paperSoft : context.colors.paper,
         shape: shape,
         child: InkWell(
           onTap: onTap,
@@ -57,10 +56,13 @@ class ChoiceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: titleStyle ?? AppTextStyles.cardTitle),
+                      Text(
+                        title,
+                        style: titleStyle ?? context.textStyles.cardTitle,
+                      ),
                       if (subtitle != null) ...[
                         SizedBox(height: spacing ?? 1.h),
-                        Text(subtitle, style: AppTextStyles.cardSubtitle),
+                        Text(subtitle, style: context.textStyles.cardSubtitle),
                       ],
                     ],
                   ),
@@ -88,10 +90,10 @@ class _Radio extends StatelessWidget {
     height: 20.r,
     decoration: BoxDecoration(
       shape: BoxShape.circle,
-      color: selected ? AppColors.green : null,
+      color: selected ? context.colors.greenInk : null,
       border: selected
           ? null
-          : Border.all(color: AppColors.faint, width: 1.5.r),
+          : Border.all(color: context.colors.faint, width: 1.5.r),
     ),
   );
 }

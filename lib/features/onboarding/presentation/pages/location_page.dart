@@ -5,8 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/choice_card.dart';
 import 'package:ijaba/core/error/failure.dart';
 import 'package:ijaba/features/location/data/datasource/location_service.dart';
@@ -98,14 +97,14 @@ class LocationPage extends HookConsumerWidget {
           child: Container(
             width: 72.r,
             height: 72.r,
-            decoration: const BoxDecoration(
-              color: AppColors.greenPale,
+            decoration: BoxDecoration(
+              color: context.colors.greenPale,
               shape: BoxShape.circle,
             ),
             child: Icon(
               LucideIcons.mapPin300,
               size: 28.r,
-              color: AppColors.green,
+              color: context.colors.greenInk,
             ),
           ),
         ),
@@ -113,13 +112,13 @@ class LocationPage extends HookConsumerWidget {
         Text(
           context.tr(LocaleKeys.location_title),
           textAlign: TextAlign.center,
-          style: AppTextStyles.screenTitleFor(context.locale),
+          style: context.textStyles.screenTitleFor(context.locale),
         ),
         SizedBox(height: 26.h),
         Text(
           context.tr(LocaleKeys.location_subtitle),
           textAlign: TextAlign.center,
-          style: AppTextStyles.subtitle,
+          style: context.textStyles.subtitle,
         ),
         SizedBox(height: 38.h),
         ChoiceCard(
@@ -144,14 +143,14 @@ class LocationPage extends HookConsumerWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 15.h),
           decoration: BoxDecoration(
-            color: AppColors.paperWarm,
+            color: context.colors.paperWarm,
             borderRadius: BorderRadius.circular(14.r),
           ),
           child: Row(
             children: [
               Text(
                 context.tr(LocaleKeys.location_method_label),
-                style: AppTextStyles.cardSubtitle,
+                style: context.textStyles.cardSubtitle,
               ),
               SizedBox(width: 12.w),
               // Method names can be long (especially in English): let the
@@ -160,8 +159,8 @@ class LocationPage extends HookConsumerWidget {
                 child: Text(
                   context.tr('methods.${method.name}'),
                   textAlign: TextAlign.end,
-                  style: AppTextStyles.cardSubtitle.copyWith(
-                    color: AppColors.green,
+                  style: context.textStyles.cardSubtitle.copyWith(
+                    color: context.colors.greenInk,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

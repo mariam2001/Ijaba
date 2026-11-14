@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Shown while the Flutter engine starts. The app is light-only, so the
-         night variant is identical. -->
+    <!-- Shown while the Flutter engine starts: the same as by day; only the
+         paper colour behind the app differs (values-night/colors.xml). -->
     <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">@drawable/launch_background</item>
     </style>

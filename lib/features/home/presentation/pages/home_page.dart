@@ -4,8 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/error_view.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/features/alerts/data/datasource/alert_planner.dart';
@@ -57,7 +56,7 @@ class HomePage extends ConsumerWidget {
                     Expanded(
                       child: Text(
                         context.tr(LocaleKeys.home_today),
-                        style: AppTextStyles.sectionTitle,
+                        style: context.textStyles.sectionTitle,
                       ),
                     ),
                     // Its own node, so screen readers offer it as a button.
@@ -68,9 +67,9 @@ class HomePage extends ConsumerWidget {
                         onTap: () => context.go(AppRoutes.windows),
                         child: Text(
                           context.tr(LocaleKeys.home_edit),
-                          style: AppTextStyles.caption.copyWith(
+                          style: context.textStyles.caption.copyWith(
                             fontSize: 12.sp,
-                            color: AppColors.green,
+                            color: context.colors.greenInk,
                           ),
                         ),
                       ),
@@ -84,7 +83,7 @@ class HomePage extends ConsumerWidget {
                     child: Text(
                       context.tr(LocaleKeys.home_nothing_left),
                       textAlign: TextAlign.center,
-                      style: AppTextStyles.cardSubtitle,
+                      style: context.textStyles.cardSubtitle,
                     ),
                   ),
                 for (final window in today.windows)

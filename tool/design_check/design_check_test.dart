@@ -136,9 +136,27 @@ void main() {
     ),
   };
 
+  // The night palette, for every screen but the splash (fixed colours):
+  // "night/<name>".
+  screens.addAll({
+    for (final MapEntry(:key, :value) in {...screens}.entries)
+      if (key != '1_splash') 'night/$key': value,
+  });
+
   for (final MapEntry(key: name, value: (path, language, prepare))
       in screens.entries) {
     testWidgets('render $name', (tester) async {
+      Future<MemoryCache> cache() async {
+        // Settings shows the saved location; onboarding finds it.
+        final cache = path == AppRoutes.settings
+            ? await _cacheInAlexandria()
+            : MemoryCache();
+        if (name.startsWith('night/')) {
+          await cache.write(CacheKey.themeMode, 'dark');
+        }
+        return cache;
+      }
+
       tester.view
         ..physicalSize = const Size(390, 844)
         ..devicePixelRatio = 1
@@ -151,12 +169,7 @@ void main() {
           key: boundary,
           child: ProviderScope(
             overrides: [
-              SimpleCache.provider.overrideWithValue(
-                // Settings shows the saved location; onboarding finds it.
-                path == AppRoutes.settings
-                    ? await _cacheInAlexandria()
-                    : MemoryCache(),
-              ),
+              SimpleCache.provider.overrideWithValue(await cache()),
               NotificationService.provider.overrideWithValue(
                 FakeNotifications(),
               ),

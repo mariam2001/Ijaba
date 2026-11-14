@@ -2,8 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/prayer_times/data/datasource/prayer_times_calculator.dart';
 import 'package:ijaba/features/prayer_times/data/model/prayer.dart';
@@ -61,7 +60,7 @@ class AdjustmentSheet extends ConsumerWidget {
     final clock = DateFormat('h:mm', language);
     Widget? caption(Prayer prayer) {
       if (calculated == null || adjusted == null) return null;
-      final style = AppTextStyles.listCardCaption;
+      final style = context.textStyles.listCardCaption;
       final from = Text(
         clock.format(calculated.adhan(prayer).toLocal()),
         style: style,
@@ -76,12 +75,12 @@ class AdjustmentSheet extends ConsumerWidget {
             child: Icon(
               LucideIcons.arrowRight300Dir,
               size: 12.r,
-              color: AppColors.muted,
+              color: context.colors.muted,
             ),
           ),
           Text(
             clock.format(adjusted.adhan(prayer).toLocal()),
-            style: style.copyWith(color: AppColors.green),
+            style: style.copyWith(color: context.colors.greenInk),
           ),
         ],
       );
@@ -95,7 +94,7 @@ class AdjustmentSheet extends ConsumerWidget {
         children: [
           Text(
             context.tr(LocaleKeys.settings_adjustment_hint),
-            style: AppTextStyles.listCardCaption,
+            style: context.textStyles.listCardCaption,
           ),
           SizedBox(height: 8.h),
           for (final prayer in Prayer.values)

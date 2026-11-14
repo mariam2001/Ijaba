@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/features/duas/data/model/dua.dart';
 
 /// One search hit: the start of the dua, and its meaning (English) or source
@@ -20,10 +19,10 @@ class DuaSearchResult extends StatelessWidget {
     final detail = meaning.isNotEmpty ? meaning : dua.sourceIn(language) ?? '';
 
     return Material(
-      color: AppColors.paperSoft,
+      color: context.colors.paperSoft,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14.r),
-        side: const BorderSide(color: AppColors.line),
+        side: BorderSide(color: context.colors.line),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -39,7 +38,7 @@ class DuaSearchResult extends StatelessWidget {
                 textDirection: TextDirection.rtl,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.duaLarge.copyWith(
+                style: context.textStyles.duaLarge.copyWith(
                   fontSize: 18.sp,
                   height: 1.8,
                 ),
@@ -49,7 +48,7 @@ class DuaSearchResult extends StatelessWidget {
                 detail,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.listCardCaption,
+                style: context.textStyles.listCardCaption,
               ),
             ],
           ),

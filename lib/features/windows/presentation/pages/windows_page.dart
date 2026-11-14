@@ -2,8 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/windows/presentation/alert_toggles.dart';
 import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
@@ -33,12 +32,14 @@ class WindowsPage extends ConsumerWidget {
                 children: [
                   Text(
                     context.tr(LocaleKeys.alert_control_title),
-                    style: AppTextStyles.screenTitleFor(context.locale),
+                    style: context.textStyles.screenTitleFor(context.locale),
                   ),
                   SizedBox(height: 10.h),
                   Text(
                     context.tr(LocaleKeys.alert_control_subtitle),
-                    style: AppTextStyles.subtitle.copyWith(fontSize: 12.sp),
+                    style: context.textStyles.subtitle.copyWith(
+                      fontSize: 12.sp,
+                    ),
                   ),
                   SizedBox(height: 18.h),
                   _AlertsOnChip(on: on, total: AlertToggle.values.length),
@@ -62,7 +63,7 @@ class WindowsPage extends ConsumerWidget {
                   alignment: AlignmentDirectional.bottomStart,
                   child: Text(
                     context.tr(LocaleKeys.alert_control_footer),
-                    style: AppTextStyles.footnote,
+                    style: context.textStyles.footnote,
                   ),
                 ),
               ),
@@ -92,7 +93,7 @@ class _AlertsOnChip extends StatelessWidget {
       height: 34.h,
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       decoration: BoxDecoration(
-        color: AppColors.greenPale,
+        color: context.colors.greenPale,
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Row(
@@ -100,12 +101,12 @@ class _AlertsOnChip extends StatelessWidget {
           Expanded(
             child: Text(
               context.tr(LocaleKeys.alert_control_alerts_on, namedArgs: counts),
-              style: AppTextStyles.chipLabel,
+              style: context.textStyles.chipLabel,
             ),
           ),
           Text(
             context.tr(LocaleKeys.alert_control_count, namedArgs: counts),
-            style: AppTextStyles.chipValue,
+            style: context.textStyles.chipValue,
           ),
         ],
       ),

@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/branch_ornament.dart';
 import 'package:ijaba/core/components/ijaba_mark.dart';
 import 'package:ijaba/features/alerts/presentation/controller/launch_link_controller.dart';
@@ -55,7 +55,7 @@ class SplashPage extends HookConsumerWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        backgroundColor: AppColors.green,
+        backgroundColor: AppColors.day.green,
         body: SafeArea(
           child: SizedBox(
             width: double.infinity,
@@ -66,35 +66,35 @@ class SplashPage extends HookConsumerWidget {
                 const Spacer(flex: 255),
                 IjabaMark(
                   width: 68.r,
-                  color: AppColors.paper,
+                  color: AppColors.day.paper,
                 ),
                 SizedBox(height: 27.h),
                 Text(
                   context.tr(LocaleKeys.app_name),
-                  style: AppTextStyles.wordmark.copyWith(
-                    color: AppColors.paper,
+                  style: context.textStyles.wordmark.copyWith(
+                    color: AppColors.day.paper,
                   ),
                 ),
                 Text(
                   context.tr(LocaleKeys.app_latin_name),
-                  style: AppTextStyles.subtitle.copyWith(
+                  style: context.textStyles.subtitle.copyWith(
                     fontSize: 12.sp,
                     letterSpacing: 3.8.sp,
-                    color: AppColors.greenPale,
+                    color: AppColors.day.greenPale,
                   ),
                 ),
                 SizedBox(height: 25.h),
                 BranchOrnament(
                   width: 146.r,
-                  color: AppColors.greenPale.withValues(alpha: 0.45),
+                  color: AppColors.day.greenPale.withValues(alpha: 0.45),
                 ),
                 const Spacer(flex: 276),
                 Text(
                   context.tr(LocaleKeys.splash_verse),
                   textAlign: TextAlign.center,
-                  style: AppTextStyles.dua.copyWith(
+                  style: context.textStyles.dua.copyWith(
                     fontSize: 17.sp,
-                    color: AppColors.greenPale,
+                    color: AppColors.day.greenPale,
                   ),
                 ),
                 SizedBox(height: 51.h),

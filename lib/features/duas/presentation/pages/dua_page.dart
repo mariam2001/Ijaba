@@ -8,8 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/error_view.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
@@ -78,7 +77,7 @@ class _DuaSequence extends HookConsumerWidget {
       return Center(
         child: Text(
           context.tr(LocaleKeys.library_no_results),
-          style: AppTextStyles.subtitle,
+          style: context.textStyles.subtitle,
         ),
       );
     }
@@ -146,10 +145,11 @@ class _PagerBar extends StatelessWidget {
       borderRadius: BorderRadius.circular(13.r),
     );
     final size = Size.fromHeight(46.h);
+    final night = context.colors.isNight;
 
     return DecoratedBox(
-      decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: AppColors.line)),
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: context.colors.line)),
       ),
       child: Padding(
         padding: EdgeInsets.fromLTRB(20.w, 17.h, 20.w, max(bottomInset, 30.h)),
@@ -161,9 +161,9 @@ class _PagerBar extends StatelessWidget {
                 style: OutlinedButton.styleFrom(
                   minimumSize: size,
                   shape: shape,
-                  foregroundColor: AppColors.muted,
-                  side: const BorderSide(color: AppColors.line),
-                  textStyle: AppTextStyles.pagerButton,
+                  foregroundColor: context.colors.muted,
+                  side: BorderSide(color: context.colors.line),
+                  textStyle: context.textStyles.pagerButton,
                 ),
                 child: Text(context.tr(LocaleKeys.dua_previous)),
               ),
@@ -175,7 +175,10 @@ class _PagerBar extends StatelessWidget {
                 style: FilledButton.styleFrom(
                   minimumSize: size,
                   shape: shape,
-                  textStyle: AppTextStyles.pagerButton,
+                  // Honey by night, as in the night Dua design.
+                  backgroundColor: night ? context.colors.honey : null,
+                  foregroundColor: night ? context.colors.paper : null,
+                  textStyle: context.textStyles.pagerButton,
                 ),
                 child: Text(context.tr(LocaleKeys.dua_next)),
               ),

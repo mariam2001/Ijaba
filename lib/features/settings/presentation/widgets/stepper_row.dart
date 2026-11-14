@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// A label (and optional caption) with − value + steppers. A null [onMinus]
@@ -33,7 +32,7 @@ class StepperRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label, style: AppTextStyles.listCardTitle),
+                Text(label, style: context.textStyles.listCardTitle),
                 ?caption,
               ],
             ),
@@ -44,7 +43,7 @@ class StepperRow extends StatelessWidget {
             child: Text(
               value,
               textAlign: TextAlign.center,
-              style: AppTextStyles.rowTime,
+              style: context.textStyles.rowTime,
             ),
           ),
           _Step(icon: LucideIcons.plus300, label: '+', onTap: onPlus),
@@ -66,9 +65,9 @@ class _Step extends StatelessWidget {
     onPressed: onTap,
     tooltip: label,
     style: IconButton.styleFrom(
-      backgroundColor: AppColors.paperSoft,
-      side: const BorderSide(color: AppColors.line),
+      backgroundColor: context.colors.paperSoft,
+      side: BorderSide(color: context.colors.line),
     ),
-    icon: Icon(icon, size: 18.r, color: AppColors.green),
+    icon: Icon(icon, size: 18.r, color: context.colors.greenInk),
   );
 }

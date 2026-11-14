@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/app.dart';
-import 'package:ijaba/core/controllers/theme_controller.dart';
 import 'package:ijaba/core/service/local/cache/simple_cache.dart';
 import 'package:ijaba/core/utils/enums.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
@@ -220,32 +219,5 @@ void main() {
     );
 
     expect(find.byType(LanguagePage), findsOneWidget);
-  });
-
-  test('ThemeController defaults to light, ignoring the OS setting', () {
-    final container = ProviderContainer(
-      overrides: [SimpleCache.provider.overrideWithValue(MemoryCache())],
-    );
-    addTearDown(container.dispose);
-
-    expect(container.read(themeControllerProvider), ThemeMode.light);
-  });
-
-  test('ThemeController restores and saves the chosen theme', () async {
-    final cache = MemoryCache();
-    await cache.write(CacheKey.themeMode, ThemeMode.dark.name);
-    final container = ProviderContainer(
-      overrides: [SimpleCache.provider.overrideWithValue(cache)],
-    );
-    addTearDown(container.dispose);
-
-    expect(container.read(themeControllerProvider), ThemeMode.dark);
-
-    await container
-        .read(themeControllerProvider.notifier)
-        .setThemeMode(ThemeMode.light);
-
-    expect(container.read(themeControllerProvider), ThemeMode.light);
-    expect(cache.read(CacheKey.themeMode), ThemeMode.light.name);
   });
 }

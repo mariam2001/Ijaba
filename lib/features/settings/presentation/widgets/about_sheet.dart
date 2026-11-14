@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
 /// What Ijaba is, its privacy promise, where the duas come from, and the
@@ -19,12 +19,12 @@ class AboutSheet extends StatelessWidget {
         children: [
           Text(
             context.tr(LocaleKeys.settings_about_body),
-            style: AppTextStyles.body,
+            style: context.textStyles.body,
           ),
           SizedBox(height: 10.h),
           Text(
             context.tr(LocaleKeys.settings_about_sources),
-            style: AppTextStyles.body,
+            style: context.textStyles.body,
           ),
           SizedBox(height: 8.h),
           TextButton(

@@ -35,8 +35,9 @@ enum AlertToggle {
   /// Its first window's icon (the adhkar switch shows the morning one).
   AppIcon get icon => windowIcon(types.first);
 
-  Color get tileColor =>
-      this == adhkar ? AppColors.honeyPale : AppColors.greenPale;
+  Color tileColor(AppColors colors) =>
+      this == adhkar ? colors.honeyPale : colors.greenPale;
 
-  Color get iconColor => this == adhkar ? AppColors.honey : AppColors.green;
+  Color iconColor(AppColors colors) =>
+      this == adhkar ? colors.honey : colors.greenInk;
 }

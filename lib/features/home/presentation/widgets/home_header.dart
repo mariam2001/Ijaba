@@ -2,8 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hijri/hijri_calendar.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -37,13 +36,13 @@ class HomeHeader extends StatelessWidget {
             children: [
               Text(
                 context.tr(LocaleKeys.app_name),
-                style: AppTextStyles.homeWordmarkFor(context.locale),
+                style: context.textStyles.homeWordmarkFor(context.locale),
               ),
               Text(
                 date,
-                style: AppTextStyles.caption.copyWith(
+                style: context.textStyles.caption.copyWith(
                   fontSize: 10.5.sp,
-                  color: AppColors.muted,
+                  color: context.colors.muted,
                 ),
               ),
             ],
@@ -64,7 +63,7 @@ class HomeHeader extends StatelessWidget {
             child: Icon(
               LucideIcons.search300,
               size: 20.r,
-              color: AppColors.muted,
+              color: context.colors.muted,
             ),
           ),
         ),

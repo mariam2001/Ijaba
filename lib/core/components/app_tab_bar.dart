@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -33,9 +32,9 @@ class AppTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
     return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: AppColors.paperSoft,
-        border: Border(top: BorderSide(color: AppColors.line)),
+      decoration: BoxDecoration(
+        color: context.colors.paperSoft,
+        border: Border(top: BorderSide(color: context.colors.line)),
       ),
       child: Padding(
         // 20 below the labels in the design; more if the system needs it.
@@ -77,7 +76,7 @@ class _TabItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? AppColors.green : AppColors.faint;
+    final color = selected ? context.colors.greenInk : context.colors.faint;
     return Semantics(
       selected: selected,
       button: true,
@@ -91,7 +90,7 @@ class _TabItem extends StatelessWidget {
             SizedBox(height: 5.h),
             Text(
               label,
-              style: AppTextStyles.tabLabel.copyWith(
+              style: context.textStyles.tabLabel.copyWith(
                 color: color,
                 fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
               ),

@@ -169,6 +169,12 @@ abstract class LocaleKeys {
   static const settings_tone = 'settings.tone';
   static const settings_vibration = 'settings.vibration';
   static const settings_night_mode = 'settings.night_mode';
+  static const settings_theme_system = 'settings.theme_system';
+  static const settings_theme_after_maghrib = 'settings.theme_after_maghrib';
+  static const settings_theme_after_maghrib_hint =
+      'settings.theme_after_maghrib_hint';
+  static const settings_theme_light = 'settings.theme_light';
+  static const settings_theme_dark = 'settings.theme_dark';
   static const settings_language = 'settings.language';
   static const settings_about = 'settings.about';
   static const settings_in_phone_settings = 'settings.in_phone_settings';

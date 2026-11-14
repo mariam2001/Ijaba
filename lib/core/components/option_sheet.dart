@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// One choice in [showOptionSheet]: its value, label and an optional hint.
@@ -33,9 +32,12 @@ Future<T?> showOptionSheet<T>({
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(option.label, style: AppTextStyles.listCardTitle),
+                        Text(
+                          option.label,
+                          style: context.textStyles.listCardTitle,
+                        ),
                         if (option.hint case final hint?)
-                          Text(hint, style: AppTextStyles.listCardCaption),
+                          Text(hint, style: context.textStyles.listCardCaption),
                       ],
                     ),
                   ),
@@ -43,7 +45,7 @@ Future<T?> showOptionSheet<T>({
                     Icon(
                       LucideIcons.check300,
                       size: 20.r,
-                      color: AppColors.green,
+                      color: context.colors.greenInk,
                     ),
                 ],
               ),
@@ -64,7 +66,7 @@ Future<T?> showAppSheet<T>({
   // Over the tab bar too, not just the tab's own screen.
   useRootNavigator: true,
   isScrollControlled: true,
-  backgroundColor: AppColors.paper,
+  backgroundColor: context.colors.paper,
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.vertical(top: Radius.circular(22.r)),
   ),
@@ -81,7 +83,7 @@ Future<T?> showAppSheet<T>({
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22.w),
-              child: Text(title, style: AppTextStyles.sectionTitle),
+              child: Text(title, style: context.textStyles.sectionTitle),
             ),
             SizedBox(height: 8.h),
             child,

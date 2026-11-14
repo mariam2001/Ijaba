@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 
 /// Progress dots; the current one is a pill. Follows the text direction, so
 /// in Arabic the first step is the rightmost dot.
@@ -21,7 +21,7 @@ class PageDots extends StatelessWidget {
           width: (i == index ? 20 : 7).w,
           height: 7.w,
           decoration: BoxDecoration(
-            color: i == index ? AppColors.green : AppColors.line,
+            color: i == index ? context.colors.greenInk : context.colors.line,
             borderRadius: BorderRadius.circular(4.w),
           ),
         ),

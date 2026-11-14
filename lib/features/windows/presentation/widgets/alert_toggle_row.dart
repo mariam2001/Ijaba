@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/core/components/app_switch.dart';
 import 'package:ijaba/features/alerts/data/datasource/alert_planner.dart';
@@ -34,8 +33,8 @@ class AlertToggleRow extends StatelessWidget {
         onTap: () => onChanged(!on),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 14.h),
-          decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: AppColors.line)),
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: context.colors.line)),
           ),
           child: Row(
             children: [
@@ -44,13 +43,17 @@ class AlertToggleRow extends StatelessWidget {
                 height: 36.r,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: on ? toggle.tileColor : AppColors.paperWarm,
+                  color: on
+                      ? toggle.tileColor(context.colors)
+                      : context.colors.paperWarm,
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: AppIconView(
                   toggle.icon,
                   size: 20.r,
-                  color: on ? toggle.iconColor : AppColors.faint,
+                  color: on
+                      ? toggle.iconColor(context.colors)
+                      : context.colors.faint,
                 ),
               ),
               SizedBox(width: 12.w),
@@ -60,14 +63,14 @@ class AlertToggleRow extends StatelessWidget {
                   children: [
                     Text(
                       context.tr(toggle.titleKey),
-                      style: AppTextStyles.rowTitle.copyWith(
-                        color: on ? AppColors.ink : AppColors.muted,
+                      style: context.textStyles.rowTitle.copyWith(
+                        color: on ? context.colors.ink : context.colors.muted,
                       ),
                     ),
                     SizedBox(height: 3.h),
                     Text(
                       _detail(context),
-                      style: AppTextStyles.caption.copyWith(
+                      style: context.textStyles.caption.copyWith(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w300,
                       ),

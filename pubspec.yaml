@@ -51,6 +51,7 @@ flutter:
     - assets/data/
     - assets/icons/
     - assets/illustrations/
+    - assets/brand/
     - assets/fonts/OFL-Amiri.txt
     - assets/fonts/OFL-ReadexPro.txt
 

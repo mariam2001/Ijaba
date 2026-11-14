@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/windows/data/model/dua_window.dart';
 import 'package:ijaba/features/windows/presentation/window_art.dart';
@@ -12,6 +12,9 @@ import 'package:ijaba/generated/locale_keys.g.dart';
 
 /// The featured window: open now (with time left and progress), or the next
 /// one to open (with time until it starts).
+///
+/// The card's green follows the theme; what's on it keeps its day colours
+/// in both (the handover).
 class WindowHeroCard extends StatelessWidget {
   const WindowHeroCard({
     required this.window,
@@ -31,7 +34,7 @@ class WindowHeroCard extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.green,
+        color: context.colors.green,
         borderRadius: BorderRadius.circular(22.r),
       ),
       child: Padding(
@@ -45,11 +48,11 @@ class WindowHeroCard extends StatelessWidget {
     final arabic = language == 'ar';
     final countdown = Text(
       _hoursMinutes(open ? window.end : window.start, language),
-      style: AppTextStyles.countdown,
+      style: context.textStyles.countdown,
     );
     final countdownLabel = Text(
       context.tr(open ? LocaleKeys.home_left : LocaleKeys.home_starts_in),
-      style: AppTextStyles.heroCaption.copyWith(fontSize: 12.sp),
+      style: context.textStyles.heroCaption.copyWith(fontSize: 12.sp),
     );
     final details = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +64,7 @@ class WindowHeroCard extends StatelessWidget {
               height: 7.r,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: open ? AppColors.honey : AppColors.greenPale,
+                color: open ? _fixed.honey : _fixed.greenPale,
               ),
             ),
             SizedBox(width: 9.w),
@@ -78,7 +81,7 @@ class WindowHeroCard extends StatelessWidget {
                         )
                         .toUpperCase(),
               // Tracking only for Latin: spacing breaks Arabic letter joins.
-              style: AppTextStyles.heroBadge.copyWith(
+              style: context.textStyles.heroBadge.copyWith(
                 letterSpacing: arabic ? null : 1.sp,
               ),
             ),
@@ -87,14 +90,16 @@ class WindowHeroCard extends StatelessWidget {
         SizedBox(height: 6.h),
         Text(
           context.tr(windowNameKey(window.type)),
-          style: AppTextStyles.heroWindowTitleFor(
-            context.locale,
-          ).copyWith(height: arabic ? 1.3 : 1.25),
+          style: context.textStyles
+              .heroWindowTitleFor(
+                context.locale,
+              )
+              .copyWith(height: arabic ? 1.3 : 1.25),
         ),
         SizedBox(height: 5.h),
         Text(
           _timeRange(context, language),
-          style: AppTextStyles.heroCaption,
+          style: context.textStyles.heroCaption,
         ),
         SizedBox(height: 8.h),
         // Shrinks rather than overflowing with a large system font size.
@@ -166,8 +171,8 @@ class WindowHeroCard extends StatelessWidget {
           child: FilledButton(
             onPressed: onMakeDua,
             style: FilledButton.styleFrom(
-              backgroundColor: AppColors.paperSoft,
-              foregroundColor: AppColors.green,
+              backgroundColor: _fixed.paperSoft,
+              foregroundColor: _fixed.green,
               minimumSize: Size.zero,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14.r),
@@ -211,6 +216,9 @@ class WindowHeroCard extends StatelessWidget {
   }
 }
 
+/// The colours on the card, the same by day and night.
+const _fixed = AppColors.day;
+
 class _Progress extends StatelessWidget {
   const _Progress({required this.fraction});
 
@@ -225,12 +233,12 @@ class _Progress extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(2.r),
         child: ColoredBox(
-          color: AppColors.greenDeep,
+          color: _fixed.greenDeep,
           // Fills from the start side: right to left in Arabic.
           child: FractionallySizedBox(
             alignment: AlignmentDirectional.centerStart,
             widthFactor: fraction,
-            child: const ColoredBox(color: AppColors.honey),
+            child: ColoredBox(color: _fixed.honey),
           ),
         ),
       ),

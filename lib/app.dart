@@ -2,18 +2,19 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/routes/routes.dart';
 import 'package:ijaba/config/themes/app_theme.dart';
-import 'package:ijaba/core/controllers/theme_controller.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/alerts/presentation/controller/alerts_controller.dart';
 import 'package:ijaba/features/alerts/presentation/controller/launch_link_controller.dart';
 import 'package:ijaba/features/onboarding/presentation/controller/onboarding_controller.dart';
 import 'package:ijaba/features/prayer_times/presentation/controller/prayer_times_controller.dart';
+import 'package:ijaba/features/settings/presentation/controller/theme_controller.dart';
 import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
 import 'package:ijaba/features/windows/presentation/controller/window_config_controller.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
@@ -49,7 +50,7 @@ class _AppView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-    final themeMode = ref.watch(themeControllerProvider);
+    final themeMode = ref.watch(themeModeProvider);
 
     return ScreenUtilInit(
       // The Figma frames are 390 × 844.
@@ -65,8 +66,9 @@ class _AppView extends ConsumerWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        builder: (context, child) =>
-            _AlertScheduler(child: _AlertTapHandler(child: child!)),
+        builder: (context, child) => _StatusBar(
+          child: _AlertScheduler(child: _AlertTapHandler(child: child!)),
+        ),
       ),
     );
   }
@@ -138,5 +140,27 @@ class _AlertTapHandler extends HookConsumerWidget {
     }, const []);
 
     return child;
+  }
+}
+
+/// Status-bar icons that read on the theme's background: dark by day, light
+/// by night. (Screens with their own colours, like the splash, set theirs.)
+class _StatusBar extends StatelessWidget {
+  const _StatusBar({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final night = Theme.of(context).brightness == Brightness.dark;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: night ? Brightness.light : Brightness.dark,
+        // iOS names it after the background instead.
+        statusBarBrightness: night ? Brightness.dark : Brightness.light,
+      ),
+      child: child,
+    );
   }
 }

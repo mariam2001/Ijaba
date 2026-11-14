@@ -1,0 +1,8 @@
+<!-- The branch ornament, from the Figma Splash frame (node 9:11, 150 x 45), its view box cropped to the drawing. Tinted in the app (the design's 45% opacity comes with the colour). -->
+<svg xmlns="http://www.w3.org/2000/svg" width="145.6" height="20.9" viewBox="2.2 2.4 145.6 20.9" fill="none">
+<path d="M3 22.5C30 22.5 45 9 75 9C105 9 120 22.5 147 22.5" stroke="#22352C" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M75 9C75 9 69 1.5 60 3C60 3 64.5 12 75 9Z" fill="#22352C"/>
+<path d="M75 9C75 9 81 1.5 90 3C90 3 85.5 12 75 9Z" fill="#22352C"/>
+<path d="M40.5 17.7C41.577 17.7 42.45 16.827 42.45 15.75C42.45 14.673 41.577 13.8 40.5 13.8C39.423 13.8 38.55 14.673 38.55 15.75C38.55 16.827 39.423 17.7 40.5 17.7Z" fill="#22352C"/>
+<path d="M109.5 17.7C110.577 17.7 111.45 16.827 111.45 15.75C111.45 14.673 110.577 13.8 109.5 13.8C108.423 13.8 107.55 14.673 107.55 15.75C107.55 16.827 108.423 17.7 109.5 17.7Z" fill="#22352C"/>
+</svg>

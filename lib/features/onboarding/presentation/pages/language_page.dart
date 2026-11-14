@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_fonts.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/choice_card.dart';
 import 'package:ijaba/core/components/ijaba_mark.dart';
 import 'package:ijaba/features/onboarding/presentation/widgets/onboarding_layout.dart';
@@ -33,24 +32,24 @@ class LanguagePage extends StatelessWidget {
       footer: Text(
         context.tr(LocaleKeys.language_footer),
         textAlign: TextAlign.center,
-        style: AppTextStyles.caption,
+        style: context.textStyles.caption,
       ),
       children: [
         SizedBox(height: 65.h),
         Center(
-          child: IjabaMark(width: 36.r, color: AppColors.green),
+          child: IjabaMark(width: 36.r, color: context.colors.greenInk),
         ),
         SizedBox(height: 21.h),
         Text(
           context.tr(LocaleKeys.language_title),
           textAlign: TextAlign.center,
-          style: AppTextStyles.screenTitle.copyWith(fontSize: 27.sp),
+          style: context.textStyles.screenTitle.copyWith(fontSize: 27.sp),
         ),
         SizedBox(height: 3.h),
         Text(
           context.tr(LocaleKeys.language_subtitle),
           textAlign: TextAlign.center,
-          style: AppTextStyles.subtitle.copyWith(fontSize: 13.sp),
+          style: context.textStyles.subtitle.copyWith(fontSize: 13.sp),
         ),
         SizedBox(height: 26.h),
         // Each option is laid out in its own language's direction.
@@ -59,7 +58,7 @@ class LanguagePage extends StatelessWidget {
           child: ChoiceCard(
             title: context.tr(LocaleKeys.language_arabic),
             subtitle: context.tr(LocaleKeys.language_arabic_hint),
-            titleStyle: AppTextStyles.cardTitle.copyWith(
+            titleStyle: context.textStyles.cardTitle.copyWith(
               fontFamily: AppFonts.amiri,
               fontSize: 19.sp,
               fontWeight: FontWeight.w700,
@@ -76,7 +75,7 @@ class LanguagePage extends StatelessWidget {
           child: ChoiceCard(
             title: context.tr(LocaleKeys.language_english),
             subtitle: context.tr(LocaleKeys.language_english_hint),
-            titleStyle: AppTextStyles.cardTitle.copyWith(fontSize: 18.sp),
+            titleStyle: context.textStyles.cardTitle.copyWith(fontSize: 18.sp),
             padding: EdgeInsets.fromLTRB(21.w, 20.h, 21.w, 20.h),
             spacing: 2.h,
             selected: !arabic,
@@ -86,7 +85,7 @@ class LanguagePage extends StatelessWidget {
         SizedBox(height: 26.h),
         Text(
           context.tr(LocaleKeys.language_preview_label),
-          style: AppTextStyles.sectionLabel,
+          style: context.textStyles.sectionLabel,
         ),
         SizedBox(height: 8.h),
         _DuaPreview(transliteration: transliteration),
@@ -94,7 +93,9 @@ class LanguagePage extends StatelessWidget {
         Text(
           context.tr(LocaleKeys.language_preview_note),
           textAlign: TextAlign.center,
-          style: AppTextStyles.caption.copyWith(color: AppColors.muted),
+          style: context.textStyles.caption.copyWith(
+            color: context.colors.muted,
+          ),
         ),
         SizedBox(height: 16.h),
       ],
@@ -112,7 +113,7 @@ class _DuaPreview extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: EdgeInsets.fromLTRB(20.w, 30.h, 20.w, 26.h),
     decoration: BoxDecoration(
-      color: AppColors.greenPale,
+      color: context.colors.greenPale,
       borderRadius: BorderRadius.circular(18.r),
     ),
     child: Column(
@@ -121,28 +122,28 @@ class _DuaPreview extends StatelessWidget {
           context.tr(LocaleKeys.dua_preview_arabic),
           textAlign: TextAlign.center,
           textDirection: TextDirection.rtl,
-          style: AppTextStyles.dua,
+          style: context.textStyles.dua,
         ),
         SizedBox(height: 20.h),
         Container(
           width: 40.w,
           height: 1.5,
-          color: AppColors.greenMid.withValues(alpha: 0.4),
+          color: context.colors.greenMid.withValues(alpha: 0.4),
         ),
         SizedBox(height: 14.h),
         if (transliteration.isNotEmpty)
           Text(
             transliteration,
             textAlign: TextAlign.center,
-            style: AppTextStyles.duaMeaning.copyWith(
+            style: context.textStyles.duaMeaning.copyWith(
               fontStyle: FontStyle.italic,
-              color: AppColors.green,
+              color: context.colors.greenInk,
             ),
           ),
         Text(
           context.tr(LocaleKeys.dua_preview_meaning),
           textAlign: TextAlign.center,
-          style: AppTextStyles.duaMeaning,
+          style: context.textStyles.duaMeaning,
         ),
       ],
     ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 
 /// The design's on/off switch: a 44 × 26 track with a 20 thumb. Material's
 /// [Switch] has other proportions (its thumb also changes size), so it's
@@ -28,10 +28,10 @@ class AppSwitch extends StatelessWidget {
           height: 26.r,
           padding: EdgeInsets.all(2.r),
           decoration: BoxDecoration(
-            color: value ? AppColors.green : AppColors.paperWarm,
+            color: value ? context.colors.green : context.colors.paperWarm,
             borderRadius: BorderRadius.circular(13.r),
             border: Border.all(
-              color: value ? AppColors.green : AppColors.line,
+              color: value ? context.colors.green : context.colors.line,
             ),
           ),
           child: AnimatedAlign(
@@ -44,7 +44,7 @@ class AppSwitch extends StatelessWidget {
               height: 20.r,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: value ? AppColors.paperSoft : AppColors.faint,
+                color: value ? context.colors.onGreen : context.colors.faint,
               ),
             ),
           ),

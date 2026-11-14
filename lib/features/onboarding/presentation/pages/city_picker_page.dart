@@ -4,8 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/error_view.dart';
 import 'package:ijaba/features/location/data/datasource/city_directory.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
@@ -27,7 +26,7 @@ class CityPickerPage extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(
           context.tr(LocaleKeys.location_picker_title),
-          style: AppTextStyles.cardTitle,
+          style: context.textStyles.cardTitle,
         ),
       ),
       body: Column(
@@ -37,29 +36,29 @@ class CityPickerPage extends HookConsumerWidget {
             child: TextField(
               autofocus: true,
               onChanged: (value) => query.value = value,
-              style: AppTextStyles.cardTitle.copyWith(
+              style: context.textStyles.cardTitle.copyWith(
                 fontWeight: FontWeight.w400,
               ),
               decoration: InputDecoration(
                 hintText: context.tr(LocaleKeys.location_picker_search),
-                hintStyle: AppTextStyles.cardSubtitle,
-                prefixIcon: const Icon(
+                hintStyle: context.textStyles.cardSubtitle,
+                prefixIcon: Icon(
                   LucideIcons.search300,
-                  color: AppColors.muted,
+                  color: context.colors.muted,
                 ),
                 filled: true,
-                fillColor: AppColors.paperSoft,
+                fillColor: context.colors.paperSoft,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14.r),
-                  borderSide: const BorderSide(color: AppColors.line),
+                  borderSide: BorderSide(color: context.colors.line),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14.r),
-                  borderSide: const BorderSide(color: AppColors.line),
+                  borderSide: BorderSide(color: context.colors.line),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14.r),
-                  borderSide: const BorderSide(color: AppColors.green),
+                  borderSide: BorderSide(color: context.colors.greenInk),
                 ),
               ),
             ),
@@ -74,7 +73,7 @@ class CityPickerPage extends HookConsumerWidget {
                   return Center(
                     child: Text(
                       context.tr(LocaleKeys.location_picker_empty),
-                      style: AppTextStyles.cardSubtitle,
+                      style: context.textStyles.cardSubtitle,
                     ),
                   );
                 }
@@ -82,18 +81,18 @@ class CityPickerPage extends HookConsumerWidget {
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   itemCount: results.length,
                   separatorBuilder: (_, _) =>
-                      const Divider(height: 1, color: AppColors.line),
+                      Divider(height: 1, color: context.colors.line),
                   itemBuilder: (context, index) {
                     final city = results[index];
                     return ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: Text(
                         arabic ? city.nameAr : city.nameEn,
-                        style: AppTextStyles.cardTitle,
+                        style: context.textStyles.cardTitle,
                       ),
                       subtitle: Text(
                         arabic ? city.countryAr : city.countryEn,
-                        style: AppTextStyles.cardSubtitle,
+                        style: context.textStyles.cardSubtitle,
                       ),
                       onTap: () => context.pop(city),
                     );

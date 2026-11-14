@@ -40,7 +40,8 @@ extension LibraryCategoryLabels on LibraryCategory {
     LibraryCategory.lastThird || LibraryCategory.mathur => false,
   };
 
-  Color get tileColor => _honey ? AppColors.honeyPale : AppColors.greenPale;
+  Color tileColor(AppColors colors) =>
+      _honey ? colors.honeyPale : colors.greenPale;
 
-  Color get iconColor => _honey ? AppColors.honey : AppColors.green;
+  Color iconColor(AppColors colors) => _honey ? colors.honey : colors.greenInk;
 }

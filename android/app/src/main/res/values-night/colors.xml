@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The night palette's paper, behind the Flutter UI when the phone is in
+         dark mode (the app's default is to follow it). The launch screen
+         stays brand green, like the Flutter splash. -->
+    <color name="paper">#16221C</color>
+</resources>

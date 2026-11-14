@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -51,7 +50,7 @@ class DuaHeader extends StatelessWidget {
         _EdgeIcon(
           icon: LucideIcons.chevronLeft300Dir,
           label: MaterialLocalizations.of(context).backButtonTooltip,
-          color: AppColors.muted,
+          color: context.colors.muted,
           onTap: onBack,
         ),
         Expanded(
@@ -60,12 +59,12 @@ class DuaHeader extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: AppTextStyles.contextTitle,
+                style: context.textStyles.contextTitle,
               ),
               SizedBox(height: 3.h),
               Text(
                 '${localizedNumerals(time, language)} · $of',
-                style: AppTextStyles.contextSubtitle,
+                style: context.textStyles.contextSubtitle,
               ),
             ],
           ),
@@ -75,7 +74,7 @@ class DuaHeader extends StatelessWidget {
           label: context.tr(
             saved ? LocaleKeys.dua_unsave : LocaleKeys.dua_save,
           ),
-          color: saved ? AppColors.green : AppColors.muted,
+          color: saved ? context.colors.greenInk : context.colors.muted,
           onTap: onToggleSaved,
           end: true,
         ),

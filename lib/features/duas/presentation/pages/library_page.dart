@@ -5,8 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/error_view.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
 import 'package:ijaba/features/duas/data/model/dua.dart';
@@ -46,7 +45,7 @@ class LibraryPage extends HookConsumerWidget {
           children: [
             Text(
               context.tr(LocaleKeys.library_title),
-              style: AppTextStyles.screenTitleFor(context.locale),
+              style: context.textStyles.screenTitleFor(context.locale),
             ),
             SizedBox(height: 14.h),
             _SearchField(controller: search, focusNode: searchFocus),
@@ -85,7 +84,7 @@ class LibraryPage extends HookConsumerWidget {
           child: Text(
             context.tr(LocaleKeys.library_no_results),
             textAlign: TextAlign.center,
-            style: AppTextStyles.subtitle,
+            style: context.textStyles.subtitle,
           ),
         ),
       ];
@@ -124,7 +123,7 @@ class _SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(13.r),
-      borderSide: const BorderSide(color: AppColors.line),
+      borderSide: BorderSide(color: context.colors.line),
     );
     return SizedBox(
       height: 44.h,
@@ -132,26 +131,26 @@ class _SearchField extends StatelessWidget {
         controller: controller,
         focusNode: focusNode,
         textInputAction: TextInputAction.search,
-        style: AppTextStyles.searchInput,
-        cursorColor: AppColors.green,
+        style: context.textStyles.searchInput,
+        cursorColor: context.colors.greenInk,
         decoration: InputDecoration(
           hintText: context.tr(LocaleKeys.library_search_hint),
-          hintStyle: AppTextStyles.searchInput.copyWith(
+          hintStyle: context.textStyles.searchInput.copyWith(
             fontSize: 12.sp,
-            color: AppColors.faint,
+            color: context.colors.faint,
           ),
           prefixIcon: Icon(
             LucideIcons.search300,
             size: 18.r,
-            color: AppColors.faint,
+            color: context.colors.faint,
           ),
           filled: true,
-          fillColor: AppColors.paperSoft,
+          fillColor: context.colors.paperSoft,
           contentPadding: EdgeInsets.zero,
           border: border,
           enabledBorder: border,
           focusedBorder: border.copyWith(
-            borderSide: const BorderSide(color: AppColors.greenMid),
+            borderSide: BorderSide(color: context.colors.greenMid),
           ),
         ),
       ),

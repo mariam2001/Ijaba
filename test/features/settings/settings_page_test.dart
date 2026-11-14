@@ -69,9 +69,17 @@ void main() {
     for (final MapEntry(key: phone, value: size) in phones.entries) {
       testWidgets('Settings ($language) fits a $phone phone', (tester) async {
         await pumpSettings(tester, size: size, language: language);
-
-        expect(find.byType(SettingsRow), findsNWidgets(10));
+        expect(find.byType(SettingsRow), findsWidgets);
         // A RenderFlex overflow is reported as an exception.
+        expect(tester.takeException(), isNull);
+
+        // The list builds lazily: scroll to the last row to lay it out too.
+        await tester.drag(find.byType(ListView), const Offset(0, -2000));
+        await tester.pumpAndSettle();
+        expect(
+          find.text(language == 'ar' ? 'عن إجابة' : 'About Ijaba'),
+          findsOneWidget,
+        );
         expect(tester.takeException(), isNull);
       });
     }
@@ -152,15 +160,20 @@ void main() {
     expect(find.text('Calculation method'), findsOneWidget);
   });
 
-  testWidgets('night mode waits for its palette', (tester) async {
-    await pumpSettings(tester);
+  testWidgets('night mode: picking "always dark" saves it and turns night', (
+    tester,
+  ) async {
+    final cache = await pumpSettings(tester);
+    expect(find.text('حسب الهاتف'), findsOneWidget);
 
-    final nightMode = tester.widget<SettingsRow>(
-      find.ancestor(
-        of: find.text('وضع الليل'),
-        matching: find.byType(SettingsRow),
-      ),
-    );
-    expect(nightMode.onTap, isNull);
+    await tester.tap(find.text('وضع الليل'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('ليلي دائمًا'));
+    await tester.pumpAndSettle();
+
+    expect(cache.read(CacheKey.themeMode), 'dark');
+    expect(find.text('ليلي دائمًا'), findsOneWidget);
+    final theme = Theme.of(tester.element(find.byType(SettingsPage)));
+    expect(theme.brightness, Brightness.dark);
   });
 }

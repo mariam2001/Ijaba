@@ -8,8 +8,9 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
 ## Non-negotiables (from the handover)
 - **Never invent or guess hadith references / dua sources.** Use a visible
   placeholder ("[verify attribution before release]"); Mariam verifies.
-- **Don't invent design tokens.** Missing colors (paperWarm, nightInk, …) are
-  pending from the designer; ask rather than approximate.
+- **Don't invent design tokens.** Colours come from the designer (the day
+  palette from the handover and exports, the night one from
+  `ijaba-assets/ASSETS.md`); ask rather than approximate.
 - Notification reliability on Mariam's **Oppo (ColorOS)** is the #1 risk:
   prove alarms fire there (screen off, overnight) before polishing UI.
 - Transliteration: simple, no academic diacritics (`fa'fu anni`, not `ʿafuwwun`).
@@ -38,13 +39,23 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   `context.tr(LocaleKeys.x)` so text rebuilds on locale change. Plurals use
   real CLDR rules (`ignorePluralRules: false` in `App`): Arabic needs
   one/two/few/many/other ("٥ دقائق" but "١٥ دقيقة").
-- Theme: tokens in `AppColors` (the handover's 8, plus 7 sampled from the
-  Figma exports — paperSoft/paperWarm names are inferred, confirm them);
-  sizes in `AppTextStyles` were measured from the exports. Readex Pro for UI
+- Theme: `AppColors` is a `ThemeExtension` with a `day` and a `night`
+  palette (the 14 tokens of ASSETS.md's table; its paperSoft/paperWarm
+  pairing by role — raised #FFFDF6↔#1E2E26, recessed #EDE7D6↔#101A15 — wins
+  over the Figma night-palette frame, which names those two the other way
+  round). Widgets read `context.colors` / `context.textStyles`
+  (`app_theme_context.dart`) so they follow the theme — never a static
+  colour, except `AppColors.day` where a colour must not change: the hero
+  card's contents, the splash (brand green, like the native launch screen),
+  a notification's accent. Mappings, not new tokens: `greenInk` (green as
+  text/icon: greenMid by night, where green is too faint), `onGreen` (text on
+  green buttons: the day's paper by night), `isNight`. By night the Dua
+  screen's context title and Next button are honey, as in the night Dua
+  design. Light mode was checked pixel-identical when night mode came in.
+  Sizes in `AppTextStyles` were measured from the exports. Readex Pro for UI
   text (every style names its font — buttons don't inherit the theme's);
   Amiri for dua text and Arabic titles only (`screenTitleFor(locale)` switches
-  Latin titles to Readex). `AppTheme.night` is provisional until the night
-  palette arrives. ScreenUtil design size is the Figma frame, 390 × 844.
+  Latin titles to Readex). ScreenUtil design size is the Figma frame, 390 × 844.
   Icons are Lucide (`lucide_icons_flutter`, the `…300` variants = 1.5 stroke),
   matching the design's glyphs — no Material icons. The app's own glyphs
   (one per window, dua hands, saved, …) are the handover's SVGs in
@@ -57,10 +68,17 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   Location: `features/location` — GPS (coarse) labelled with the nearest city
   from the bundled `assets/data/cities.json` (Natural Earth, public domain,
   built by `tool/generate_cities.py`), so no geocoding API sees the location.
-- Placeholders awaiting assets/designs: `IjabaMark` and `BranchOrnament` are
-  drawn in code from the PNG exports — swap in the Figma SVGs when exported
-  (the handover's small `ic_ijaba_mark` is in `AppIcon`, meant for About and
-  empty states, not the splash logo); the city picker and the "pending" permission-step style have no design yet.
+- `IjabaMark` and `BranchOrnament` are the Figma vectors (Splash frame,
+  nodes 9:4 and 9:11; raw exports in `branding/figma/`), tinted. The mark is
+  built as an SVG string so its strokes keep their weight at every size, as
+  Figma draws it (6.5 / 4.5 design px); the ornament is
+  `assets/brand/branch_ornament.svg`. (`branding/ijaba_logo.svg` is the app
+  icon's logo — a different mark; the handover's small `ic_ijaba_mark` is in
+  `AppIcon`, for About and empty states.) Still without a design: the city
+  picker, the "pending" permission-step style, the Settings sheets.
+- Figma file `M4dkx6D7umzVYdTWbP9GDt` (page "Ijaba — v2"); the Starter plan
+  allows few MCP reads a month, so prefer the PNG exports and pull vectors
+  only when needed.
 - Prayer times: `features/prayer_times` (`PrayerTimesCalculator`, wraps
   `adhan_dart`; all times are UTC instants). Windows: `features/windows`
   (`WindowCalculator`). Timings with no fixed Islamic value (iqama delay per
@@ -115,8 +133,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   shelf (`/library/<LibraryCategory name>`) or one search hit
   (`/library/dua/<id>`); the list is fixed for the visit. One dua at a time with
   Previous/Next, a tasbih counter (per dua, kept when going back) and a
-  bookmark (`SavedDuas`, `CacheKey.savedDuas`). Built in the **day palette**
-  — the design is a night screen, but the night palette isn't decided yet.
+  bookmark (`SavedDuas`, `CacheKey.savedDuas`). Follows the theme like
+  every screen (Mariam's call; the design is a night screen).
   Content is `assets/data/duas.json` (`DuaCatalog`): `arabic`,
   `transliteration`, `meaning`/`source` by language code, `url` (where to
   check it), `verified`, `repeat`, `windows` (none = any window; a window
@@ -163,9 +181,13 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   detection and city picker. Location and settings changes re-plan the
   alerts. Alert tone and vibration open Android's settings for the alert
   channel (a channel's sound and vibration can't be changed by the app once
-  created, and we have no sound files); night mode is shown inert until the
-  night palette is built (handover `ijaba-assets/ASSETS.md` has the tokens;
-  it will follow the phone by default, changeable here).
+  created, and we have no sound files). Night mode: `ThemePreference` —
+  follow the phone (default), automatic after Maghrib (night from Maghrib
+  until sunrise; the design's label), always light, always dark — saved by
+  `ThemeController` (`features/settings`, `CacheKey.themeMode`);
+  `themeModeProvider` turns it into a `ThemeMode`, re-checking after-Maghrib
+  on each clock tick and following the phone until a location exists.
+  `_StatusBar` (app.dart) sets the status-bar icons for the theme.
 - **Temporary, remove before release:** the `/debug/alerts` page; its link
   at the bottom of Settings shows in debug builds only.
 - The phone's navigation bar is hidden while the app is open; a swipe up
@@ -173,6 +195,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   `onPostResume` and on regaining focus). Done natively because
   `SystemChrome` can't hide only that bar with swipe-to-reveal. Checked on
   the Oppo (3-button navigation).
+- Android's window behind Flutter is `@color/paper`, night-paper in
+  `values-night/colors.xml`; the launch screen is brand green in both.
 - App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,
   `ic_stat_ijaba.xml` for notifications); legacy PNGs cover API 24–25.
 
@@ -194,7 +218,9 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   with the Figma PNG exports (the Figma MCP Starter plan allows only 20
   reads a month, so exports are the working path). Home renders the
   design's moment (Friday 03:12, `designTodayWindows()` in the fakes). The
-  Settings sheets (no design) are rendered too, to check by eye.
+  Settings sheets (no design) are rendered too, to check by eye, and every
+  screen but the splash again in the night palette, to
+  `build/design_check/night/` (the night Dua frame is the one to compare).
 
 ## Commands
 - Codegen: `dart run build_runner build` (build_runner 2.15+ ignores

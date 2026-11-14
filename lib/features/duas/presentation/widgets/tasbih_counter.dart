@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
@@ -43,19 +42,21 @@ class TasbihCounter extends StatelessWidget {
               height: 98.r,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: done ? AppColors.honeyPale : AppColors.paperSoft,
-                border: Border.all(color: AppColors.honey, width: 1.5),
+                color: done
+                    ? context.colors.honeyPale
+                    : context.colors.paperSoft,
+                border: Border.all(color: context.colors.honey, width: 1.5),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     localizedDigits(count, language),
-                    style: AppTextStyles.counter,
+                    style: context.textStyles.counter,
                   ),
                   Text(
                     ofTarget,
-                    style: AppTextStyles.contextSubtitle,
+                    style: context.textStyles.contextSubtitle,
                   ),
                 ],
               ),
@@ -65,7 +66,7 @@ class TasbihCounter extends StatelessWidget {
         SizedBox(height: 10.h),
         Text(
           context.tr(LocaleKeys.dua_tap_to_count),
-          style: AppTextStyles.duaSource,
+          style: context.textStyles.duaSource,
         ),
       ],
     );

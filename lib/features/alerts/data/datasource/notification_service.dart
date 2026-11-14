@@ -133,7 +133,7 @@ class NotificationService {
           importance: quiet ? Importance.low : Importance.high,
           priority: quiet ? Priority.low : Priority.high,
           category: AndroidNotificationCategory.reminder,
-          color: AppColors.green,
+          color: AppColors.day.green,
           styleInformation: BigTextStyleInformation(body),
         ),
       ),

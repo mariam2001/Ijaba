@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/error_view.dart';
 import 'package:ijaba/features/alerts/presentation/controller/alerts_controller.dart';
 import 'package:ijaba/features/onboarding/presentation/controller/onboarding_controller.dart';
@@ -91,12 +91,12 @@ class PermissionsPage extends HookConsumerWidget {
             SizedBox(height: 61.h),
             Text(
               context.tr(LocaleKeys.permissions_title),
-              style: AppTextStyles.screenTitleFor(context.locale),
+              style: context.textStyles.screenTitleFor(context.locale),
             ),
             SizedBox(height: 12.h),
             Text(
               context.tr(LocaleKeys.permissions_body),
-              style: AppTextStyles.body,
+              style: context.textStyles.body,
             ),
             SizedBox(height: 27.h),
             StepCard(

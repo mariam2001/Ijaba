@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ijaba/config/themes/app_colors.dart';
-import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
@@ -29,10 +28,10 @@ class LibraryCategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final language = context.locale.languageCode;
     return Material(
-      color: AppColors.paperSoft,
+      color: context.colors.paperSoft,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14.r),
-        side: const BorderSide(color: AppColors.line),
+        side: BorderSide(color: context.colors.line),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -46,13 +45,13 @@ class LibraryCategoryCard extends StatelessWidget {
                 height: 42.r,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: category.tileColor,
+                  color: category.tileColor(context.colors),
                   borderRadius: BorderRadius.circular(11.r),
                 ),
                 child: AppIconView(
                   category.icon,
                   size: 22.r,
-                  color: category.iconColor,
+                  color: category.iconColor(context.colors),
                 ),
               ),
               SizedBox(width: 13.w),
@@ -62,7 +61,7 @@ class LibraryCategoryCard extends StatelessWidget {
                   children: [
                     Text(
                       context.tr(category.titleKey),
-                      style: AppTextStyles.listCardTitle,
+                      style: context.textStyles.listCardTitle,
                     ),
                     SizedBox(height: 2.h),
                     Text(
@@ -71,7 +70,7 @@ class LibraryCategoryCard extends StatelessWidget {
                         count,
                         args: [localizedDigits(count, language)],
                       ),
-                      style: AppTextStyles.listCardCaption,
+                      style: context.textStyles.listCardCaption,
                     ),
                   ],
                 ),
@@ -79,7 +78,7 @@ class LibraryCategoryCard extends StatelessWidget {
               Icon(
                 LucideIcons.chevronRight300Dir,
                 size: 22.r,
-                color: AppColors.faint,
+                color: context.colors.faint,
               ),
             ],
           ),
