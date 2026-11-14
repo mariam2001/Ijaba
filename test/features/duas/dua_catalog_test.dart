@@ -24,9 +24,10 @@ void main() {
       expect(duas.map((dua) => dua.id).toSet(), hasLength(duas.length));
     });
 
-    test('stay flagged until Mariam verifies their sources', () {
-      // Flip this only together with checking every source.
-      expect(duas.where((dua) => dua.verified), isEmpty);
+    test('are all verified (checked 2026-11-14, see docs/DUA_SOURCES.md)', () {
+      // A dua added later starts unverified: update this test only together
+      // with checking its source.
+      expect(duas.where((dua) => !dua.verified), isEmpty);
     });
 
     test('cover every window with its own duas', () {

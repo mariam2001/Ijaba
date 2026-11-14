@@ -130,13 +130,16 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   the shelf's icon (the export has plain tiles; the handover's icons came
   later); search results have no design
   and borrow the card style. Arabic only in the export; English mirrors it.
-- The base dua list (51, researched with Mariam's go-ahead) and how it was
-  made — sources, grading bar, exclusions — is in `docs/DUA_SOURCES.md`.
+- The base dua list (50, researched with Mariam's go-ahead) and how it was
+  made — sources, grading bar, exclusions, the 2026-11-14 source check — is
+  in `docs/DUA_SOURCES.md`. All 50 are `verified` (Mariam's sign-off after
+  that check); the check dropped one whose grading al-Albani retracted.
   When adding duas: cut the Arabic from the source (sunnah.com primary page,
   official Hisn al-Muslim text, Quran API) rather than retyping it; only
   well-authenticated narrations; cite the reference you checked, with its
-  link. `verified` stays `false` until Mariam checks it — a test enforces
-  this. Arabic-mode meanings exist only where written (Arabic mode hides an
+  link. A new dua starts `verified: false` (the app flags its source) until
+  its source is checked and Mariam signs off; check gradings for later
+  retractions too (al-Albani revised some). Arabic-mode meanings exist only where written (Arabic mode hides an
   empty one); long duas (> 120 chars) render smaller.
 - Alert taps: each alert's payload is its window names (`AlertPayload`); a
   tap opens the Dua screen of the one Home would feature. While the app

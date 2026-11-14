@@ -1,8 +1,31 @@
-# Dua sources — review checklist
+# Dua sources
 
-The base dua database is `assets/data/duas.json`. Every entry ships with
-`"verified": false`, so the app shows "[verify attribution before release]"
-under it. Check each one against its link, then set `verified` to `true`.
+The base dua database is `assets/data/duas.json`: 50 duas, all
+`"verified": true` since the source check of 2026-11-14 (below), on Mariam's
+sign-off. A dua added later starts with `"verified": false`, so the app shows
+"[verify attribution before release]" under it until its source is checked.
+
+## Source check — 2026-11-14
+
+Every dua was re-checked against the page it links to, by script:
+
+- **Arabic text:** found word for word (ignoring harakat and the spelling of
+  hamza and alif forms) on its sunnah.com page, or equal to the Quran text
+  (api.alquran.cloud, "quran-simple") for Quranic duas and for surahs
+  112–114 in the two Mu'awwidhat entries. The expected differences are the
+  ones under Notes (the Hisn's morning wording, the narrator's aside cut,
+  al-Awza'i's أستغفر الله, ﷺ written out), plus the 33× tasbih, tahmid and
+  takbir, which Muslim 597 names with verbs (سبّح، حمد، كبّر).
+- **Grading:** Bukhari and Muslim; otherwise the grade sunnah.com shows
+  (al-Albani or Darussalam: sahih, hasan, or a hasan chain), or, for the
+  duas only in Hisn al-Muslim, its reference to al-Albani's grading.
+- **Dropped:** `salawat-10` (see Left out). Al-Albani graded it hasan in
+  Sahih at-Targhib — the Hisn's reference — but later retracted and graded
+  it da'if in as-Silsila ad-Da'ifa 5788
+  ([IslamQA 130213](https://islamqa.info/ar/answers/130213),
+  [Ibn Baz](https://binbaz.org.sa/fatwas/15762)). The salawat itself is in
+  the list in its authenticated form (`salawat-ibrahimiyya`).
+- **Not covered:** our transliterations and English meanings.
 
 ## How the list was made
 
@@ -25,7 +48,8 @@ under it. Check each one against its link, then set `verified` to `true`.
 `ayat-al-kursi` (an-Nasa'i al-Kubra, al-Hakim), `ibn-masud` (Ahmad),
 `ya-hayyu-ya-qayyum` (al-Hakim), `fitrat-al-islam` (Ahmad; the evening wording
 swaps أصبحنا → أمسينا as the Hisn instructs), `tahlil-10` (an-Nasa'i, 'Amal
-al-Yawm wal-Layla), `salawat-10` (at-Tabarani).
+al-Yawm wal-Layla; al-Albani: hasan in Sahih at-Targhib, chain sahih in
+as-Silsila as-Sahiha 114).
 
 ## Left out
 
@@ -37,6 +61,7 @@ al-Yawm wal-Layla), `salawat-10` (at-Tabarani).
 | 87 | رضيت بالله ربا… (×3) | Abu Dawud 5072 — da'if (al-Albani) |
 | 89 | أصبحنا وأصبح الملك لله رب العالمين، اللهم إني أسألك خير هذا اليوم… | Abu Dawud 5084 — da'if (al-Albani) |
 | 82 | اللهم عافني في بدني… | Primary source not found to confirm its grading |
+| 98 | من صلى عليّ حين يصبح عشرا… (salawat ×10, morning and evening) | at-Tabarani — al-Albani retracted his hasan grading: da'if in as-Silsila ad-Da'ifa 5788. Dropped 2026-11-14 |
 | 72 | لا إله إلا الله… يحيي ويميت (×10) | Only after Fajr and Maghrib; the Dua screen doesn't know which prayer yet |
 | — | "When it rains" | No rain window in v1 |
 
@@ -137,8 +162,7 @@ al-Yawm wal-Layla), `salawat-10` (at-Tabarani).
 | 12 | `tahlil-10` | لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ … | 10 | [an-Nasa'i, 'Amal al-Yawm wal-Layla (graded sahih by al-Albani) — Hisn al-Muslim 92](https://sunnah.com/hisn:92) |
 | 13 | `adada-khalqih` | سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا … | 3 | [Sahih Muslim 2726](https://sunnah.com/muslim:2726) |
 | 14 | `ilman-nafian` | اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا … | 1 | [Ibn Majah 925 — after the Fajr prayer](https://sunnah.com/ibnmajah:925) |
-| 15 | `salawat-10` | اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ | 10 | [at-Tabarani (graded hasan by al-Albani) — Hisn al-Muslim 98](https://sunnah.com/hisn:98) |
-| 16 | `astaghfirullah-wa-atubu` | أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ | 100 | [Sahih al-Bukhari 6307, Sahih Muslim 2702 — a hundred times a day](https://sunnah.com/bukhari:6307) |
+| 15 | `astaghfirullah-wa-atubu` | أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ | 100 | [Sahih al-Bukhari 6307, Sahih Muslim 2702 — a hundred times a day](https://sunnah.com/bukhari:6307) |
 
 ## Evening adhkar
 
@@ -157,4 +181,3 @@ al-Yawm wal-Layla), `salawat-10` (at-Tabarani).
 | 11 | `subhanallah-wa-bihamdih` | سُبْحَانَ اللَّهِ وَبِحَمْدِهِ | 100 | [Sahih Muslim 2692 — a hundred times morning and evening](https://sunnah.com/muslim:2692) |
 | 12 | `tahlil-10` | لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ … | 10 | [an-Nasa'i, 'Amal al-Yawm wal-Layla (graded sahih by al-Albani) — Hisn al-Muslim 92](https://sunnah.com/hisn:92) |
 | 13 | `kalimatillah` | أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ … | 3 | [Sahih Muslim 2709 — three times in the evening, as in Hisn al-Muslim 97](https://sunnah.com/muslim:2709a) |
-| 14 | `salawat-10` | اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ | 10 | [at-Tabarani (graded hasan by al-Albani) — Hisn al-Muslim 98](https://sunnah.com/hisn:98) |

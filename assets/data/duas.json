@@ -12,7 +12,7 @@
         "en": "Sahih Muslim 386 — said after the muezzin's testimony"
       },
       "url": "https://sunnah.com/muslim:386",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "adhanToIqama"
@@ -30,7 +30,7 @@
         "en": "Sahih al-Bukhari 614 — said after the adhan"
       },
       "url": "https://sunnah.com/bukhari:614",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "adhanToIqama"
@@ -48,7 +48,7 @@
         "en": "Sahih Muslim 591"
       },
       "url": "https://sunnah.com/muslim:591",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "afterPrayer"
@@ -66,7 +66,7 @@
         "en": "Sahih al-Bukhari 844, Sahih Muslim 593"
       },
       "url": "https://sunnah.com/bukhari:844",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "afterPrayer"
@@ -84,7 +84,7 @@
         "en": "Sahih Muslim 594"
       },
       "url": "https://sunnah.com/muslim:594",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "afterPrayer"
@@ -102,7 +102,7 @@
         "en": "Sahih Muslim 597 — 33 times after each prayer"
       },
       "url": "https://sunnah.com/muslim:597",
-      "verified": false,
+      "verified": true,
       "repeat": 33,
       "windows": [
         "afterPrayer"
@@ -120,7 +120,7 @@
         "en": "Sahih Muslim 597 — 33 times after each prayer"
       },
       "url": "https://sunnah.com/muslim:597",
-      "verified": false,
+      "verified": true,
       "repeat": 33,
       "windows": [
         "afterPrayer"
@@ -138,7 +138,7 @@
         "en": "Sahih Muslim 597 — 33 times after each prayer"
       },
       "url": "https://sunnah.com/muslim:597",
-      "verified": false,
+      "verified": true,
       "repeat": 33,
       "windows": [
         "afterPrayer"
@@ -156,7 +156,7 @@
         "en": "Sahih Muslim 597 — completing the hundred"
       },
       "url": "https://sunnah.com/muslim:597",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "afterPrayer"
@@ -174,7 +174,7 @@
         "en": "Quran 2:255 — after each prayer (an-Nasa'i, al-Kubra) and morning and evening (al-Hakim), both graded sahih by al-Albani — Hisn al-Muslim 71, 75"
       },
       "url": "https://quran.com/2/255",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "afterPrayer",
@@ -194,7 +194,7 @@
         "en": "Surahs 112–114 — after each prayer: Abu Dawud 1523 (graded sahih by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:1523",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "afterPrayer"
@@ -212,7 +212,7 @@
         "en": "Surahs 112–114 — three times morning and evening: Abu Dawud 5082 (graded hasan by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:5082",
-      "verified": false,
+      "verified": true,
       "repeat": 3,
       "windows": [
         "morningAdhkar",
@@ -231,7 +231,7 @@
         "en": "Abu Dawud 1522 — after every prayer (graded sahih by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:1522",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "afterPrayer"
@@ -249,7 +249,7 @@
         "en": "Sahih al-Bukhari 3370 — sending many blessings on the Prophet ﷺ on Friday: Abu Dawud 1047 (graded sahih by al-Albani)"
       },
       "url": "https://sunnah.com/bukhari:3370",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "fridayHour"
@@ -268,7 +268,7 @@
         "en": "Narrated by Aisha (ra) — Ibn Majah 3850, at-Tirmidhi 3513"
       },
       "url": "https://sunnah.com/ibnmajah:3850",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight",
@@ -289,7 +289,7 @@
         "en": "Sahih al-Bukhari 6306 — the master of seeking forgiveness"
       },
       "url": "https://sunnah.com/bukhari:6306",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight",
@@ -310,7 +310,7 @@
         "en": "Sahih al-Bukhari 834, Sahih Muslim 2705"
       },
       "url": "https://sunnah.com/bukhari:834",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight",
@@ -331,7 +331,7 @@
         "en": "Sahih Muslim 771"
       },
       "url": "https://sunnah.com/muslim:771",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
@@ -350,7 +350,7 @@
         "en": "Abu Dawud 1516 (graded sahih by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:1516",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
@@ -369,7 +369,7 @@
         "en": "Quran 21:87 — at-Tirmidhi 3505"
       },
       "url": "https://quran.com/21/87",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight",
@@ -389,7 +389,7 @@
         "en": "Quran 2:201 — the Prophet's ﷺ most frequent dua: al-Bukhari 6389"
       },
       "url": "https://quran.com/2/201",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight",
@@ -410,7 +410,7 @@
         "en": "Abu Dawud 792 (graded sahih by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:792",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "adhanToIqama",
@@ -431,7 +431,7 @@
         "en": "Sahih Muslim 2721"
       },
       "url": "https://sunnah.com/muslim:2721",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight",
@@ -452,7 +452,7 @@
         "en": "Sahih Muslim 2720"
       },
       "url": "https://sunnah.com/muslim:2720",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
@@ -471,7 +471,7 @@
         "en": "at-Tirmidhi 3522 — among the Prophet's ﷺ most frequent duas"
       },
       "url": "https://sunnah.com/tirmidhi:3522",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight",
@@ -491,7 +491,7 @@
         "en": "Quran 3:8"
       },
       "url": "https://quran.com/3/8",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
@@ -510,7 +510,7 @@
         "en": "Quran 7:23"
       },
       "url": "https://quran.com/7/23",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
@@ -529,7 +529,7 @@
         "en": "Quran 14:41"
       },
       "url": "https://quran.com/14/41",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight",
@@ -549,7 +549,7 @@
         "en": "Quran 25:74"
       },
       "url": "https://quran.com/25/74",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "fridayHour",
@@ -569,7 +569,7 @@
         "en": "Sahih al-Bukhari 6369"
       },
       "url": "https://sunnah.com/bukhari:6369",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight",
@@ -589,7 +589,7 @@
         "en": "Ahmad (graded sahih by al-Albani) — Hisn al-Muslim 120"
       },
       "url": "https://sunnah.com/hisn:120",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
@@ -608,7 +608,7 @@
         "en": "Abu Dawud 5090 (chain graded hasan by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:5090",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "lastThirdOfNight"
@@ -627,7 +627,7 @@
         "en": "Quran 20:25–26"
       },
       "url": "https://quran.com/20/25-26",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "adhanToIqama"
@@ -646,7 +646,7 @@
         "en": "Quran 20:114"
       },
       "url": "https://quran.com/20/114",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "adhanToIqama"
@@ -665,7 +665,7 @@
         "en": "Sahih Muslim 2723 — morning wording as in Hisn al-Muslim 77"
       },
       "url": "https://sunnah.com/muslim:2723b",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "morningAdhkar"
@@ -683,7 +683,7 @@
         "en": "Sahih Muslim 2723"
       },
       "url": "https://sunnah.com/muslim:2723b",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "eveningAdhkar"
@@ -701,7 +701,7 @@
         "en": "Abu Dawud 5068 (graded sahih by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:5068",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "morningAdhkar"
@@ -719,7 +719,7 @@
         "en": "Abu Dawud 5068 (graded sahih by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:5068",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "eveningAdhkar"
@@ -737,7 +737,7 @@
         "en": "Abu Dawud 5074 (graded sahih by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:5074",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "morningAdhkar",
@@ -756,7 +756,7 @@
         "en": "Abu Dawud 5067 (graded sahih by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:5067",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "morningAdhkar",
@@ -775,7 +775,7 @@
         "en": "Abu Dawud 5088 (graded sahih by al-Albani)"
       },
       "url": "https://sunnah.com/abudawud:5088",
-      "verified": false,
+      "verified": true,
       "repeat": 3,
       "windows": [
         "morningAdhkar",
@@ -794,7 +794,7 @@
         "en": "al-Hakim (graded sahih by al-Albani) — Hisn al-Muslim 88"
       },
       "url": "https://sunnah.com/hisn:88",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "morningAdhkar",
@@ -813,7 +813,7 @@
         "en": "Ahmad (graded sahih by al-Albani) — Hisn al-Muslim 90"
       },
       "url": "https://sunnah.com/hisn:90",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "morningAdhkar"
@@ -831,7 +831,7 @@
         "en": "Ahmad (graded sahih by al-Albani) — Hisn al-Muslim 90, evening wording"
       },
       "url": "https://sunnah.com/hisn:90",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "eveningAdhkar"
@@ -849,7 +849,7 @@
         "en": "Sahih Muslim 2692 — a hundred times morning and evening"
       },
       "url": "https://sunnah.com/muslim:2692",
-      "verified": false,
+      "verified": true,
       "repeat": 100,
       "windows": [
         "morningAdhkar",
@@ -868,7 +868,7 @@
         "en": "an-Nasa'i, 'Amal al-Yawm wal-Layla (graded sahih by al-Albani) — Hisn al-Muslim 92"
       },
       "url": "https://sunnah.com/hisn:92",
-      "verified": false,
+      "verified": true,
       "repeat": 10,
       "windows": [
         "morningAdhkar",
@@ -887,7 +887,7 @@
         "en": "Sahih Muslim 2726"
       },
       "url": "https://sunnah.com/muslim:2726",
-      "verified": false,
+      "verified": true,
       "repeat": 3,
       "windows": [
         "morningAdhkar"
@@ -905,7 +905,7 @@
         "en": "Ibn Majah 925 — after the Fajr prayer"
       },
       "url": "https://sunnah.com/ibnmajah:925",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "windows": [
         "morningAdhkar"
@@ -923,28 +923,9 @@
         "en": "Sahih Muslim 2709 — three times in the evening, as in Hisn al-Muslim 97"
       },
       "url": "https://sunnah.com/muslim:2709a",
-      "verified": false,
+      "verified": true,
       "repeat": 3,
       "windows": [
-        "eveningAdhkar"
-      ]
-    },
-    {
-      "id": "salawat-10",
-      "arabic": "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ",
-      "transliteration": "Allahumma salli wa sallim ala nabiyyina Muhammad",
-      "meaning": {
-        "en": "O Allah, send Your prayers and peace upon our Prophet Muhammad."
-      },
-      "source": {
-        "ar": "رواه الطبراني، حسنه الألباني — حصن المسلم ٩٨",
-        "en": "at-Tabarani (graded hasan by al-Albani) — Hisn al-Muslim 98"
-      },
-      "url": "https://sunnah.com/hisn:98",
-      "verified": false,
-      "repeat": 10,
-      "windows": [
-        "morningAdhkar",
         "eveningAdhkar"
       ]
     },
@@ -960,7 +941,7 @@
         "en": "Sahih al-Bukhari 6307, Sahih Muslim 2702 — a hundred times a day"
       },
       "url": "https://sunnah.com/bukhari:6307",
-      "verified": false,
+      "verified": true,
       "repeat": 100,
       "windows": [
         "morningAdhkar",

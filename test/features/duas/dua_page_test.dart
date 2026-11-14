@@ -113,12 +113,14 @@ void main() {
     expect(find.text('الثلث الأخير من الليل'), findsOneWidget);
     expect(find.textContaining('١ من ٧'), findsOneWidget);
     expect(button(tester, 'السابق').enabled, isFalse);
+    // A dummy, unverified: its source is flagged.
+    expect(find.textContaining('[يُراجَع التخريج قبل النشر]'), findsOneWidget);
 
     await tapText(tester, 'التالي');
     expect(find.textContaining('٢ من ٧'), findsOneWidget);
     expect(find.text('اللهم إنك عفوٌّ كريم، تحب العفو، فاعف عني.'), findsOne);
-    // Unverified, so the source is flagged.
-    expect(find.textContaining('[يُراجَع التخريج قبل النشر]'), findsOneWidget);
+    // The real dua, verified: no flag.
+    expect(find.textContaining('[يُراجَع التخريج قبل النشر]'), findsNothing);
 
     for (var i = 0; i < 5; i++) {
       await tapText(tester, 'التالي');
@@ -136,9 +138,11 @@ void main() {
       findsOneWidget,
     );
     expect(find.textContaining('2 of 7'), findsOneWidget);
+    // Verified: the source shows without the flag.
+    expect(find.textContaining('Ibn Majah 3850'), findsOneWidget);
     expect(
       find.textContaining('[verify attribution before release]'),
-      findsOneWidget,
+      findsNothing,
     );
   });
 
