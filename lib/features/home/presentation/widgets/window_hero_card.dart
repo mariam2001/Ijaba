@@ -125,15 +125,34 @@ class WindowHeroCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // The window's art at the end of the text (left in Arabic), centred
-        // on the whole block from the badge down to the countdown.
+        // on the whole block from the badge down to the countdown. Drawn at
+        // its full 160 × 120, reaching into the card's padding, and faded
+        // into the card at its foot.
         Row(
           children: [
             Expanded(child: details),
-            SizedBox(width: 10.w),
-            SvgPicture.asset(
-              windowIllustration(window.type),
+            SizedBox(width: 6.w),
+            SizedBox(
               width: 140.w,
-              height: 105.w,
+              height: 120.w,
+              child: OverflowBox(
+                maxWidth: 160.w,
+                alignment: AlignmentDirectional.centerStart,
+                child: ShaderMask(
+                  blendMode: BlendMode.dstIn,
+                  shaderCallback: (bounds) => const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.white, Colors.white, Colors.transparent],
+                    stops: [0, 0.72, 1],
+                  ).createShader(bounds),
+                  child: SvgPicture.asset(
+                    windowIllustration(window.type),
+                    width: 160.w,
+                    height: 120.w,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

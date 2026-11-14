@@ -99,7 +99,10 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   an empty progress bar). The window's illustration sits at the end of the
   text (left in Arabic), centred on the block from the badge down to the
   countdown — Mariam's call over the handover's corner placement, which
-  looked stuck to the top; the progress bar and button run full width below.
+  looked stuck to the top. It's drawn at its full 160 × 120, reaching into
+  the card's end padding (`OverflowBox`) so the title keeps two lines, and
+  fades out at its foot (`ShaderMask`). The progress bar and button run full
+  width below.
   The card colour and Amiri title stay as in the design. Rows show the window's
   icon in place of the status dot, tinted by status. The Hijri date is Umm al-Qura by
   civil date (package `hijri`; month names come from l10n). "Make dua now"
@@ -162,6 +165,11 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   it will follow the phone by default, changeable here).
 - **Temporary, remove before release:** the `/debug/alerts` page; its link
   at the bottom of Settings shows in debug builds only.
+- The phone's navigation bar is hidden while the app is open; a swipe up
+  shows it for a moment (`MainActivity`, re-applied after Flutter's
+  `onPostResume` and on regaining focus). Done natively because
+  `SystemChrome` can't hide only that bar with swipe-to-reveal. Checked on
+  the Oppo (3-button navigation).
 - App icons are native Android vector drawables (`res/drawable/ic_launcher_foreground.xml`,
   `ic_stat_ijaba.xml` for notifications); legacy PNGs cover API 24–25.
 
