@@ -174,8 +174,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   made — sources, grading bar, exclusions, the source checks — is in
   `docs/DUA_SOURCES.md`. The base 50 are `verified` (Mariam's sign-off after
   the 2026-11-14 check, which dropped one whose grading al-Albani
-  retracted); the 18 waking/sleep adhkar (Hisn al-Muslim 1–4, 99–111) were
-  checked 2026-11-18 and wait for her sign-off (a test lists them).
+  retracted); the 18 waking/sleep adhkar (Hisn al-Muslim 1–4, 99–111)
+  after the 2026-11-18 checks. All 68 are `verified`.
   When adding duas: cut the Arabic from the source (sunnah.com primary page,
   official Hisn al-Muslim text, Quran API) rather than retyping it; only
   well-authenticated narrations; cite the reference you checked, with its

@@ -25,35 +25,11 @@ void main() {
       expect(duas.map((dua) => dua.id).toSet(), hasLength(duas.length));
     });
 
-    test('are verified, but for those awaiting Mariam\'s sign-off', () {
-      // The base 50 were checked and signed off on 2026-11-14; the waking
-      // and sleep adhkar were source-checked on 2026-11-18 (see
-      // docs/DUA_SOURCES.md) and wait for her. Change this list only
-      // together with that sign-off.
-      const awaiting = {
-        'waking-ahyana',
-        'waking-afani',
-        'waking-taarra',
-        'waking-al-imran',
-        'sleep-muawwidhat',
-        'sleep-ayat-al-kursi',
-        'sleep-baqarah-end',
-        'sleep-bismika-rabbi',
-        'sleep-khalaqta-nafsi',
-        'sleep-qini-adhabak',
-        'sleep-bismika-amutu',
-        'sleep-subhanallah-33',
-        'sleep-alhamdulillah-33',
-        'sleep-allahuakbar-34',
-        'sleep-rabb-as-samawat',
-        'sleep-atamana',
-        'sleep-fatir-as-samawat',
-        'sleep-aslamtu',
-      };
-      expect(
-        duas.where((dua) => !dua.verified).map((dua) => dua.id).toSet(),
-        awaiting,
-      );
+    test('are all verified (see docs/DUA_SOURCES.md)', () {
+      // Signed off by Mariam after the source checks of 2026-11-14 (the base
+      // 50) and 2026-11-18 (waking and sleep). A dua added later starts
+      // unverified: change this only together with checking its source.
+      expect(duas.where((dua) => !dua.verified), isEmpty);
     });
 
     test('keep each one to windows or to moments without alerts', () {

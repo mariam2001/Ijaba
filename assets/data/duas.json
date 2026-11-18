@@ -960,7 +960,7 @@
         "en": "Sahih al-Bukhari 6312, Sahih Muslim 2711 — on waking up"
       },
       "url": "https://sunnah.com/bukhari:6312",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "waking"
@@ -978,7 +978,7 @@
         "en": "at-Tirmidhi 3401, who graded it hasan — on waking up"
       },
       "url": "https://sunnah.com/tirmidhi:3401",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "waking"
@@ -996,7 +996,7 @@
         "en": "Sahih al-Bukhari 1154 — on waking in the night; then a dua is answered"
       },
       "url": "https://sunnah.com/bukhari:1154",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "waking"
@@ -1014,7 +1014,7 @@
         "en": "Quran 3:190–200 — the Prophet ﷺ recited the closing verses of Al 'Imran on waking at night: al-Bukhari 183, 4569"
       },
       "url": "https://quran.com/3/190-200",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "waking"
@@ -1032,7 +1032,7 @@
         "en": "Surahs 112–114 — blown into cupped hands, then wiped over the body, three times: Sahih al-Bukhari 5017"
       },
       "url": "https://sunnah.com/bukhari:5017",
-      "verified": false,
+      "verified": true,
       "repeat": 3,
       "occasions": [
         "sleep"
@@ -1050,7 +1050,7 @@
         "en": "Quran 2:255 — whoever recites it in bed has a guardian from Allah all night: Sahih al-Bukhari 2311"
       },
       "url": "https://sunnah.com/bukhari:2311",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "sleep"
@@ -1068,7 +1068,7 @@
         "en": "Quran 2:285–286 — whoever recites them at night, they suffice him: Sahih al-Bukhari 5009, Sahih Muslim 807"
       },
       "url": "https://sunnah.com/bukhari:5009",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "sleep"
@@ -1086,7 +1086,7 @@
         "en": "Sahih al-Bukhari 6320 — on lying down"
       },
       "url": "https://sunnah.com/bukhari:6320",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "sleep"
@@ -1104,7 +1104,7 @@
         "en": "Sahih Muslim 2712 — on going to bed"
       },
       "url": "https://sunnah.com/muslim:2712",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "sleep"
@@ -1122,7 +1122,7 @@
         "en": "Abu Dawud 5045 (graded sahih by al-Albani, without the words \"three times\")"
       },
       "url": "https://sunnah.com/abudawud:5045",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "sleep"
@@ -1140,7 +1140,7 @@
         "en": "Sahih al-Bukhari 6324 — on going to sleep"
       },
       "url": "https://sunnah.com/bukhari:6324",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "sleep"
@@ -1158,7 +1158,7 @@
         "en": "Sahih al-Bukhari 3705, Sahih Muslim 2727 — 33 times at bedtime"
       },
       "url": "https://sunnah.com/bukhari:3705",
-      "verified": false,
+      "verified": true,
       "repeat": 33,
       "occasions": [
         "sleep"
@@ -1176,7 +1176,7 @@
         "en": "Sahih al-Bukhari 3705, Sahih Muslim 2727 — 33 times at bedtime"
       },
       "url": "https://sunnah.com/bukhari:3705",
-      "verified": false,
+      "verified": true,
       "repeat": 33,
       "occasions": [
         "sleep"
@@ -1194,7 +1194,7 @@
         "en": "Sahih al-Bukhari 3705, Sahih Muslim 2727 — 34 times at bedtime"
       },
       "url": "https://sunnah.com/bukhari:3705",
-      "verified": false,
+      "verified": true,
       "repeat": 34,
       "occasions": [
         "sleep"
@@ -1212,7 +1212,7 @@
         "en": "Sahih Muslim 2713 — on going to bed"
       },
       "url": "https://sunnah.com/muslim:2713a",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "sleep"
@@ -1230,7 +1230,7 @@
         "en": "Sahih Muslim 2715 — on going to bed"
       },
       "url": "https://sunnah.com/muslim:2715",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "sleep"
@@ -1248,7 +1248,7 @@
         "en": "Abu Dawud 5067 (graded sahih by al-Albani) — morning, evening and on going to bed"
       },
       "url": "https://sunnah.com/abudawud:5067",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "sleep"
@@ -1266,7 +1266,7 @@
         "en": "Sahih al-Bukhari 6311, Sahih Muslim 2710 — the last words before sleeping"
       },
       "url": "https://sunnah.com/bukhari:6311",
-      "verified": false,
+      "verified": true,
       "repeat": 1,
       "occasions": [
         "sleep"

@@ -1,12 +1,11 @@
 # Dua sources
 
-The dua database is `assets/data/duas.json`: 68 duas. The base 50 are
-`"verified": true` since the source check of 2026-11-14 (below), on Mariam's
-sign-off. The 18 adhkar for waking and before sleep (added 2026-11-18, for
-the Library's alert-free shelves) were source-checked the same way and wait
-for her sign-off. A dua added later starts with `"verified": false`, so the
-app shows "[verify attribution before release]" under it until its source
-is checked.
+The dua database is `assets/data/duas.json`: 68 duas, all
+`"verified": true` on Mariam's sign-off after the source checks below — the
+base 50 on 2026-11-14, the 18 adhkar for waking and before sleep (the
+Library's alert-free shelves) on 2026-11-18. A dua added later starts with
+`"verified": false`, so the app shows "[verify attribution before release]"
+under it until its source is checked.
 
 ## Waking and sleep adhkar — 2026-11-18
 
@@ -28,7 +27,13 @@ From Hisn al-Muslim's chapters "upon waking" (1–4) and "before sleeping"
   `waking-taarra` (joined round the narrator's "then he said").
 - **Grading:** Bukhari and Muslim, or the grade sunnah.com shows, or
   at-Tirmidhi's own; for Abu Dawud 5045 al-Albani's grading from
-  [dorar.net](https://dorar.net/h/OXYcrLYR) (see Notes).
+  [dorar.net](https://dorar.net/h/OXYcrLYR) (see Notes). At-Tirmidhi 3401,
+  which he graded hasan, is also in al-Albani's Sahih al-Jami' (716).
+- **Second-source check before sign-off:** every text compared with Hisn
+  al-Muslim's (sunnah.com/hisn): identical, or differing only where we
+  follow the original's wording (listed under Notes) or in spelling
+  (السماوات/السموات, مُئوي/مُؤوي); the four Quran passages match quran.com's
+  text letter for letter. Verified on Mariam's sign-off, 2026-11-18.
 
 ## Source check — 2026-11-14
 
