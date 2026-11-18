@@ -111,12 +111,35 @@ class _DuaSequence extends HookConsumerWidget {
                 ref.read(savedDuasProvider.notifier).toggle(dua.id),
           ),
         ),
-        // Centred in the space left; long duas scroll.
+        // Centred in the space left; long duas (Al 'Imran 190–200 on
+        // waking) scroll, fading out at the edges rather than cut mid-line.
+        // Each dua starts at its top.
         Expanded(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
-              child: DuaView(key: ValueKey(dua.id), dua: dua),
+          child: ShaderMask(
+            blendMode: BlendMode.dstIn,
+            shaderCallback: (bounds) {
+              final fade = bounds.height == 0 ? 0.0 : 18.h / bounds.height;
+              return LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: const [
+                  Colors.transparent,
+                  Colors.white,
+                  Colors.white,
+                  Colors.transparent,
+                ],
+                stops: [0, fade, 1 - fade, 1],
+              ).createShader(bounds);
+            },
+            child: Center(
+              child: SingleChildScrollView(
+                key: ValueKey(dua.id),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 30.w,
+                  vertical: 16.h,
+                ),
+                child: DuaView(dua: dua),
+              ),
             ),
           ),
         ),

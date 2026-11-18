@@ -24,6 +24,11 @@ _Dua _$DuaFromJson(Map<String, dynamic> json) => _Dua(
           ?.map((e) => $enumDecode(_$DuaWindowTypeEnumMap, e))
           .toList() ??
       const [],
+  occasions:
+      (json['occasions'] as List<dynamic>?)
+          ?.map((e) => $enumDecode(_$DuaOccasionEnumMap, e))
+          .toList() ??
+      const [],
   general: json['general'] as bool? ?? false,
 );
 
@@ -37,6 +42,7 @@ Map<String, dynamic> _$DuaToJson(_Dua instance) => <String, dynamic>{
   'url': instance.url,
   'repeat': instance.repeat,
   'windows': instance.windows.map((e) => _$DuaWindowTypeEnumMap[e]!).toList(),
+  'occasions': instance.occasions.map((e) => _$DuaOccasionEnumMap[e]!).toList(),
   'general': instance.general,
 };
 
@@ -47,4 +53,9 @@ const _$DuaWindowTypeEnumMap = {
   DuaWindowType.fridayHour: 'fridayHour',
   DuaWindowType.morningAdhkar: 'morningAdhkar',
   DuaWindowType.eveningAdhkar: 'eveningAdhkar',
+};
+
+const _$DuaOccasionEnumMap = {
+  DuaOccasion.waking: 'waking',
+  DuaOccasion.sleep: 'sleep',
 };

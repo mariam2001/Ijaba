@@ -19,31 +19,41 @@ class DuaCatalog {
 
   final List<Dua> duas;
 
-  /// The duas for [window]; every dua when none is tagged for it (so a
-  /// window never opens onto an empty screen while content is being added).
+  /// The duas for [window]; when none is tagged for it, every dua that
+  /// isn't kept for a moment of its own (waking, sleep) — so a window never
+  /// opens onto an empty screen while content is being added.
   List<Dua> forWindow(DuaWindowType? window) {
     final tagged = [
       for (final dua in duas)
         if (window != null && dua.windows.contains(window)) dua,
     ];
-    return tagged.isNotEmpty ? tagged : duas;
+    return tagged.isNotEmpty
+        ? tagged
+        : [
+            for (final dua in duas)
+              if (dua.occasions.isEmpty) dua,
+          ];
   }
 
   Dua? byId(String id) => duas.where((dua) => dua.id == id).firstOrNull;
 
   /// Duas whose Arabic, transliteration or meaning contains [query] —
   /// without regard to harakat, hamza forms or case. Nothing for under two
-  /// letters.
+  /// letters. A text listed more than once (Ayat al-Kursi is in the
+  /// morning adhkar and again before sleep, each with its own source) shows
+  /// once.
   List<Dua> search(String query) {
     final needle = searchable(query);
     if (needle.length < 2) return const [];
+    final seen = <String>{};
     return [
       for (final dua in duas)
         if ([
-          dua.arabic,
-          dua.transliteration,
-          ...dua.meaning.values,
-        ].any((text) => searchable(text).contains(needle)))
+              dua.arabic,
+              dua.transliteration,
+              ...dua.meaning.values,
+            ].any((text) => searchable(text).contains(needle)) &&
+            seen.add(dua.arabic))
           dua,
     ];
   }

@@ -1,9 +1,34 @@
 # Dua sources
 
-The base dua database is `assets/data/duas.json`: 50 duas, all
+The dua database is `assets/data/duas.json`: 68 duas. The base 50 are
 `"verified": true` since the source check of 2026-11-14 (below), on Mariam's
-sign-off. A dua added later starts with `"verified": false`, so the app shows
-"[verify attribution before release]" under it until its source is checked.
+sign-off. The 18 adhkar for waking and before sleep (added 2026-11-18, for
+the Library's alert-free shelves) were source-checked the same way and wait
+for her sign-off. A dua added later starts with `"verified": false`, so the
+app shows "[verify attribution before release]" under it until its source
+is checked.
+
+## Waking and sleep adhkar — 2026-11-18
+
+From Hisn al-Muslim's chapters "upon waking" (1–4) and "before sleeping"
+(99–111), each traced to its primary source on sunnah.com:
+
+- **Arabic cut from the source**, never typed: the hadith page's own text
+  (matched letter by letter, vowel marks and all), or the Quran API
+  ("quran-simple") for Al 'Imran 190–200 and al-Baqarah 285–286. Ayat
+  al-Kursi, the Mu'awwidhat, the tasbih and `fatir-as-samawat` reuse the
+  already verified text of the same words elsewhere in the list.
+- **Each one is its own entry with the source for that moment** (Ayat
+  al-Kursi before sleep cites al-Bukhari 2311, not the morning adhkar's
+  reference), tagged `occasions` instead of `windows`, so none shows for an
+  alert window. Search lists a repeated text once.
+- **Checked by script** like the 2026-11-14 check: every hadith text is on
+  its page; the expected partial matches are the Quran passages (the
+  hadith only names them), the tasbih (named with verbs) and
+  `waking-taarra` (joined round the narrator's "then he said").
+- **Grading:** Bukhari and Muslim, or the grade sunnah.com shows, or
+  at-Tirmidhi's own; for Abu Dawud 5045 al-Albani's grading from
+  [dorar.net](https://dorar.net/h/OXYcrLYR) (see Notes).
 
 ## Source check — 2026-11-14
 
@@ -61,6 +86,8 @@ as-Silsila as-Sahiha 114).
 | 87 | رضيت بالله ربا… (×3) | Abu Dawud 5072 — da'if (al-Albani) |
 | 89 | أصبحنا وأصبح الملك لله رب العالمين، اللهم إني أسألك خير هذا اليوم… | Abu Dawud 5084 — da'if (al-Albani) |
 | 82 | اللهم عافني في بدني… | Primary source not found to confirm its grading |
+| 110 | Reciting as-Sajda and al-Mulk before sleep | Whole surahs, read from a mushaf — not a dua to show here |
+| 112–118 | Turning over in bed, fear, bad dreams, qunut | Other chapters than "before sleeping" |
 | 98 | من صلى عليّ حين يصبح عشرا… (salawat ×10, morning and evening) | at-Tabarani — al-Albani retracted his hasan grading: da'if in as-Silsila ad-Da'ifa 5788. Dropped 2026-11-14 |
 | 72 | لا إله إلا الله… يحيي ويميت (×10) | Only after Fajr and Maghrib; the Dua screen doesn't know which prayer yet |
 | — | "When it rains" | No rain window in v1 |
@@ -74,6 +101,31 @@ as-Silsila as-Sahiha 114).
 - `al-afiyah`: Abu Dawud 5074 has عورتي (and عوراتي in 'Uthman's narration);
   the narrator's aside was cut out.
 - `ya-hayyu-ya-qayyum`: the Hisn text lacks one kasra (أَسْتَغيثُ); left as given.
+
+- `waking-taarra`: al-Bukhari 1154's wording, for waking in the night,
+  with its "then he said: O Allah, forgive me" joined on. The Hisn (2)
+  quotes Ibn Majah 3878 (رب اغفر لي, and العلي العظيم).
+- `waking-al-imran`: al-Bukhari 183 has the Prophet ﷺ recite "the closing
+  ten verses" of Al 'Imran on waking; 4569 starts at verse 190; the Hisn
+  (4) gives 3:190–200.
+- `sleep-ayat-al-kursi`: al-Bukhari 2311 is a mu'allaq report (he cites it
+  without his own chain: وقال عثمان بن الهيثم…), connected by others; the
+  Hisn (100) cites it.
+- `sleep-bismika-rabbi`: al-Bukhari 6320's wording (رَبِّ, إِنْ without
+  فـ). Muslim 2714 has other words (سبحانك اللهم ربي بك وضعت جنبي); the Hisn
+  (102) follows at-Tirmidhi 3401.
+- `sleep-khalaqta-nafsi`: Muslim 2712's wording, without the Hisn's إنك.
+- `sleep-qini-adhabak`: al-Albani graded Abu Dawud 5045 sahih **without
+  the words "three times"**, so it repeats once although the Hisn (104)
+  says three.
+- Bedtime tasbih: al-Bukhari 3705 and Muslim 2727 give the takbir 34 (as
+  the Hisn, 106); al-Bukhari 6318 has 33 each, with Ibn Sirin's "the
+  tasbih is 34".
+- `sleep-rabb-as-samawat`: Muslim 2713's wording (رب السماوات ورب الأرض;
+  the Hisn, 107, has السبع).
+- `sleep-aslamtu`: al-Bukhari 6311's wording (أسلمت وجهي; Muslim 2710 and
+  the Hisn, 111: أسلمت نفسي … ووجهت وجهي). Last on the shelf: "make them
+  the last thing you say".
 
 ## Last third of the night
 
@@ -181,3 +233,31 @@ as-Silsila as-Sahiha 114).
 | 11 | `subhanallah-wa-bihamdih` | سُبْحَانَ اللَّهِ وَبِحَمْدِهِ | 100 | [Sahih Muslim 2692 — a hundred times morning and evening](https://sunnah.com/muslim:2692) |
 | 12 | `tahlil-10` | لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ … | 10 | [an-Nasa'i, 'Amal al-Yawm wal-Layla (graded sahih by al-Albani) — Hisn al-Muslim 92](https://sunnah.com/hisn:92) |
 | 13 | `kalimatillah` | أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ … | 3 | [Sahih Muslim 2709 — three times in the evening, as in Hisn al-Muslim 97](https://sunnah.com/muslim:2709a) |
+
+## Upon waking (no alert)
+
+| # | id | Opening | Repeat | Reference |
+|---|---|---|---|---|
+| 1 | `waking-ahyana` | الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ … | 1 | [Sahih al-Bukhari 6312, Sahih Muslim 2711 — on waking up](https://sunnah.com/bukhari:6312) |
+| 2 | `waking-afani` | الْحَمْدُ لِلَّهِ الَّذِي عَافَانِي فِي … | 1 | [at-Tirmidhi 3401, who graded it hasan — on waking up](https://sunnah.com/tirmidhi:3401) |
+| 3 | `waking-taarra` | لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ … | 1 | [Sahih al-Bukhari 1154 — on waking in the night; then a dua is answered](https://sunnah.com/bukhari:1154) |
+| 4 | `waking-al-imran` | إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ … | 1 | [Quran 3:190–200 — the Prophet ﷺ recited the closing verses of Al 'Imran on waking at night: al-Bukhari 183, 4569](https://quran.com/3/190-200) |
+
+## Before sleeping (no alert)
+
+| # | id | Opening | Repeat | Reference |
+|---|---|---|---|---|
+| 1 | `sleep-muawwidhat` | بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ | 3 | [Surahs 112–114 — blown into cupped hands, then wiped over the body, three times: Sahih al-Bukhari 5017](https://sunnah.com/bukhari:5017) |
+| 2 | `sleep-ayat-al-kursi` | اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ … | 1 | [Quran 2:255 — whoever recites it in bed has a guardian from Allah all night: Sahih al-Bukhari 2311](https://sunnah.com/bukhari:2311) |
+| 3 | `sleep-baqarah-end` | آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ … | 1 | [Quran 2:285–286 — whoever recites them at night, they suffice him: Sahih al-Bukhari 5009, Sahih Muslim 807](https://sunnah.com/bukhari:5009) |
+| 4 | `sleep-bismika-rabbi` | بِاسْمِكَ رَبِّ وَضَعْتُ جَنْبِي، وَبِكَ … | 1 | [Sahih al-Bukhari 6320 — on lying down](https://sunnah.com/bukhari:6320) |
+| 5 | `sleep-khalaqta-nafsi` | اللَّهُمَّ خَلَقْتَ نَفْسِي وَأَنْتَ تَوَفَّاهَا … | 1 | [Sahih Muslim 2712 — on going to bed](https://sunnah.com/muslim:2712) |
+| 6 | `sleep-qini-adhabak` | اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ … | 1 | [Abu Dawud 5045 (graded sahih by al-Albani, without the words "three times")](https://sunnah.com/abudawud:5045) |
+| 7 | `sleep-bismika-amutu` | بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا | 1 | [Sahih al-Bukhari 6324 — on going to sleep](https://sunnah.com/bukhari:6324) |
+| 8 | `sleep-subhanallah-33` | سُبْحَانَ اللَّهِ | 33 | [Sahih al-Bukhari 3705, Sahih Muslim 2727 — 33 times at bedtime](https://sunnah.com/bukhari:3705) |
+| 9 | `sleep-alhamdulillah-33` | الْحَمْدُ لِلَّهِ | 33 | [Sahih al-Bukhari 3705, Sahih Muslim 2727 — 33 times at bedtime](https://sunnah.com/bukhari:3705) |
+| 10 | `sleep-allahuakbar-34` | اللَّهُ أَكْبَرُ | 34 | [Sahih al-Bukhari 3705, Sahih Muslim 2727 — 34 times at bedtime](https://sunnah.com/bukhari:3705) |
+| 11 | `sleep-rabb-as-samawat` | اللَّهُمَّ رَبَّ السَّمَوَاتِ وَرَبَّ الأَرْضِ … | 1 | [Sahih Muslim 2713 — on going to bed](https://sunnah.com/muslim:2713a) |
+| 12 | `sleep-atamana` | الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا … | 1 | [Sahih Muslim 2715 — on going to bed](https://sunnah.com/muslim:2715) |
+| 13 | `sleep-fatir-as-samawat` | اللَّهُمَّ فَاطِرَ السَّمَوَاتِ وَالأَرْضِ عَالِمَ … | 1 | [Abu Dawud 5067 (graded sahih by al-Albani) — morning, evening and on going to bed](https://sunnah.com/abudawud:5067) |
+| 14 | `sleep-aslamtu` | اللَّهُمَّ أَسْلَمْتُ وَجْهِي إِلَيْكَ، وَفَوَّضْتُ … | 1 | [Sahih al-Bukhari 6311, Sahih Muslim 2710 — the last words before sleeping](https://sunnah.com/bukhari:6311) |

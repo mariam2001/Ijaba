@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
 import 'package:ijaba/features/duas/data/model/dua.dart';
+import 'package:ijaba/features/duas/data/model/dua_occasion.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 
@@ -24,10 +25,55 @@ void main() {
       expect(duas.map((dua) => dua.id).toSet(), hasLength(duas.length));
     });
 
-    test('are all verified (checked 2026-11-14, see docs/DUA_SOURCES.md)', () {
-      // A dua added later starts unverified: update this test only together
-      // with checking its source.
-      expect(duas.where((dua) => !dua.verified), isEmpty);
+    test('are verified, but for those awaiting Mariam\'s sign-off', () {
+      // The base 50 were checked and signed off on 2026-11-14; the waking
+      // and sleep adhkar were source-checked on 2026-11-18 (see
+      // docs/DUA_SOURCES.md) and wait for her. Change this list only
+      // together with that sign-off.
+      const awaiting = {
+        'waking-ahyana',
+        'waking-afani',
+        'waking-taarra',
+        'waking-al-imran',
+        'sleep-muawwidhat',
+        'sleep-ayat-al-kursi',
+        'sleep-baqarah-end',
+        'sleep-bismika-rabbi',
+        'sleep-khalaqta-nafsi',
+        'sleep-qini-adhabak',
+        'sleep-bismika-amutu',
+        'sleep-subhanallah-33',
+        'sleep-alhamdulillah-33',
+        'sleep-allahuakbar-34',
+        'sleep-rabb-as-samawat',
+        'sleep-atamana',
+        'sleep-fatir-as-samawat',
+        'sleep-aslamtu',
+      };
+      expect(
+        duas.where((dua) => !dua.verified).map((dua) => dua.id).toSet(),
+        awaiting,
+      );
+    });
+
+    test('keep each one to windows or to moments without alerts', () {
+      for (final dua in duas) {
+        expect(
+          dua.windows.isEmpty != dua.occasions.isEmpty,
+          isTrue,
+          reason: dua.id,
+        );
+      }
+    });
+
+    test('never show the waking and sleep adhkar for a window', () {
+      for (final window in [null, ...DuaWindowType.values]) {
+        expect(
+          catalog.forWindow(window).where((dua) => dua.occasions.isNotEmpty),
+          isEmpty,
+          reason: '$window',
+        );
+      }
     });
 
     test('cover every window with its own duas', () {
@@ -63,6 +109,11 @@ void main() {
       expect(ids('pardon me'), contains('afw'));
     });
 
+    test('lists a text kept in two places once', () {
+      // Ayat al-Kursi: the morning and evening adhkar, and before sleep.
+      expect(ids('الحي القيوم لا تاخذه سنة'), ['ayat-al-kursi']);
+    });
+
     test('needs two letters, and finds nothing for nonsense', () {
       expect(ids('ع'), isEmpty);
       expect(ids('qqqq'), isEmpty);
@@ -91,6 +142,23 @@ void main() {
       }
     });
 
+    test('sleep and waking hold their adhkar, in the Hisn\'s order', () {
+      final sleep = LibraryCategory.sleep.of(catalog, {});
+      expect(
+        sleep,
+        everyElement(
+          predicate<Dua>((dua) => dua.occasions.contains(DuaOccasion.sleep)),
+        ),
+      );
+      expect(sleep.first.id, 'sleep-muawwidhat');
+      // "Make them the last thing you say" (al-Bukhari 6311).
+      expect(sleep.last.id, 'sleep-aslamtu');
+      expect(
+        LibraryCategory.waking.of(catalog, {}).map((dua) => dua.id),
+        ['waking-ahyana', 'waking-afani', 'waking-taarra', 'waking-al-imran'],
+      );
+    });
+
     test('saved holds just the bookmarked, in catalog order', () {
       expect(LibraryCategory.saved.of(catalog, {}), isEmpty);
       expect(
@@ -102,17 +170,23 @@ void main() {
     });
   });
 
-  test('a window gets its own duas, or every dua if it has none', () {
-    Dua dua(String id, List<DuaWindowType> windows) => Dua(
+  test('a window gets its own duas, or every window dua if it has none', () {
+    Dua dua(
+      String id,
+      List<DuaWindowType> windows, [
+      List<DuaOccasion> occasions = const [],
+    ]) => Dua(
       id: id,
       arabic: id,
       transliteration: id,
       meaning: {'ar': id, 'en': id},
       windows: windows,
+      occasions: occasions,
     );
     final catalog = DuaCatalog([
       dua('night', const [DuaWindowType.lastThirdOfNight]),
       dua('any', const []),
+      dua('sleep', const [], const [DuaOccasion.sleep]),
     ]);
 
     expect(
@@ -123,7 +197,7 @@ void main() {
       catalog.forWindow(DuaWindowType.fridayHour).map((d) => d.id),
       ['night', 'any'],
     );
-    expect(catalog.forWindow(null), hasLength(2));
+    expect(catalog.forWindow(null).map((d) => d.id), ['night', 'any']);
   });
 
   test('Arabic mode shows no meaning where only English has one', () {

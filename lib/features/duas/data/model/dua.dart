@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ijaba/core/utils/typedef.dart';
+import 'package:ijaba/features/duas/data/model/dua_occasion.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 
 part 'dua.freezed.dart';
@@ -34,8 +35,12 @@ abstract class Dua with _$Dua {
     /// Times to repeat it (the tasbih counter's target).
     @Default(1) int repeat,
 
-    /// Windows it belongs to; none means any window.
+    /// Windows it belongs to: it shows on their Dua screen (and alerts).
     @Default([]) List<DuaWindowType> windows,
+
+    /// Alert-free moments it's for (waking, sleep): their Library shelves.
+    /// A dua with occasions and no windows never shows for a window.
+    @Default([]) List<DuaOccasion> occasions,
 
     /// A general supplication, for any time — the Library's "ma'thur duas".
     @Default(false) bool general,

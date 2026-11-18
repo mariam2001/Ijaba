@@ -71,9 +71,20 @@ void main() {
     for (final MapEntry(key: phone, value: size) in phones.entries) {
       testWidgets('Library ($language) fits a $phone phone', (tester) async {
         await pumpLibrary(tester, size: size, language: language);
-
-        expect(find.byType(LibraryCategoryCard), findsNWidgets(5));
+        expect(find.byType(LibraryCategoryCard), findsWidgets);
         // A RenderFlex overflow is reported as an exception.
+        expect(tester.takeException(), isNull);
+
+        // The list builds lazily: scroll to the last shelf to lay it out.
+        await tester.drag(
+          find.byType(Scrollable).first,
+          const Offset(0, -2000),
+        );
+        await tester.pumpAndSettle();
+        expect(
+          find.text(language == 'ar' ? 'المحفوظة' : 'Saved'),
+          findsOneWidget,
+        );
         expect(tester.takeException(), isNull);
       });
     }

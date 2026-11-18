@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
-import 'package:ijaba/core/components/app_icon.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
 import 'package:ijaba/features/duas/presentation/library_categories.dart';
@@ -48,8 +47,7 @@ class LibraryCategoryCard extends StatelessWidget {
                   color: category.tileColor(context.colors),
                   borderRadius: BorderRadius.circular(11.r),
                 ),
-                child: AppIconView(
-                  category.icon,
+                child: category.icon(
                   size: 22.r,
                   color: category.iconColor(context.colors),
                 ),

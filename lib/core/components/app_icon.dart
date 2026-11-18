@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// The app's own line icons (assets/icons — 24px masters, 1.5 stroke, round
-/// caps: the weight of the Lucide `…300` icons used elsewhere). The rain,
-/// sleep and lantern icons there are kept for v1.1.
+/// caps: the weight of the Lucide `…300` icons used elsewhere). The rain
+/// and lantern icons there are kept for v1.1.
 enum AppIcon {
   adhanIqama('ic_adhan_iqama'),
   afterPrayer('ic_after_prayer'),
@@ -15,6 +15,7 @@ enum AppIcon {
   morning('ic_morning'),
   mushaf('ic_mushaf'),
   saved('ic_saved'),
+  sleep('ic_sleep'),
   tasbih('ic_tasbih')
   ;
 

@@ -44,6 +44,14 @@ Future<void> _secondDuaCountedTwice(WidgetTester tester) async {
   }
 }
 
+/// Steps [n] duas on with the Next button.
+Future<void> Function(WidgetTester) _nextTimes(int n) => (tester) async {
+  for (var i = 0; i < n; i++) {
+    await tester.tap(find.byType(FilledButton).last);
+    await tester.pumpAndSettle();
+  }
+};
+
 /// Opens a Settings sheet by its row; [nudges] taps the first "+" (Fajr's).
 Future<void> Function(WidgetTester) _openSheet(String row, {int nudges = 0}) =>
     (tester) async {
@@ -134,6 +142,10 @@ void main() {
       'ar',
       _openSheet('الإقامة والصلاة', nudges: 1),
     ),
+    // The alert-free shelves (no design): the first dua before sleep, and
+    // the longest one, Al 'Imran 190–200 on waking.
+    '16_sleep_shelf': ('${AppRoutes.library}/sleep', 'ar', null),
+    '17_waking_quran': ('${AppRoutes.library}/waking', 'en', _nextTimes(3)),
   };
 
   // The night palette, for every screen but the splash (fixed colours):

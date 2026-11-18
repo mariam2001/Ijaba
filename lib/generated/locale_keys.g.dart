@@ -151,6 +151,8 @@ abstract class LocaleKeys {
   static const library_no_results = 'library.no_results';
   static const library_morning = 'library.morning';
   static const library_evening = 'library.evening';
+  static const library_sleep = 'library.sleep';
+  static const library_waking = 'library.waking';
   static const library_last_third = 'library.last_third';
   static const library_mathur = 'library.mathur';
   static const library_saved = 'library.saved';

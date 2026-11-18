@@ -9,4 +9,6 @@ String searchable(String text) => text
     .replaceAll(RegExp('[إأآٱ]'), 'ا')
     .replaceAll('ى', 'ي')
     .replaceAll('ة', 'ه')
+    // A Quranic pause mark between words leaves two spaces.
+    .replaceAll(RegExp(r'\s+'), ' ')
     .trim();

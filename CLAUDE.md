@@ -137,21 +137,29 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   every screen (Mariam's call; the design is a night screen).
   Content is `assets/data/duas.json` (`DuaCatalog`): `arabic`,
   `transliteration`, `meaning`/`source` by language code, `url` (where to
-  check it), `verified`, `repeat`, `windows` (none = any window; a window
-  with no tagged duas gets them all; file order is display order).
+  check it), `verified`, `repeat`, and either `windows` (its alert windows'
+  Dua screens) or `occasions` (`DuaOccasion` waking/sleep: alert-free,
+  Library shelves only — never shown for a window; a window with no tagged
+  duas falls back to all window duas). File order is display order. Long
+  duas scroll, fading at the edges, each starting at its top.
 - Library (Duas tab): `LibraryPage` — search (`DuaCatalog.search`, via
   `searchable()` in `core/utils/search_text.dart`, shared with the city
   search: harakat- and hamza-insensitive, over Arabic, transliteration and
-  meanings) and five shelves (`LibraryCategory`): morning, evening and last
-  third follow `windows`; "ma'thur" is the duas flagged `general: true`;
-  saved is the bookmarks (an empty shelf can't be opened). The tiles hold
-  the shelf's icon (the export has plain tiles; the handover's icons came
-  later); search results have no design
+  meanings; a text kept in two places, like Ayat al-Kursi, is listed
+  once) and seven shelves (`LibraryCategory`): morning, evening, last third
+  follow `windows`; before sleep and on waking (Mariam's, no design; after
+  the evening's) follow `occasions`; "ma'thur" is the duas flagged
+  `general: true`; saved is the bookmarks (an empty shelf can't be opened).
+  The tiles hold the shelf's icon (the export has plain tiles; the
+  handover's icons came later; waking uses Lucide's sun, since the
+  handover's sunrise is the morning's); search results have no design
   and borrow the card style. Arabic only in the export; English mirrors it.
-- The base dua list (50, researched with Mariam's go-ahead) and how it was
-  made — sources, grading bar, exclusions, the 2026-11-14 source check — is
-  in `docs/DUA_SOURCES.md`. All 50 are `verified` (Mariam's sign-off after
-  that check); the check dropped one whose grading al-Albani retracted.
+- The dua list (68, researched with Mariam's go-ahead) and how it was
+  made — sources, grading bar, exclusions, the source checks — is in
+  `docs/DUA_SOURCES.md`. The base 50 are `verified` (Mariam's sign-off after
+  the 2026-11-14 check, which dropped one whose grading al-Albani
+  retracted); the 18 waking/sleep adhkar (Hisn al-Muslim 1–4, 99–111) were
+  checked 2026-11-18 and wait for her sign-off (a test lists them).
   When adding duas: cut the Arabic from the source (sunnah.com primary page,
   official Hisn al-Muslim text, Quran API) rather than retyping it; only
   well-authenticated narrations; cite the reference you checked, with its
@@ -218,7 +226,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   with the Figma PNG exports (the Figma MCP Starter plan allows only 20
   reads a month, so exports are the working path). Home renders the
   design's moment (Friday 03:12, `designTodayWindows()` in the fakes). The
-  Settings sheets (no design) are rendered too, to check by eye, and every
+  Settings sheets and the sleep/waking shelves' Dua screens (no design)
+  are rendered too, to check by eye, and every
   screen but the splash again in the night palette, to
   `build/design_check/night/` (the night Dua frame is the one to compare).
 
