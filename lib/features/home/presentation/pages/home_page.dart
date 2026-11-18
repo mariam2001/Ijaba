@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/error_view.dart';
+import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/features/alerts/data/datasource/alert_planner.dart';
 import 'package:ijaba/features/home/presentation/widgets/home_header.dart';
@@ -32,7 +33,9 @@ class HomePage extends ConsumerWidget {
         child: ListView(
           padding: EdgeInsets.fromLTRB(22.w, 27.h, 22.w, 24.h),
           children: [
-            HomeHeader(now: now, onSearch: search),
+            Reveal(
+              child: HomeHeader(now: now, onSearch: search),
+            ),
             SizedBox(height: 13.h),
             // Recomputed on every clock tick: keep showing the last result.
             ...today.when(
@@ -44,37 +47,44 @@ class HomePage extends ConsumerWidget {
               error: (error, _) => [ErrorView(error: error)],
               data: (today) => [
                 if (today.featured case final featured?)
-                  WindowHeroCard(
-                    window: featured,
-                    now: now,
-                    onMakeDua: () =>
-                        context.push(AppRoutes.duaFor(featured.type.name)),
+                  Reveal(
+                    delay: const Duration(milliseconds: 70),
+                    child: WindowHeroCard(
+                      window: featured,
+                      now: now,
+                      onMakeDua: () =>
+                          context.push(AppRoutes.duaFor(featured.type.name)),
+                    ),
                   ),
                 SizedBox(height: 26.h),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        context.tr(LocaleKeys.home_today),
-                        style: context.textStyles.sectionTitle,
-                      ),
-                    ),
-                    // Its own node, so screen readers offer it as a button.
-                    Semantics(
-                      container: true,
-                      button: true,
-                      child: GestureDetector(
-                        onTap: () => context.go(AppRoutes.windows),
+                // Then the list, row after row.
+                Reveal(
+                  delay: const Duration(milliseconds: 130),
+                  child: Row(
+                    children: [
+                      Expanded(
                         child: Text(
-                          context.tr(LocaleKeys.home_edit),
-                          style: context.textStyles.caption.copyWith(
-                            fontSize: 12.sp,
-                            color: context.colors.greenInk,
+                          context.tr(LocaleKeys.home_today),
+                          style: context.textStyles.sectionTitle,
+                        ),
+                      ),
+                      // Its own node, so screen readers offer it as a button.
+                      Semantics(
+                        container: true,
+                        button: true,
+                        child: GestureDetector(
+                          onTap: () => context.go(AppRoutes.windows),
+                          child: Text(
+                            context.tr(LocaleKeys.home_edit),
+                            style: context.textStyles.caption.copyWith(
+                              fontSize: 12.sp,
+                              color: context.colors.greenInk,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 SizedBox(height: 4.h),
                 if (today.windows.isEmpty)
@@ -86,13 +96,15 @@ class HomePage extends ConsumerWidget {
                       style: context.textStyles.cardSubtitle,
                     ),
                   ),
-                for (final window in today.windows)
-                  WindowRow(
-                    window: window,
-                    now: now,
-                    alertOn: enabled.contains(window.type),
-                    leadTime: planner.leadTimeOf(window.type),
-                  ),
+                ...Reveal.staggered(start: const Duration(milliseconds: 170), [
+                  for (final window in today.windows)
+                    WindowRow(
+                      window: window,
+                      now: now,
+                      alertOn: enabled.contains(window.type),
+                      leadTime: planner.leadTimeOf(window.type),
+                    ),
+                ]),
               ],
             ),
           ],

@@ -12,6 +12,7 @@ import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/branch_ornament.dart';
 import 'package:ijaba/core/components/ijaba_mark.dart';
+import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/features/alerts/presentation/controller/launch_link_controller.dart';
 import 'package:ijaba/features/onboarding/presentation/controller/onboarding_controller.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
@@ -64,37 +65,52 @@ class SplashPage extends HookConsumerWidget {
             child: Column(
               children: [
                 const Spacer(flex: 255),
-                IjabaMark(
-                  width: 68.r,
-                  color: AppColors.day.paper,
+                // The mark rises in, then the name, the branch and the
+                // verse, one after another.
+                Reveal(
+                  child: IjabaMark(width: 68.r, color: AppColors.day.paper),
                 ),
                 SizedBox(height: 27.h),
-                Text(
-                  context.tr(LocaleKeys.app_name),
-                  style: context.textStyles.wordmark.copyWith(
-                    color: AppColors.day.paper,
+                Reveal(
+                  delay: const Duration(milliseconds: 140),
+                  child: Text(
+                    context.tr(LocaleKeys.app_name),
+                    style: context.textStyles.wordmark.copyWith(
+                      color: AppColors.day.paper,
+                    ),
                   ),
                 ),
-                Text(
-                  context.tr(LocaleKeys.app_latin_name),
-                  style: context.textStyles.subtitle.copyWith(
-                    fontSize: 12.sp,
-                    letterSpacing: 3.8.sp,
-                    color: AppColors.day.greenPale,
+                Reveal(
+                  delay: const Duration(milliseconds: 200),
+                  child: Text(
+                    context.tr(LocaleKeys.app_latin_name),
+                    style: context.textStyles.subtitle.copyWith(
+                      fontSize: 12.sp,
+                      letterSpacing: 3.8.sp,
+                      color: AppColors.day.greenPale,
+                    ),
                   ),
                 ),
                 SizedBox(height: 25.h),
-                BranchOrnament(
-                  width: 146.r,
-                  color: AppColors.day.greenPale.withValues(alpha: 0.45),
+                Reveal(
+                  delay: const Duration(milliseconds: 300),
+                  offset: Offset.zero,
+                  child: BranchOrnament(
+                    width: 146.r,
+                    color: AppColors.day.greenPale.withValues(alpha: 0.45),
+                  ),
                 ),
                 const Spacer(flex: 276),
-                Text(
-                  context.tr(LocaleKeys.splash_verse),
-                  textAlign: TextAlign.center,
-                  style: context.textStyles.dua.copyWith(
-                    fontSize: 17.sp,
-                    color: AppColors.day.greenPale,
+                Reveal(
+                  delay: const Duration(milliseconds: 420),
+                  offset: Offset.zero,
+                  child: Text(
+                    context.tr(LocaleKeys.splash_verse),
+                    textAlign: TextAlign.center,
+                    style: context.textStyles.dua.copyWith(
+                      fontSize: 17.sp,
+                      color: AppColors.day.greenPale,
+                    ),
                   ),
                 ),
                 SizedBox(height: 51.h),

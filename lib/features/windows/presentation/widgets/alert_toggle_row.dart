@@ -11,7 +11,8 @@ import 'package:ijaba/features/windows/presentation/alert_toggles.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
 /// One switch on the Windows screen: name, what the alert does, and the
-/// switch. The whole row toggles; switched-off rows are muted.
+/// switch. The whole row toggles; only the switch shows whether it's on
+/// (Mariam's call: a muted row looked unusable).
 class AlertToggleRow extends StatelessWidget {
   const AlertToggleRow({
     required this.toggle,
@@ -43,17 +44,13 @@ class AlertToggleRow extends StatelessWidget {
                 height: 36.r,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: on
-                      ? toggle.tileColor(context.colors)
-                      : context.colors.paperWarm,
+                  color: toggle.tileColor(context.colors),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: AppIconView(
                   toggle.icon,
                   size: 20.r,
-                  color: on
-                      ? toggle.iconColor(context.colors)
-                      : context.colors.faint,
+                  color: toggle.iconColor(context.colors),
                 ),
               ),
               SizedBox(width: 12.w),
@@ -63,9 +60,7 @@ class AlertToggleRow extends StatelessWidget {
                   children: [
                     Text(
                       context.tr(toggle.titleKey),
-                      style: context.textStyles.rowTitle.copyWith(
-                        color: on ? context.colors.ink : context.colors.muted,
-                      ),
+                      style: context.textStyles.rowTitle,
                     ),
                     SizedBox(height: 3.h),
                     Text(

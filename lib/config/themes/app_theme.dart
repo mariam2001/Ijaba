@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_fonts.dart';
 import 'package:ijaba/config/themes/app_text_styles.dart';
+import 'package:ijaba/core/components/motion.dart';
 
 /// The day and night themes, each carrying its palette ([AppColors]) as a
 /// theme extension.
@@ -40,6 +41,13 @@ abstract final class AppTheme {
       colorScheme: scheme,
       extensions: [colors],
       scaffoldBackgroundColor: colors.paper,
+      // Pages fade and rise into place (iOS keeps its swipe-back slide).
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: SoftRisePageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
+      ),
       fontFamily: AppFonts.readexPro,
       textTheme: styles.textTheme,
       appBarTheme: AppBarTheme(

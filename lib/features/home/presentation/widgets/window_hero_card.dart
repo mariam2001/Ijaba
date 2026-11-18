@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
+import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/windows/data/model/dua_window.dart';
 import 'package:ijaba/features/windows/presentation/window_art.dart';
@@ -39,7 +40,21 @@ class WindowHeroCard extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.fromLTRB(22.w, 23.h, 22.w, 22.h),
-        child: _content(context, language, open: open),
+        // A new window (or this one opening) cross-fades in; the clock's
+        // ticks within one don't.
+        child: AnimatedSwitcher(
+          duration: Motion.of(context, Motion.long),
+          switchInCurve: Motion.curve,
+          switchOutCurve: Curves.easeIn,
+          layoutBuilder: (current, previous) => Stack(
+            alignment: AlignmentDirectional.topStart,
+            children: [...previous, ?current],
+          ),
+          child: KeyedSubtree(
+            key: ValueKey('${window.type.name} ${window.start} $open'),
+            child: _content(context, language, open: open),
+          ),
+        ),
       ),
     );
   }
@@ -234,10 +249,17 @@ class _Progress extends StatelessWidget {
         borderRadius: BorderRadius.circular(2.r),
         child: ColoredBox(
           color: _fixed.greenDeep,
-          // Fills from the start side: right to left in Arabic.
-          child: FractionallySizedBox(
-            alignment: AlignmentDirectional.centerStart,
-            widthFactor: fraction,
+          // Fills from the start side (right to left in Arabic): from
+          // empty when the card appears, then along with the clock.
+          child: TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0, end: fraction),
+            duration: Motion.of(context, const Duration(milliseconds: 900)),
+            curve: Motion.curve,
+            builder: (context, value, child) => FractionallySizedBox(
+              alignment: AlignmentDirectional.centerStart,
+              widthFactor: value,
+              child: child,
+            ),
             child: ColoredBox(color: _fixed.honey),
           ),
         ),

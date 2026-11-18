@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
+import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/components/option_sheet.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/location/data/model/city.dart';
@@ -59,7 +60,8 @@ class SettingsPage extends ConsumerWidget {
         bottom: false,
         child: ListView(
           padding: EdgeInsets.fromLTRB(22.w, 33.h, 22.w, 24.h),
-          children: [
+          // The title and sections arrive one after another.
+          children: Reveal.staggered([
             Text(
               context.tr(LocaleKeys.settings_title),
               style: context.textStyles.screenTitleFor(context.locale),
@@ -247,7 +249,7 @@ class SettingsPage extends ConsumerWidget {
                 child: const Text('Alert test (developer)'),
               ),
             ],
-          ],
+          ]),
         ),
       ),
     );

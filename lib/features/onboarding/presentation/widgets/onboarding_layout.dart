@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/components/page_dots.dart';
 
 /// Frame shared by the onboarding screens: [children] from the top (they
@@ -47,7 +48,8 @@ class OnboardingLayout extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: children,
+                      // Each screen's parts arrive one after another.
+                      children: Reveal.staggered(children),
                     ),
                   ),
                 ),

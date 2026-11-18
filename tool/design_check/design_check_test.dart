@@ -258,6 +258,11 @@ void main() {
       for (var i = 0; i < 3; i++) {
         await tester.pump(const Duration(milliseconds: 300));
       }
+      // Let entry animations (lists arrive one by one) finish — but not on
+      // the splash, which moves on by itself.
+      if (path != AppRoutes.splash) {
+        await tester.pump(const Duration(seconds: 1));
+      }
       await prepare?.call(tester);
 
       await tester.runAsync(() async {

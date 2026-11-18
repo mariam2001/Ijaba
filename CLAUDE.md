@@ -96,7 +96,25 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   come early by `AlertPlanner.leadTimes` (last third 15 min; adhan→iqama
   5 min, from the Home design), and Home's rows show the same lead times.
 - Main tabs: `StatefulShellRoute` in `routes.dart` with `MainShell` +
-  `AppTabBar` (Home · Duas · Windows · Settings).
+  `AppTabBar` (Home · Duas · Windows · Settings). The shell sets no
+  status-bar style of its own (`_StatusBar` in app.dart follows the theme).
+- Motion (`core/components/motion.dart`): things move when they change and
+  keep still at rest — no looping animations — and nothing moves with the
+  phone's "remove animations" on (`Motion.reduced`/`Motion.of`). `Reveal`
+  fades and lifts a widget in once, after a delay built into the animation
+  (no timers); `Reveal.staggered` for lists (Home rows, Library shelves,
+  Windows rows, Settings, My duas, every onboarding screen through
+  `OnboardingLayout`). Pages fade and rise in
+  (`SoftRisePageTransitionsBuilder`, Android); tabs fade on switching
+  (`_TabFade`, never remounting the shell); the splash builds up mark →
+  name → branch → verse; the hero card cross-fades when the featured window
+  changes and its bar fills from empty; on the Dua screen the next dua
+  slides in from the reading direction's end (the previous from its
+  start), the tasbih counter presses in, rolls its figure and sends a halo
+  out at the target (one per dua: `key: ValueKey(dua.id)`), and the
+  bookmark pops. At rest every screen was checked pixel-identical to
+  before. No stock animation assets: they'd clash with the designer's
+  illustrations.
 - Windows tab (alert control): `WindowsPage` with one `AlertToggle` per
   switch — morning and evening adhkar share one; the design's "when it
   rains" is left out of v1 (it would need a weather service to see the
@@ -107,8 +125,9 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   `AlertsController` queues a forced run asked for mid-run, so the last
   change always lands. `AppSwitch` is drawn to the design (44 × 26) and,
   like the design, doesn't mirror in Arabic. Each row starts with the
-  window's icon on a small tile (honey for adhkar, green otherwise; faded
-  when off).
+  window's icon on a small tile (honey for adhkar, green otherwise). Only
+  the switch shows a row is off — Mariam's call over the design's muted
+  row, which looked unusable.
 - Home: `features/home`. `todayWindowsProvider` (windows open now or starting
   in the next 24 h, from yesterday/today/tomorrow's prayer days) is recomputed
   on each `clockProvider` tick (20 s). The hero card features the open window
@@ -243,7 +262,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   reads a month, so exports are the working path). Home renders the
   design's moment (Friday 03:12, `designTodayWindows()` in the fakes). The
   Settings sheets, the sleep/waking shelves' Dua screens and My duas (no
-  design) are rendered too, to check by eye, and every
+  design) are rendered too, to check by eye; entry animations get a
+  second to finish (not on the splash, which moves on); and every
   screen but the splash again in the night palette, to
   `build/design_check/night/` (the night Dua frame is the one to compare).
 

@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/error_view.dart';
+import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/features/duas/data/model/dua.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
 import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
@@ -54,7 +55,7 @@ class LibraryPage extends HookConsumerWidget {
               loading: () => [const Center(child: CircularProgressIndicator())],
               error: (error, _) => [ErrorView(error: error)],
               data: (catalog) => query.isEmpty
-                  ? [
+                  ? Reveal.staggered([
                       for (final category in LibraryCategory.values)
                         _Spaced(
                           LibraryCategoryCard(
@@ -71,7 +72,7 @@ class LibraryPage extends HookConsumerWidget {
                                   ),
                           ),
                         ),
-                    ]
+                    ])
                   : _results(context, catalog.search(query)),
             ),
           ],

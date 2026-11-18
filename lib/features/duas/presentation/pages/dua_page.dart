@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -10,6 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/error_view.dart';
+import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
 import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
@@ -68,6 +69,11 @@ class _DuaSequence extends HookConsumerWidget {
       [catalog],
     );
     final index = useState(0);
+    // Which way the last step went: the next dua comes in from the end
+    // side (the left in Arabic), the previous one from the start.
+    final previousIndex = usePrevious(index.value);
+    final forward = previousIndex == null || index.value >= previousIndex;
+    final rtl = Directionality.of(context) == TextDirection.rtl;
     // Taps so far, per dua — kept when going back to an earlier one.
     final counts = useState(const <String, int>{});
     final now = ref.watch(clockProvider).value ?? DateTime.now();
@@ -134,19 +140,47 @@ class _DuaSequence extends HookConsumerWidget {
                 stops: [0, fade, 1 - fade, 1],
               ).createShader(bounds);
             },
-            child: Center(
-              child: SingleChildScrollView(
+            child: AnimatedSwitcher(
+              duration: Motion.of(context, Motion.medium),
+              switchInCurve: Motion.curve,
+              switchOutCurve: Curves.easeIn,
+              // Rebuilt each time with the current direction, so the dua
+              // leaving slides out the way the new one pushes it.
+              transitionBuilder: (child, animation) {
+                final incoming = child.key == ValueKey(dua.id);
+                final towardsEnd = forward == incoming;
+                final dx = 0.12 * (towardsEnd ? 1 : -1) * (rtl ? -1 : 1);
+                return FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(
+                    position: Tween(
+                      begin: Offset(dx, 0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  ),
+                );
+              },
+              child: Center(
                 key: ValueKey(dua.id),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 30.w,
-                  vertical: 16.h,
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 30.w,
+                    vertical: 16.h,
+                  ),
+                  child: DuaView(dua: dua),
                 ),
-                child: DuaView(dua: dua),
               ),
             ),
           ),
         ),
-        TasbihCounter(count: count, target: dua.repeat, onTap: countOne),
+        // Its own per dua, so stepping to another doesn't count as a tap.
+        TasbihCounter(
+          key: ValueKey(dua.id),
+          count: count,
+          target: dua.repeat,
+          onTap: countOne,
+        ),
         SizedBox(height: 10.h),
         _PagerBar(
           onPrevious: index.value > 0 ? () => index.value-- : null,

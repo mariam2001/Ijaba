@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
+import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -132,7 +133,18 @@ class _EdgeIcon extends StatelessWidget {
           top: 12.h,
           bottom: 12.h,
         ),
-        child: Icon(icon, size: 20.r, color: color),
+        // A bookmark being set pops in.
+        child: AnimatedSwitcher(
+          duration: Motion.of(context, Motion.medium),
+          transitionBuilder: (child, animation) => ScaleTransition(
+            scale: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutBack,
+            ),
+            child: child,
+          ),
+          child: Icon(icon, key: ValueKey(icon), size: 20.r, color: color),
+        ),
       ),
     ),
   );

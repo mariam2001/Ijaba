@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
+import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/windows/presentation/alert_toggles.dart';
 import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
@@ -44,14 +45,16 @@ class WindowsPage extends ConsumerWidget {
                   SizedBox(height: 18.h),
                   _AlertsOnChip(on: on, total: AlertToggle.values.length),
                   SizedBox(height: 10.h),
-                  for (final toggle in AlertToggle.values)
-                    AlertToggleRow(
-                      toggle: toggle,
-                      on: toggle.isOnIn(enabled),
-                      onChanged: (value) => ref
-                          .read(enabledWindowTypesProvider.notifier)
-                          .setEnabled(toggle.types, on: value),
-                    ),
+                  ...Reveal.staggered(start: const Duration(milliseconds: 60), [
+                    for (final toggle in AlertToggle.values)
+                      AlertToggleRow(
+                        toggle: toggle,
+                        on: toggle.isOnIn(enabled),
+                        onChanged: (value) => ref
+                            .read(enabledWindowTypesProvider.notifier)
+                            .setEnabled(toggle.types, on: value),
+                      ),
+                  ]),
                 ],
               ),
             ),
@@ -104,9 +107,23 @@ class _AlertsOnChip extends StatelessWidget {
               style: context.textStyles.chipLabel,
             ),
           ),
-          Text(
-            context.tr(LocaleKeys.alert_control_count, namedArgs: counts),
-            style: context.textStyles.chipValue,
+          AnimatedSwitcher(
+            duration: Motion.of(context, Motion.short),
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween(
+                  begin: const Offset(0, 0.4),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+            ),
+            child: Text(
+              context.tr(LocaleKeys.alert_control_count, namedArgs: counts),
+              key: ValueKey(on),
+              style: context.textStyles.chipValue,
+            ),
           ),
         ],
       ),

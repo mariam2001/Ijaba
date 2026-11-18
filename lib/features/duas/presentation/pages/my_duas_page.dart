@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/app_icon.dart';
+import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/features/duas/data/model/custom_dua.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
 import 'package:ijaba/features/duas/presentation/controller/custom_duas_controller.dart';
@@ -56,11 +57,13 @@ class MyDuasPage extends ConsumerWidget {
                           style: context.textStyles.body,
                         ),
                         SizedBox(height: 16.h),
-                        for (final dua in duas)
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 12.h),
-                            child: _DuaCard(dua: dua),
-                          ),
+                        ...Reveal.staggered([
+                          for (final dua in duas)
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 12.h),
+                              child: _DuaCard(dua: dua),
+                            ),
+                        ]),
                       ],
                     ),
             ),
