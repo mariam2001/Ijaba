@@ -24,6 +24,11 @@ abstract final class AppRoutes {
   static String libraryCategory(String category) => '$library/$category';
   static String libraryDua(String id) => '$library/dua/$id';
 
+  // The user's own duas: the list, a new one, one to edit.
+  static const myDuas = '/my-duas';
+  static const myDuaNew = '$myDuas/new';
+  static String myDuaEdit(String id) => '$myDuas/edit/$id';
+
   // Onboarding, in order.
   static const language = '/onboarding/language';
   static const welcome = '/onboarding/welcome';

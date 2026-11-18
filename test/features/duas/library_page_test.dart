@@ -8,7 +8,7 @@ import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/routes/routes.dart';
 import 'package:ijaba/core/service/local/cache/simple_cache.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
-import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
+import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
 import 'package:ijaba/features/duas/presentation/pages/dua_page.dart';
 import 'package:ijaba/features/duas/presentation/pages/library_page.dart';
 import 'package:ijaba/features/duas/presentation/widgets/dua_search_result.dart';
@@ -104,6 +104,12 @@ void main() {
     tester,
   ) async {
     await pumpLibrary(tester);
+    await tester.scrollUntilVisible(
+      find.text('المحفوظة'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
 
     expect(find.text('لا شيء محفوظ بعد'), findsOneWidget);
     await tester.tap(find.text('المحفوظة'));

@@ -146,14 +146,30 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   `searchable()` in `core/utils/search_text.dart`, shared with the city
   search: harakat- and hamza-insensitive, over Arabic, transliteration and
   meanings; a text kept in two places, like Ayat al-Kursi, is listed
-  once) and seven shelves (`LibraryCategory`): morning, evening, last third
+  once) and eight shelves (`LibraryCategory`): morning, evening, last third
   follow `windows`; before sleep and on waking (Mariam's, no design; after
   the evening's) follow `occasions`; "ma'thur" is the duas flagged
-  `general: true`; saved is the bookmarks (an empty shelf can't be opened).
+  `general: true`; "my duas" (`mine`) the user's own; saved is the
+  bookmarks (an empty shelf can't be opened — except my duas, which opens
+  its list).
   The tiles hold the shelf's icon (the export has plain tiles; the
   handover's icons came later; waking uses Lucide's sun, since the
   handover's sunrise is the morning's); search results have no design
   and borrow the card style. Arabic only in the export; English mirrors it.
+- My duas (Mariam's idea; no design — the Library's card style, an
+  `AppBar`-based `PageBar` with a Lucide back chevron): `CustomDua` (text +
+  windows, default the four dua windows, not the adhkar) saved by
+  `CustomDuas` (`CacheKey.customDuas`, on the phone only). `MyDuasPage`
+  (`/my-duas`: list, add, "read them" → `/library/mine`) and
+  `CustomDuaEditorPage` (`/my-duas/new`, `/my-duas/edit/<id>`: text,
+  windows, delete). `duaCatalogProvider` (presentation) is the bundled
+  catalog (`bundledDuaCatalogProvider`, the asset) plus the user's duas as
+  `Dua(mine: true)` after them — so a window's Dua screen, alerts, search
+  and the Library include them. On the Dua screen they show "من أدعيتك"
+  instead of a source and a pencil (edit) instead of the bookmark; text
+  with no Arabic letters runs left-to-right. Tests that need them override
+  `bundledDuaCatalogProvider`; overriding `duaCatalogProvider` leaves them
+  out. Not in v1: reminders per dua, sharing, backup.
 - The dua list (68, researched with Mariam's go-ahead) and how it was
   made — sources, grading bar, exclusions, the source checks — is in
   `docs/DUA_SOURCES.md`. The base 50 are `verified` (Mariam's sign-off after
@@ -226,8 +242,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   with the Figma PNG exports (the Figma MCP Starter plan allows only 20
   reads a month, so exports are the working path). Home renders the
   design's moment (Friday 03:12, `designTodayWindows()` in the fakes). The
-  Settings sheets and the sleep/waking shelves' Dua screens (no design)
-  are rendered too, to check by eye, and every
+  Settings sheets, the sleep/waking shelves' Dua screens and My duas (no
+  design) are rendered too, to check by eye, and every
   screen but the splash again in the night palette, to
   `build/design_check/night/` (the night Dua frame is the one to compare).
 

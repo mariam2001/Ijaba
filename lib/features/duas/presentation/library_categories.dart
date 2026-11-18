@@ -14,6 +14,7 @@ extension LibraryCategoryLabels on LibraryCategory {
     LibraryCategory.waking => LocaleKeys.library_waking,
     LibraryCategory.lastThird => LocaleKeys.library_last_third,
     LibraryCategory.mathur => LocaleKeys.library_mathur,
+    LibraryCategory.mine => LocaleKeys.library_mine,
     LibraryCategory.saved => LocaleKeys.library_saved,
   };
 
@@ -25,12 +26,17 @@ extension LibraryCategoryLabels on LibraryCategory {
     LibraryCategory.waking => LocaleKeys.library_adhkar_count,
     LibraryCategory.lastThird ||
     LibraryCategory.mathur => LocaleKeys.library_duas_count,
+    LibraryCategory.mine => LocaleKeys.library_mine_count,
     LibraryCategory.saved => LocaleKeys.library_saved_count,
   };
 
-  /// Its glyph at [size], tinted [color]: the handover's icons, and
-  /// Lucide's sun for waking (the handover's sunrise is the morning's).
+  /// Its glyph at [size], tinted [color]: the handover's icons; Lucide's
+  /// sun for waking (the handover's sunrise is the morning's) and pen for
+  /// the user's own duas.
   Widget icon({required double size, required Color color}) {
+    if (this == LibraryCategory.mine) {
+      return Icon(LucideIcons.penLine300, size: size, color: color);
+    }
     final asset = switch (this) {
       LibraryCategory.morning => AppIcon.morning,
       LibraryCategory.evening => AppIcon.evening,
@@ -39,18 +45,20 @@ extension LibraryCategoryLabels on LibraryCategory {
       LibraryCategory.lastThird => AppIcon.lastThird,
       LibraryCategory.mathur => AppIcon.duaHands,
       LibraryCategory.saved => AppIcon.saved,
+      LibraryCategory.mine => null,
     };
     return asset == null
         ? Icon(LucideIcons.sun300, size: size, color: color)
         : AppIconView(asset, size: size, color: color);
   }
 
-  /// Honey for the daytime adhkar, waking and saved; green for sleep, the
-  /// last third and the ma'thur duas.
+  /// Honey for the daytime adhkar, waking and the user's own and saved
+  /// duas; green for sleep, the last third and the ma'thur duas.
   bool get _honey => switch (this) {
     LibraryCategory.morning ||
     LibraryCategory.evening ||
     LibraryCategory.waking ||
+    LibraryCategory.mine ||
     LibraryCategory.saved => true,
     LibraryCategory.sleep ||
     LibraryCategory.lastThird ||

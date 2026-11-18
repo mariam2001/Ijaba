@@ -6,8 +6,8 @@ import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 /// The Library's shelves, in the design's order, with the alert-free
 /// adhkar for sleep and waking after the evening's. Morning, evening and
 /// the last third follow the windows a dua is for; sleep and waking its
-/// occasions; "ma'thur" holds the general supplications; "saved" the
-/// bookmarked ones.
+/// occasions; "ma'thur" holds the general supplications; "my duas" the
+/// ones the user wrote; "saved" the bookmarked ones.
 enum LibraryCategory {
   morning,
   evening,
@@ -15,6 +15,7 @@ enum LibraryCategory {
   waking,
   lastThird,
   mathur,
+  mine,
   saved
   ;
 
@@ -28,6 +29,7 @@ enum LibraryCategory {
         waking => dua.occasions.contains(DuaOccasion.waking),
         lastThird => dua.windows.contains(DuaWindowType.lastThirdOfNight),
         mathur => dua.general,
+        mine => dua.mine,
         LibraryCategory.saved => saved.contains(dua.id),
       })
         dua,

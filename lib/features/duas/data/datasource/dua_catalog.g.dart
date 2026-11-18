@@ -8,14 +8,16 @@ part of 'dua_catalog.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Loaded once, on first use.
+/// The bundled duas, loaded once, on first use. Screens read
+/// `duaCatalogProvider`, which adds the user's own.
 
-@ProviderFor(duaCatalog)
-const duaCatalogProvider = DuaCatalogProvider._();
+@ProviderFor(bundledDuaCatalog)
+const bundledDuaCatalogProvider = BundledDuaCatalogProvider._();
 
-/// Loaded once, on first use.
+/// The bundled duas, loaded once, on first use. Screens read
+/// `duaCatalogProvider`, which adds the user's own.
 
-final class DuaCatalogProvider
+final class BundledDuaCatalogProvider
     extends
         $FunctionalProvider<
           AsyncValue<DuaCatalog>,
@@ -23,20 +25,21 @@ final class DuaCatalogProvider
           FutureOr<DuaCatalog>
         >
     with $FutureModifier<DuaCatalog>, $FutureProvider<DuaCatalog> {
-  /// Loaded once, on first use.
-  const DuaCatalogProvider._()
+  /// The bundled duas, loaded once, on first use. Screens read
+  /// `duaCatalogProvider`, which adds the user's own.
+  const BundledDuaCatalogProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'duaCatalogProvider',
+        name: r'bundledDuaCatalogProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$duaCatalogHash();
+  String debugGetCreateSourceHash() => _$bundledDuaCatalogHash();
 
   @$internal
   @override
@@ -45,8 +48,8 @@ final class DuaCatalogProvider
 
   @override
   FutureOr<DuaCatalog> create(Ref ref) {
-    return duaCatalog(ref);
+    return bundledDuaCatalog(ref);
   }
 }
 
-String _$duaCatalogHash() => r'462a48eb8edb57a2b0126c6323578cf7b689b63b';
+String _$bundledDuaCatalogHash() => r'85299b157703b0af6cd4d95d71454acc50c64f6c';

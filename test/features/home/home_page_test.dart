@@ -9,7 +9,7 @@ import 'package:ijaba/config/routes/routes.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/core/service/local/cache/simple_cache.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
-import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
+import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
 import 'package:ijaba/features/duas/presentation/pages/dua_page.dart';
 import 'package:ijaba/features/home/presentation/pages/home_page.dart';
 import 'package:ijaba/features/home/presentation/widgets/window_row.dart';

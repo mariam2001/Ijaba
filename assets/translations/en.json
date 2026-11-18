@@ -150,7 +150,8 @@
     "next": "Next",
     "verify_source": "[verify attribution before release]",
     "save": "Save dua",
-    "unsave": "Remove from saved"
+    "unsave": "Remove from saved",
+    "yours": "Your own dua"
   },
   "library": {
     "title": "Duas & adhkar",
@@ -162,6 +163,7 @@
     "waking": "On waking",
     "last_third": "Duas for the last third",
     "mathur": "Authentic duas",
+    "mine": "My duas",
     "saved": "Saved",
     "adhkar_count": {
       "zero": "No adhkar",
@@ -170,6 +172,11 @@
     },
     "duas_count": {
       "zero": "No duas",
+      "one": "{} dua",
+      "other": "{} duas"
+    },
+    "mine_count": {
+      "zero": "Write your first dua",
       "one": "{} dua",
       "other": "{} duas"
     },
@@ -248,5 +255,23 @@
     "duas": "Duas",
     "windows": "Windows",
     "settings": "Settings"
+  },
+  "mine": {
+    "title": "My duas",
+    "hint": "They show after the sourced duas at the times you choose, so they're there when an alert comes. They stay on your phone.",
+    "empty": "No duas yet",
+    "empty_hint": "Write what you would like to ask for, for yourself and those you love.",
+    "add": "Add a dua",
+    "read": "Read them",
+    "new_title": "New dua",
+    "edit_title": "Edit dua",
+    "text_hint": "Write your dua here…",
+    "shows_in": "Shows in",
+    "only_here": "Only in My duas",
+    "save": "Save",
+    "delete": "Delete dua",
+    "delete_confirm": "Delete this dua?",
+    "delete_yes": "Delete",
+    "cancel": "Cancel"
   }
 }

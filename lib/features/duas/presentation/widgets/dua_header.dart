@@ -7,7 +7,7 @@ import 'package:ijaba/generated/locale_keys.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Back · where you are ("Last third of the night", "3:12 AM · 2 of 7") ·
-/// save.
+/// save — or, for the user's own dua, edit.
 class DuaHeader extends StatelessWidget {
   const DuaHeader({
     required this.title,
@@ -17,6 +17,7 @@ class DuaHeader extends StatelessWidget {
     required this.saved,
     required this.onBack,
     required this.onToggleSaved,
+    this.onEdit,
     super.key,
   });
 
@@ -29,6 +30,9 @@ class DuaHeader extends StatelessWidget {
   final bool saved;
   final VoidCallback onBack;
   final VoidCallback onToggleSaved;
+
+  /// Given for the user's own duas: a pencil replaces the bookmark.
+  final VoidCallback? onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -69,15 +73,26 @@ class DuaHeader extends StatelessWidget {
             ],
           ),
         ),
-        _EdgeIcon(
-          icon: saved ? LucideIcons.bookmarkCheck300 : LucideIcons.bookmark300,
-          label: context.tr(
-            saved ? LocaleKeys.dua_unsave : LocaleKeys.dua_save,
+        if (onEdit case final onEdit?)
+          _EdgeIcon(
+            icon: LucideIcons.pencil300,
+            label: context.tr(LocaleKeys.mine_edit_title),
+            color: context.colors.muted,
+            onTap: onEdit,
+            end: true,
+          )
+        else
+          _EdgeIcon(
+            icon: saved
+                ? LucideIcons.bookmarkCheck300
+                : LucideIcons.bookmark300,
+            label: context.tr(
+              saved ? LocaleKeys.dua_unsave : LocaleKeys.dua_save,
+            ),
+            color: saved ? context.colors.greenInk : context.colors.muted,
+            onTap: onToggleSaved,
+            end: true,
           ),
-          color: saved ? context.colors.greenInk : context.colors.muted,
-          onTap: onToggleSaved,
-          end: true,
-        ),
       ],
     );
   }

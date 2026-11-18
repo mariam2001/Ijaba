@@ -22,6 +22,8 @@ import 'package:ijaba/core/service/local/cache/simple_cache.dart';
 import 'package:ijaba/core/utils/enums.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
+import 'package:ijaba/features/duas/data/model/library_category.dart';
+import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
 import 'package:ijaba/features/duas/presentation/widgets/tasbih_counter.dart';
 import 'package:ijaba/features/location/data/datasource/city_directory.dart';
 import 'package:ijaba/features/location/data/datasource/location_service.dart';
@@ -43,6 +45,25 @@ Future<void> _secondDuaCountedTwice(WidgetTester tester) async {
     await tester.pumpAndSettle();
   }
 }
+
+/// Two duas the user might write, for the My duas renders.
+final _sampleCustomDuas = jsonEncode([
+  {
+    'id': 'mine-1',
+    'text': 'اللهم اشفِ أمي شفاءً لا يغادر سقمًا، وارزقها الصحة والعافية',
+    'windows': [
+      'lastThirdOfNight',
+      'adhanToIqama',
+      'afterPrayer',
+      'fridayHour',
+    ],
+  },
+  {
+    'id': 'mine-2',
+    'text': 'اللهم اهدِ أبنائي واجعلهم قرة عين لنا',
+    'windows': ['lastThirdOfNight'],
+  },
+]);
 
 /// Steps [n] duas on with the Next button.
 Future<void> Function(WidgetTester) _nextTimes(int n) => (tester) async {
@@ -146,6 +167,15 @@ void main() {
     // the longest one, Al 'Imran 190–200 on waking.
     '16_sleep_shelf': ('${AppRoutes.library}/sleep', 'ar', null),
     '17_waking_quran': ('${AppRoutes.library}/waking', 'en', _nextTimes(3)),
+    // The user's own duas (no design): the list, the editor, and one on
+    // the Dua screen.
+    '18_my_duas': (AppRoutes.myDuas, 'ar', null),
+    '19_my_dua_editor': (AppRoutes.myDuaEdit('mine-1'), 'ar', null),
+    '20_my_dua_screen': (
+      AppRoutes.libraryCategory(LibraryCategory.mine.name),
+      'ar',
+      null,
+    ),
   };
 
   // The night palette, for every screen but the splash (fixed colours):
@@ -165,6 +195,10 @@ void main() {
             : MemoryCache();
         if (name.startsWith('night/')) {
           await cache.write(CacheKey.themeMode, 'dark');
+        }
+        if (path.startsWith(AppRoutes.myDuas) ||
+            path.endsWith('/${LibraryCategory.mine.name}')) {
+          await cache.write(CacheKey.customDuas, _sampleCustomDuas);
         }
         return cache;
       }
@@ -193,12 +227,16 @@ void main() {
                 (ref) async => testCityDirectory(),
               ),
               clockProvider.overrideWith((ref) => Stream.value(designNow)),
-              duaCatalogProvider.overrideWith(
-                // The Dua frames show "2 of 7"; elsewhere, the real duas.
-                (ref) async => path.startsWith('${AppRoutes.dua}/')
-                    ? designDuaCatalog()
-                    : testDuaCatalog(),
-              ),
+              // The Dua frames show "2 of 7"; elsewhere, the real duas,
+              // with the user's own added after them.
+              if (path.startsWith('${AppRoutes.dua}/'))
+                duaCatalogProvider.overrideWith(
+                  (ref) async => designDuaCatalog(),
+                )
+              else
+                bundledDuaCatalogProvider.overrideWith(
+                  (ref) async => testDuaCatalog(),
+                ),
               todayWindowsProvider.overrideWith(
                 (ref) async => designTodayWindows(),
               ),

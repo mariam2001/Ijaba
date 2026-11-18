@@ -145,6 +145,7 @@ abstract class LocaleKeys {
   static const dua_verify_source = 'dua.verify_source';
   static const dua_save = 'dua.save';
   static const dua_unsave = 'dua.unsave';
+  static const dua_yours = 'dua.yours';
   static const dua = 'dua';
   static const library_title = 'library.title';
   static const library_search_hint = 'library.search_hint';
@@ -155,9 +156,11 @@ abstract class LocaleKeys {
   static const library_waking = 'library.waking';
   static const library_last_third = 'library.last_third';
   static const library_mathur = 'library.mathur';
+  static const library_mine = 'library.mine';
   static const library_saved = 'library.saved';
   static const library_adhkar_count = 'library.adhkar_count';
   static const library_duas_count = 'library.duas_count';
+  static const library_mine_count = 'library.mine_count';
   static const library_saved_count = 'library.saved_count';
   static const library = 'library';
   static const settings_title = 'settings.title';
@@ -226,4 +229,21 @@ abstract class LocaleKeys {
   static const tabs_windows = 'tabs.windows';
   static const tabs_settings = 'tabs.settings';
   static const tabs = 'tabs';
+  static const mine_title = 'mine.title';
+  static const mine_hint = 'mine.hint';
+  static const mine_empty = 'mine.empty';
+  static const mine_empty_hint = 'mine.empty_hint';
+  static const mine_add = 'mine.add';
+  static const mine_read = 'mine.read';
+  static const mine_new_title = 'mine.new_title';
+  static const mine_edit_title = 'mine.edit_title';
+  static const mine_text_hint = 'mine.text_hint';
+  static const mine_shows_in = 'mine.shows_in';
+  static const mine_only_here = 'mine.only_here';
+  static const mine_save = 'mine.save';
+  static const mine_delete = 'mine.delete';
+  static const mine_delete_confirm = 'mine.delete_confirm';
+  static const mine_delete_yes = 'mine.delete_yes';
+  static const mine_cancel = 'mine.cancel';
+  static const mine = 'mine';
 }

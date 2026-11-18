@@ -137,7 +137,10 @@ void main() {
         everyElement(predicate<Dua>((dua) => dua.general)),
       );
       for (final category in LibraryCategory.values) {
-        if (category == LibraryCategory.saved) continue;
+        // The user's: none bundled.
+        if (category case LibraryCategory.saved || LibraryCategory.mine) {
+          continue;
+        }
         expect(category.of(catalog, {}), isNotEmpty, reason: category.name);
       }
     });

@@ -59,9 +59,10 @@ class DuaCatalog {
   }
 }
 
-/// Loaded once, on first use.
+/// The bundled duas, loaded once, on first use. Screens read
+/// `duaCatalogProvider`, which adds the user's own.
 @Riverpod(keepAlive: true)
-Future<DuaCatalog> duaCatalog(Ref ref) async {
+Future<DuaCatalog> bundledDuaCatalog(Ref ref) async {
   final raw = await rootBundle.loadString('assets/data/duas.json');
   return DuaCatalog.fromJson(jsonDecode(raw) as Json);
 }

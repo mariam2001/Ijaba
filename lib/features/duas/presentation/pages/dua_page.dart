@@ -12,6 +12,7 @@ import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/error_view.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
+import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
 import 'package:ijaba/features/duas/presentation/controller/saved_duas_controller.dart';
 import 'package:ijaba/features/duas/presentation/dua_selection.dart';
 import 'package:ijaba/features/duas/presentation/widgets/dua_header.dart';
@@ -21,9 +22,7 @@ import 'package:ijaba/generated/locale_keys.g.dart';
 
 /// Duas one at a time: read, count, move on. Opened for a window (Home's
 /// "Make dua now", a tapped alert), a Library shelf, or one search result.
-///
-/// Day colours for now: the design shows it at night, and the night palette
-/// isn't settled yet.
+/// Follows the theme (the design shows it at night).
 class DuaPage extends ConsumerWidget {
   const DuaPage({required this.selection, super.key});
 
@@ -82,7 +81,8 @@ class _DuaSequence extends HookConsumerWidget {
       );
     }
 
-    final dua = duas[index.value];
+    // In range even if the user just deleted one of their own duas.
+    final dua = duas[min(index.value, duas.length - 1)];
     final count = counts.value[dua.id] ?? 0;
 
     void countOne() {
@@ -109,6 +109,9 @@ class _DuaSequence extends HookConsumerWidget {
                 context.canPop() ? context.pop() : context.go(AppRoutes.home),
             onToggleSaved: () =>
                 ref.read(savedDuasProvider.notifier).toggle(dua.id),
+            onEdit: dua.mine
+                ? () => context.push(AppRoutes.myDuaEdit(dua.id))
+                : null,
           ),
         ),
         // Centred in the space left; long duas (Al 'Imran 190–200 on

@@ -5,8 +5,10 @@ import 'package:ijaba/config/routes/main_shell.dart';
 import 'package:ijaba/features/alerts/presentation/pages/alerts_debug_page.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
 import 'package:ijaba/features/duas/presentation/dua_selection.dart';
+import 'package:ijaba/features/duas/presentation/pages/custom_dua_editor_page.dart';
 import 'package:ijaba/features/duas/presentation/pages/dua_page.dart';
 import 'package:ijaba/features/duas/presentation/pages/library_page.dart';
+import 'package:ijaba/features/duas/presentation/pages/my_duas_page.dart';
 import 'package:ijaba/features/home/presentation/pages/home_page.dart';
 import 'package:ijaba/features/onboarding/presentation/controller/onboarding_controller.dart';
 import 'package:ijaba/features/onboarding/presentation/pages/city_picker_page.dart';
@@ -57,6 +59,19 @@ final appRoutes = <RouteBase>[
         DuaWindowType.values.asNameMap()[state.pathParameters['window']],
       ),
     ),
+  ),
+  GoRoute(
+    path: AppRoutes.myDuas,
+    builder: (context, state) => const MyDuasPage(),
+  ),
+  GoRoute(
+    path: AppRoutes.myDuaNew,
+    builder: (context, state) => const CustomDuaEditorPage(),
+  ),
+  GoRoute(
+    path: '${AppRoutes.myDuas}/edit/:id',
+    builder: (context, state) =>
+        CustomDuaEditorPage(id: state.pathParameters['id']),
   ),
   GoRoute(
     path: '${AppRoutes.library}/dua/:id',

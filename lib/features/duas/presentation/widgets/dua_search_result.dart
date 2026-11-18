@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/features/duas/data/model/dua.dart';
+import 'package:ijaba/generated/locale_keys.g.dart';
 
 /// One search hit: the start of the dua, and its meaning (English) or source
 /// (Arabic) under it. No design yet — styled like the Library's cards.
@@ -16,7 +17,11 @@ class DuaSearchResult extends StatelessWidget {
   Widget build(BuildContext context) {
     final language = context.locale.languageCode;
     final meaning = dua.meaningIn(language);
-    final detail = meaning.isNotEmpty ? meaning : dua.sourceIn(language) ?? '';
+    final detail = dua.mine
+        ? context.tr(LocaleKeys.dua_yours)
+        : meaning.isNotEmpty
+        ? meaning
+        : dua.sourceIn(language) ?? '';
 
     return Material(
       color: context.colors.paperSoft,

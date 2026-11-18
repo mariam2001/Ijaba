@@ -7,9 +7,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
 import 'package:ijaba/core/components/error_view.dart';
-import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
 import 'package:ijaba/features/duas/data/model/dua.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
+import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
 import 'package:ijaba/features/duas/presentation/controller/saved_duas_controller.dart';
 import 'package:ijaba/features/duas/presentation/widgets/dua_search_result.dart';
 import 'package:ijaba/features/duas/presentation/widgets/library_category_card.dart';
@@ -60,7 +60,11 @@ class LibraryPage extends HookConsumerWidget {
                           LibraryCategoryCard(
                             category: category,
                             count: category.of(catalog, saved).length,
-                            onTap: category.of(catalog, saved).isEmpty
+                            // "My duas" opens its list (add, edit, read),
+                            // even empty; the others their Dua screen.
+                            onTap: category == LibraryCategory.mine
+                                ? () => context.push(AppRoutes.myDuas)
+                                : category.of(catalog, saved).isEmpty
                                 ? null
                                 : () => context.push(
                                     AppRoutes.libraryCategory(category.name),

@@ -30,6 +30,7 @@ _Dua _$DuaFromJson(Map<String, dynamic> json) => _Dua(
           .toList() ??
       const [],
   general: json['general'] as bool? ?? false,
+  mine: json['mine'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$DuaToJson(_Dua instance) => <String, dynamic>{
@@ -44,6 +45,7 @@ Map<String, dynamic> _$DuaToJson(_Dua instance) => <String, dynamic>{
   'windows': instance.windows.map((e) => _$DuaWindowTypeEnumMap[e]!).toList(),
   'occasions': instance.occasions.map((e) => _$DuaOccasionEnumMap[e]!).toList(),
   'general': instance.general,
+  'mine': instance.mine,
 };
 
 const _$DuaWindowTypeEnumMap = {

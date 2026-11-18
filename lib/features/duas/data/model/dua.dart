@@ -44,6 +44,9 @@ abstract class Dua with _$Dua {
 
     /// A general supplication, for any time — the Library's "ma'thur duas".
     @Default(false) bool general,
+
+    /// Written by the user ("My duas"): no source to show or verify.
+    @Default(false) bool mine,
   }) = _Dua;
 
   factory Dua.fromJson(Json json) => _$DuaFromJson(json);

@@ -8,4 +8,5 @@ enum CacheKey {
   savedDuas,
   prayerSettings,
   windowConfig,
+  customDuas,
 }
