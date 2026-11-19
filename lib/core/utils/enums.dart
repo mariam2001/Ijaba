@@ -9,4 +9,7 @@ enum CacheKey {
   prayerSettings,
   windowConfig,
   customDuas,
+  reminderIndex,
+  welcomePending,
+  completions,
 }

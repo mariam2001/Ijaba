@@ -25,11 +25,50 @@ class AlertText {
   final Translate translate;
   final String Function(DateTime instant) formatTime;
 
-  String title(PlannedAlert alert) => alert.windows.map(_label).join(' · ');
+  String title(PlannedAlert alert) => switch (_warm(alert)) {
+    DuaWindowType.lastThirdOfNight => translate(
+      _isHeadsUp(alert)
+          ? LocaleKeys.warm_alerts_last_third_soon_title
+          : LocaleKeys.warm_alerts_last_third_title,
+    ),
+    DuaWindowType.fridayHour => translate(LocaleKeys.warm_alerts_friday_title),
+    DuaWindowType.morningAdhkar => translate(
+      LocaleKeys.warm_alerts_morning_title,
+    ),
+    _ => alert.windows.map(_label).join(' · '),
+  };
 
-  /// A heads-up (fired before the window opens) says when it begins; an
-  /// alert fired as the window opens says until when it stays open.
+  /// The windows with the design's warm wording (Figma ١٧), when an alert
+  /// is for one of them alone; others keep the plain "name · time".
+  DuaWindowType? _warm(PlannedAlert alert) {
+    if (alert.windows.length != 1) return null;
+    final type = alert.windows.single.type;
+    return switch (type) {
+      DuaWindowType.lastThirdOfNight ||
+      DuaWindowType.fridayHour ||
+      DuaWindowType.morningAdhkar => type,
+      _ => null,
+    };
+  }
+
+  /// Fired before its window opens (the last third's comes 15 minutes
+  /// early): "it's near" rather than "it has begun".
+  bool _isHeadsUp(PlannedAlert alert) =>
+      alert.windows.first.start.isAfter(alert.at);
+
+  /// The warm windows' own words; otherwise a heads-up (fired before the
+  /// window opens) says when it begins, and an alert fired as the window
+  /// opens says until when it stays open.
   String body(PlannedAlert alert) {
+    switch (_warm(alert)) {
+      case DuaWindowType.lastThirdOfNight:
+        return translate(LocaleKeys.warm_alerts_last_third_body);
+      case DuaWindowType.fridayHour:
+        return translate(LocaleKeys.warm_alerts_friday_body);
+      case DuaWindowType.morningAdhkar:
+        return translate(LocaleKeys.warm_alerts_morning_body);
+      case _:
+    }
     final window = alert.windows.first;
     return window.start.isAfter(alert.at)
         ? translate(

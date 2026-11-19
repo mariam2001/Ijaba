@@ -1,30 +1,30 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hijri/hijri_calendar.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
+import 'package:ijaba/core/components/ijaba_logo.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
+import 'package:ijaba/features/home/presentation/controller/home_greeting_controller.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-/// Wordmark with today's Hijri date ("الجمعة ١٨ ربيع الآخر"), and search.
+/// The warm Home's header (Figma ١٦): a greeting for the time of day
+/// ("ليلتك مباركة"), today's date ("الخميس ١٩ نوفمبر") and the logo.
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({required this.now, required this.onSearch, super.key});
+  const HomeHeader({required this.now, required this.greeting, super.key});
 
   final DateTime now;
-  final VoidCallback onSearch;
+  final HomeGreeting greeting;
 
   @override
   Widget build(BuildContext context) {
     final language = context.locale.languageCode;
-    // Umm al-Qura, by the civil date.
-    final hijri = HijriCalendar.fromDate(now);
+    final local = now.toLocal();
     final date = context.tr(
-      LocaleKeys.home_date,
+      LocaleKeys.home_warm_date,
       namedArgs: {
-        'weekday': DateFormat.EEEE(language).format(now),
-        'day': localizedDigits(hijri.hDay, language),
-        'month': context.tr('hijri_months.${hijri.hMonth}'),
+        'weekday': DateFormat.EEEE(language).format(local),
+        'day': localizedDigits(local.day, language),
+        'month': DateFormat.MMMM(language).format(local),
       },
     );
 
@@ -34,39 +34,32 @@ class HomeHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                context.tr(LocaleKeys.app_name),
-                style: context.textStyles.homeWordmarkFor(context.locale),
+              // A new greeting (the day turning) cross-fades in.
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 400),
+                layoutBuilder: (current, previous) => Stack(
+                  alignment: AlignmentDirectional.centerStart,
+                  children: [...previous, ?current],
+                ),
+                child: Text(
+                  context.tr(greeting.key),
+                  key: ValueKey(greeting),
+                  style: context.textStyles.greeting,
+                ),
               ),
+              SizedBox(height: 2.h),
               Text(
                 date,
                 style: context.textStyles.caption.copyWith(
-                  fontSize: 10.5.sp,
+                  fontSize: 12.sp,
                   color: context.colors.muted,
                 ),
               ),
             ],
           ),
         ),
-        // The glyph sits on the content edge, as in the design; the touch
-        // target extends inward and vertically instead.
-        GestureDetector(
-          onTap: onSearch,
-          behavior: HitTestBehavior.opaque,
-          child: Padding(
-            padding: EdgeInsetsDirectional.only(
-              start: 14.w,
-              // Slightly below centre, like the design.
-              top: 14.h,
-              bottom: 10.h,
-            ),
-            child: Icon(
-              LucideIcons.search300,
-              size: 20.r,
-              color: context.colors.muted,
-            ),
-          ),
-        ),
+        SizedBox(width: 12.w),
+        IjabaLogo(size: 30.r),
       ],
     );
   }

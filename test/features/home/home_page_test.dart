@@ -93,10 +93,16 @@ void main() {
   ) async {
     await pumpHome(tester);
 
+    // The warm Home's greeting at 03:12, in the last third.
+    expect(find.text('ليلتك مباركة'), findsOneWidget);
     expect(find.text('مفتوحة الآن'), findsOneWidget);
-    // In the hero card and as the first row.
-    expect(find.text('الثلث الأخير من الليل'), findsNWidgets(2));
     expect(find.text('١:١٨'), findsOneWidget);
+
+    // Below the reminder, the hero and the etiquette card: the day's rows.
+    await tester.drag(find.byType(ListView), const Offset(0, -500));
+    await tester.pumpAndSettle();
+    // In the hero card and as the first row.
+    expect(find.text('الثلث الأخير من الليل'), findsWidgets);
     expect(find.text('الفجر · تنبيه قبل ٥ دقائق'), findsOneWidget);
     expect(find.text('الفجر · صامت'), findsOneWidget);
     expect(find.byType(WindowRow), findsNWidgets(4));
@@ -105,11 +111,15 @@ void main() {
   testWidgets('in English', (tester) async {
     await pumpHome(tester, language: 'en');
 
+    expect(find.text('A blessed night to you'), findsOneWidget);
+    expect(find.text('Friday, September 8'), findsOneWidget);
     expect(find.text('OPEN NOW'), findsOneWidget);
     expect(find.text('1:18'), findsOneWidget);
     expect(find.text('2:04 — 4:30 AM'), findsOneWidget);
+
+    await tester.drag(find.byType(ListView), const Offset(0, -500));
+    await tester.pumpAndSettle();
     expect(find.text('Fajr · 5 min before'), findsOneWidget);
-    expect(find.text('Friday, 18 Rabi al-Akhir'), findsOneWidget);
   });
 
   testWidgets('before a window opens, counts down to it', (tester) async {

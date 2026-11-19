@@ -190,7 +190,7 @@ void main() {
       expect(find.text('اكتب دعاءك الأول'), findsOneWidget);
       await tester.tap(find.text('أدعيتي'));
       await tester.pumpAndSettle();
-      expect(find.text('لم تكتب دعاءً بعد'), findsOneWidget);
+      expect(find.text('لم تكتب دعاءك الخاص بعد'), findsOneWidget);
 
       await tester.tap(find.text('أضف دعاءً'));
       await tester.pumpAndSettle();
@@ -217,7 +217,7 @@ void main() {
       await tester.tap(find.text('حذف'));
       await tester.pumpAndSettle();
 
-      expect(find.text('لم تكتب دعاءً بعد'), findsOneWidget);
+      expect(find.text('لم تكتب دعاءك الخاص بعد'), findsOneWidget);
       expect(cache.read(CacheKey.customDuas), '[]');
       // Back to the Library.
       await tester.tap(find.byTooltip('رجوع').first);

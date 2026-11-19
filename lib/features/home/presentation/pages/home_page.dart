@@ -9,7 +9,11 @@ import 'package:ijaba/core/components/error_view.dart';
 import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/features/alerts/data/datasource/alert_planner.dart';
+import 'package:ijaba/features/home/presentation/controller/home_greeting_controller.dart';
+import 'package:ijaba/features/home/presentation/controller/home_moments_controller.dart';
 import 'package:ijaba/features/home/presentation/widgets/home_header.dart';
+import 'package:ijaba/features/home/presentation/widgets/reminder_card.dart';
+import 'package:ijaba/features/home/presentation/widgets/warm_cards.dart';
 import 'package:ijaba/features/home/presentation/widgets/window_hero_card.dart';
 import 'package:ijaba/features/home/presentation/widgets/window_row.dart';
 import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
@@ -25,7 +29,8 @@ class HomePage extends ConsumerWidget {
     final today = ref.watch(todayWindowsProvider);
     final enabled = ref.watch(enabledWindowTypesProvider);
     const planner = AlertPlanner();
-    void search() => context.go(AppRoutes.librarySearch());
+    final greeting = ref.watch(homeGreetingProvider);
+    final welcome = ref.watch(welcomeCardProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -33,10 +38,26 @@ class HomePage extends ConsumerWidget {
         child: ListView(
           padding: EdgeInsets.fromLTRB(22.w, 27.h, 22.w, 24.h),
           children: [
+            // The warm Home (Figma ١٦): greeting, a reminder, the
+            // featured window, the etiquette, then the day's windows.
             Reveal(
-              child: HomeHeader(now: now, onSearch: search),
+              child: HomeHeader(now: now, greeting: greeting),
             ),
-            SizedBox(height: 13.h),
+            SizedBox(height: 16.h),
+            if (welcome) ...[
+              Reveal(
+                delay: const Duration(milliseconds: 40),
+                child: WelcomeCardView(
+                  onDismiss: ref.read(welcomeCardProvider.notifier).dismiss,
+                ),
+              ),
+              SizedBox(height: 16.h),
+            ],
+            Reveal(
+              delay: const Duration(milliseconds: 60),
+              child: ReminderCard(start: ref.watch(reminderStartProvider)),
+            ),
+            SizedBox(height: 16.h),
             // Recomputed on every clock tick: keep showing the last result.
             ...today.when(
               skipLoadingOnReload: true,
@@ -56,6 +77,13 @@ class HomePage extends ConsumerWidget {
                           context.push(AppRoutes.duaFor(featured.type.name)),
                     ),
                   ),
+                SizedBox(height: 16.h),
+                Reveal(
+                  delay: const Duration(milliseconds: 110),
+                  child: EtiquetteEntryCard(
+                    onTap: () => context.push(AppRoutes.etiquette),
+                  ),
+                ),
                 SizedBox(height: 26.h),
                 // Then the list, row after row.
                 Reveal(

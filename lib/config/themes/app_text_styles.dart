@@ -52,6 +52,10 @@ class AppTextStyles {
       ? _amiri(24, color: _colors.greenInk)
       : _readex(21, weight: FontWeight.w600, color: _colors.greenInk);
 
+  /// Home's greeting for the time of day ("ليلتك مباركة"), warm Home.
+  TextStyle get greeting =>
+      _readex(23, weight: FontWeight.w700, color: _colors.ink);
+
   /// "مفتوحة الآن" on the hero card.
   TextStyle get heroBadge =>
       _readex(11, weight: FontWeight.w500, color: _hero.honeyPale);

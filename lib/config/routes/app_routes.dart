@@ -29,6 +29,12 @@ abstract final class AppRoutes {
   static const myDuaNew = '$myDuas/new';
   static String myDuaEdit(String id) => '$myDuas/edit/$id';
 
+  /// "تقبّل الله منك", after the last dua (takes `CompletionArgs` as extra).
+  static const completion = '/done';
+
+  /// آداب الدعاء, from Home.
+  static const etiquette = '/etiquette';
+
   // Onboarding, in order.
   static const language = '/onboarding/language';
   static const welcome = '/onboarding/welcome';

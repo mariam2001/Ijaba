@@ -105,7 +105,7 @@ void main() {
     expect(notifications.scheduled.length, greaterThan(25));
     expect(
       notifications.scheduled.map((alert) => alert.title),
-      contains('الثلث الأخير من الليل'),
+      contains('يقترب الثلث الأخير 🌙'),
     );
     // After-prayer alerts (the quiet ones) are off by default.
     expect(notifications.scheduled.any((alert) => alert.quiet), isFalse);

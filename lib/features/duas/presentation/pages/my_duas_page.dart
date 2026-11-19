@@ -85,48 +85,44 @@ class MyDuasPage extends ConsumerWidget {
 class _Empty extends StatelessWidget {
   const _Empty();
 
+  /// The explanation, then the design's card (Figma ١٧, "حالة «أدعيتي»
+  /// الفارغة").
   @override
-  Widget build(BuildContext context) => Center(
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 40.w),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 72.r,
-            height: 72.r,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: context.colors.honeyPale,
-              shape: BoxShape.circle,
-            ),
-            child: AppIconView(
+  Widget build(BuildContext context) => ListView(
+    padding: EdgeInsets.fromLTRB(22.w, 4.h, 22.w, 16.h),
+    children: [
+      Text(context.tr(LocaleKeys.mine_hint), style: context.textStyles.body),
+      SizedBox(height: 16.h),
+      Container(
+        padding: EdgeInsets.fromLTRB(21.w, 21.h, 21.w, 21.h),
+        decoration: BoxDecoration(
+          color: context.colors.paperWarm,
+          borderRadius: BorderRadius.circular(18.r),
+          border: Border.all(color: context.colors.line),
+        ),
+        child: Column(
+          children: [
+            AppIconView(
               AppIcon.duaHands,
               size: 32.r,
-              color: context.colors.honey,
+              color: context.colors.greenInk,
             ),
-          ),
-          SizedBox(height: 18.h),
-          Text(
-            context.tr(LocaleKeys.mine_empty),
-            textAlign: TextAlign.center,
-            style: context.textStyles.cardTitle,
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            context.tr(LocaleKeys.mine_empty_hint),
-            textAlign: TextAlign.center,
-            style: context.textStyles.body,
-          ),
-          SizedBox(height: 6.h),
-          Text(
-            context.tr(LocaleKeys.mine_hint),
-            textAlign: TextAlign.center,
-            style: context.textStyles.cardSubtitle,
-          ),
-        ],
+            SizedBox(height: 8.h),
+            Text(
+              context.tr(LocaleKeys.mine_empty),
+              textAlign: TextAlign.center,
+              style: context.textStyles.cardTitle.copyWith(fontSize: 15.sp),
+            ),
+            SizedBox(height: 6.h),
+            Text(
+              context.tr(LocaleKeys.mine_empty_hint),
+              textAlign: TextAlign.center,
+              style: context.textStyles.body,
+            ),
+          ],
+        ),
       ),
-    ),
+    ],
   );
 }
 

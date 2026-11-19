@@ -11,6 +11,7 @@ import 'package:ijaba/core/service/local/cache/simple_cache.dart';
 import 'package:ijaba/core/utils/enums.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
+import 'package:ijaba/features/duas/presentation/pages/completion_page.dart';
 import 'package:ijaba/features/duas/presentation/pages/dua_page.dart';
 import 'package:ijaba/features/duas/presentation/widgets/dua_view.dart';
 import 'package:ijaba/features/duas/presentation/widgets/tasbih_counter.dart';
@@ -126,7 +127,44 @@ void main() {
       await tapText(tester, 'التالي');
     }
     expect(find.textContaining('٧ من ٧'), findsOneWidget);
-    expect(button(tester, 'التالي').enabled, isFalse);
+    // The last one finishes instead.
+    expect(button(tester, 'تمّ').enabled, isTrue);
+  });
+
+  testWidgets('finishing opens "تقبّل الله منك", then closes both', (
+    tester,
+  ) async {
+    final cache = MemoryCache();
+    await pumpDua(tester, cache: cache);
+    for (var i = 0; i < 6; i++) {
+      await tapText(tester, 'التالي');
+    }
+    await tapText(tester, 'تمّ');
+
+    expect(find.byType(CompletionPage), findsOneWidget);
+    expect(find.text('تقبّل الله منك'), findsOneWidget);
+    expect(find.text('أتممت أدعية الثلث الأخير من الليل'), findsOneWidget);
+    expect(find.text('ليلتك الأولى هذا الشهر'), findsOneWidget);
+    expect(find.text('٧ أدعية'), findsOneWidget);
+    expect(cache.read(CacheKey.completions), contains('lastThirdOfNight'));
+
+    await tapText(tester, 'الحمد لله');
+    expect(find.byType(CompletionPage), findsNothing);
+    expect(find.byType(DuaPage), findsNothing);
+  });
+
+  testWidgets('reaching a count says so for a moment', (tester) async {
+    await pumpDua(tester, language: 'en');
+    await tapText(tester, 'Next');
+    for (var i = 0; i < 3; i++) {
+      await tester.tap(find.byType(TasbihCounter));
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.textContaining('Count complete'), findsOneWidget);
+
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Count complete'), findsNothing);
   });
 
   testWidgets('English adds the transliteration', (tester) async {

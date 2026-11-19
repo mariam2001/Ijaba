@@ -128,6 +128,35 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   window's icon on a small tile (honey for adhkar, green otherwise). Only
   the switch shows a row is off — Mariam's call over the design's muted
   row, which looked unusable.
+- Warm Home (Figma ١٦, page "Ijaba — v2"): `HomeHeader` is a greeting for
+  the time of day (`homeGreetingProvider`, `HomeGreeting.at`: the last
+  third first, then Friday from Fajr to Maghrib, then by today's prayers;
+  by the clock without a location) with the Gregorian date and the app
+  logo (`IjabaLogo`, `assets/brand/ijaba_logo*.svg`; no search — the
+  design dropped it). Below: the end-of-onboarding welcome (`WelcomeCard`,
+  once, flagged by `OnboardingController.complete` via
+  `CacheKey.welcomePending`), the reminder card (`ReminderCard`, verses in
+  `home/data/reminders.dart`, the next one each app start —
+  `reminderStartProvider`, `CacheKey.reminderIndex` — swipe for others),
+  the hero card, the etiquette entry card, then the day's windows. The
+  frame's hero has the corner illustration; Mariam's row layout stays.
+- آداب الدعاء (Figma ١٥): `EtiquettePage` (`/etiquette`), items in
+  `features/etiquette/data/etiquette.dart` (strings `etiquette.<id>_*`),
+  sources in docs/DUA_SOURCES.md; the design's "المصادر تُراجَع قبل النشر"
+  shows until `etiquetteVerified` (Mariam's sign-off).
+- Completion (Figma ١٤): on a window's or shelf's last dua "Next" reads
+  "تمّ" and opens `CompletionPage` (`/done`, `CompletionArgs` as extra);
+  closing it closes the Dua screen too. `Completion.of(selection)` says what
+  was finished and the chip's noun (ليلة/جمعة/يوم, `ordinal()` in
+  `core/utils/ordinal.dart` — Arabic words to 31, by gender);
+  `CompletionLog` (`CacheKey.completions`) counts days per month. The share
+  line opens Android's share sheet (`android_intent_plus`; no store link
+  until release). A count reaching its target (repeat > 1) shows the
+  "اكتمل التسبيح" toast over the dua (Figma ١٧).
+- Warm notification wording (Figma ١٧, `AlertText`): the last third
+  ("يقترب" for the 15-minute heads-up, "بدأ" at its start), the Friday
+  hour and morning adhkar, when an alert is for that window alone; others
+  keep "name · time". My duas' empty state is the frame's card.
 - Home: `features/home`. `todayWindowsProvider` (windows open now or starting
   in the next 24 h, from yesterday/today/tomorrow's prayer days) is recomputed
   on each `clockProvider` tick (20 s). The hero card features the open window
@@ -262,7 +291,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   reads a month, so exports are the working path). Home renders the
   design's moment (Friday 03:12, `designTodayWindows()` in the fakes). The
   Settings sheets, the sleep/waking shelves' Dua screens and My duas (no
-  design) are rendered too, to check by eye; entry animations get a
+  design) are rendered too, to check by eye, and frames ١٤–١٧'s screens
+  (completion, etiquette, Home with the welcome, My duas empty); entry animations get a
   second to finish (not on the splash, which moves on); and every
   screen but the splash again in the night palette, to
   `build/design_check/night/` (the night Dua frame is the one to compare).

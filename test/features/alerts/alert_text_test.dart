@@ -44,11 +44,41 @@ void main() {
     expect(text.body(alertAt(4, 55)), 'alerts.begins_at{time: 5:00}');
   });
 
-  test('the last-third heads-up says when it begins', () {
+  test('the last third is near, then has begun, in warm words', () {
     final heads = alertAt(0, 45, 25);
+    expect(text.title(heads), 'warm_alerts.last_third_soon_title');
+    expect(text.body(heads), 'warm_alerts.last_third_body');
 
-    expect(text.title(heads), 'windows.last_third');
-    expect(text.body(heads), 'alerts.begins_at{time: 1:00}');
+    final opening = const AlertPlanner(leadTimes: {})
+        .plan(
+          days: [syntheticDay(2026, 10, 24)],
+          enabled: const {DuaWindowType.lastThirdOfNight},
+          now: DateTime.utc(2026, 10, 24),
+        )
+        .first;
+    expect(text.title(opening), 'warm_alerts.last_third_title');
+  });
+
+  test('the Friday hour and morning adhkar alone have warm words too', () {
+    final friday = const AlertPlanner()
+        .plan(
+          days: [syntheticDay(2026, 10, 23)],
+          enabled: const {DuaWindowType.fridayHour},
+          now: DateTime.utc(2026, 10, 23),
+        )
+        .single;
+    expect(text.title(friday), 'warm_alerts.friday_title');
+    expect(text.body(friday), 'warm_alerts.friday_body');
+
+    final morning = const AlertPlanner()
+        .plan(
+          days: [syntheticDay(2026, 10, 24)],
+          enabled: const {DuaWindowType.morningAdhkar},
+          now: DateTime.utc(2026, 10, 24),
+        )
+        .single;
+    expect(text.title(morning), 'warm_alerts.morning_title');
+    expect(text.body(morning), 'warm_alerts.morning_body');
   });
 
   test('other alerts say until when the window stays open', () {

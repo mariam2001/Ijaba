@@ -13,6 +13,9 @@ class OnboardingController extends _$OnboardingController {
 
   Future<void> complete() async {
     state = true;
-    await ref.read(SimpleCache.provider).write(CacheKey.onboardingDone, 'true');
+    final cache = ref.read(SimpleCache.provider);
+    await cache.write(CacheKey.onboardingDone, 'true');
+    // Home welcomes them, once (Figma "Warm moments").
+    await cache.write(CacheKey.welcomePending, 'true');
   }
 }

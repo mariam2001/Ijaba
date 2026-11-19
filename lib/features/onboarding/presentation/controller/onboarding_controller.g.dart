@@ -45,7 +45,7 @@ final class OnboardingControllerProvider
 }
 
 String _$onboardingControllerHash() =>
-    r'2c8edf1bab7484db48e7330b45a9ffe2b20c7c7a';
+    r'c581bc09b2b96208bd863b75899937b3c5ccb962';
 
 /// Whether the user has finished onboarding (Language → Permissions).
 

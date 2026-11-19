@@ -23,7 +23,9 @@ import 'package:ijaba/core/utils/enums.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
+import 'package:ijaba/features/duas/presentation/completion.dart';
 import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
+import 'package:ijaba/features/duas/presentation/dua_selection.dart';
 import 'package:ijaba/features/duas/presentation/widgets/tasbih_counter.dart';
 import 'package:ijaba/features/location/data/datasource/city_directory.dart';
 import 'package:ijaba/features/location/data/datasource/location_service.dart';
@@ -31,6 +33,7 @@ import 'package:ijaba/features/location/data/model/saved_location.dart';
 import 'package:ijaba/features/onboarding/data/datasource/device_power_settings.dart';
 import 'package:ijaba/features/onboarding/presentation/pages/splash_page.dart';
 import 'package:ijaba/features/prayer_times/data/model/geo_point.dart';
+import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 import 'package:ijaba/features/windows/presentation/controller/today_windows_controller.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -176,6 +179,14 @@ void main() {
       'ar',
       null,
     ),
+    // Figma ١٤–١٧: the completion screen (as after the last third's seven
+    // duas, the fourth night this month), the etiquette page, Home with
+    // the end-of-onboarding welcome, and My duas empty. (Home itself, ٦/١١,
+    // is the warm Home of ١٦.)
+    '21_completion': (AppRoutes.completion, 'ar', null),
+    '22_etiquette': (AppRoutes.etiquette, 'ar', null),
+    '23_home_welcome': (AppRoutes.home, 'ar', null),
+    '24_my_duas_empty': (AppRoutes.myDuas, 'ar', null),
   };
 
   // The night palette, for every screen but the splash (fixed colours):
@@ -196,8 +207,12 @@ void main() {
         if (name.startsWith('night/')) {
           await cache.write(CacheKey.themeMode, 'dark');
         }
-        if (path.startsWith(AppRoutes.myDuas) ||
-            path.endsWith('/${LibraryCategory.mine.name}')) {
+        if (name.endsWith('23_home_welcome')) {
+          await cache.write(CacheKey.welcomePending, 'true');
+        }
+        if (!name.endsWith('_empty') &&
+            (path.startsWith(AppRoutes.myDuas) ||
+                path.endsWith('/${LibraryCategory.mine.name}'))) {
           await cache.write(CacheKey.customDuas, _sampleCustomDuas);
         }
         return cache;
@@ -241,7 +256,19 @@ void main() {
                 (ref) async => designTodayWindows(),
               ),
               routerProvider.overrideWithValue(
-                GoRouter(initialLocation: path, routes: appRoutes),
+                GoRouter(
+                  initialLocation: path,
+                  initialExtra: path == AppRoutes.completion
+                      ? (
+                          completion: Completion.of(
+                            const WindowDuas(DuaWindowType.lastThirdOfNight),
+                            7,
+                          )!,
+                          nth: 4,
+                        )
+                      : null,
+                  routes: appRoutes,
+                ),
               ),
             ],
             child: App(translations: TestTranslations()),

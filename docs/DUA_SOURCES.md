@@ -266,3 +266,41 @@ as-Silsila as-Sahiha 114).
 | 12 | `sleep-atamana` | الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا … | 1 | [Sahih Muslim 2715 — on going to bed](https://sunnah.com/muslim:2715) |
 | 13 | `sleep-fatir-as-samawat` | اللَّهُمَّ فَاطِرَ السَّمَوَاتِ وَالأَرْضِ عَالِمَ … | 1 | [Abu Dawud 5067 (graded sahih by al-Albani) — morning, evening and on going to bed](https://sunnah.com/abudawud:5067) |
 | 14 | `sleep-aslamtu` | اللَّهُمَّ أَسْلَمْتُ وَجْهِي إِلَيْكَ، وَفَوَّضْتُ … | 1 | [Sahih al-Bukhari 6311, Sahih Muslim 2710 — the last words before sleeping](https://sunnah.com/bukhari:6311) |
+
+## Other texts in the app — Figma ١٤–١٧ (checked 2026-11-19)
+
+Quoted in the designs and kept as worded there; each checked against its
+source. The etiquette page shows the design's "المصادر تُراجَع قبل النشر"
+until Mariam signs these off (`etiquetteVerified` in
+`lib/features/etiquette/data/etiquette.dart`).
+
+**Quran** (cut from api.alquran.cloud "quran-simple", to the first pause
+mark; checked character for character in the code):
+
+| Where | Text | Reference |
+|---|---|---|
+| Home reminder (the design's) | وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ | Al-Baqarah 2:186 |
+| Home reminder; etiquette page | وَقَالَ رَبُّكُمُ ادْعُونِي أَسْتَجِبْ لَكُمْ | Ghafir 40:60 |
+| Home reminder | ادْعُوا رَبَّكُمْ تَضَرُّعًا وَخُفْيَةً | Al-A'raf 7:55 |
+| Completion screen | رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ | Al-Baqarah 2:127 |
+
+**Hadith** (the design's wording is often a paraphrase; the source's words
+are on the linked page):
+
+| Where | As shown | Checked against | Grade |
+|---|---|---|---|
+| Completion | «أحبُّ الأعمال إلى الله أدومُها وإن قلّ» — متفق عليه | [Bukhari 6464](https://sunnah.com/bukhari:6464), [Muslim 783b](https://sunnah.com/muslim:783b) | Bukhari & Muslim |
+| Completion (share line) | الدالّ على الخير كفاعله | [Tirmidhi 2670](https://sunnah.com/tirmidhi:2670) | Sahih (Darussalam) |
+| Etiquette 1 | Praise, then salawat, then ask — الترمذي وأبو داود | [Tirmidhi 3477](https://sunnah.com/tirmidhi:3477), [Abu Dawud 1481](https://sunnah.com/abudawud:1481) | Tirmidhi: hasan sahih; al-Albani: sahih |
+| Etiquette 2 | «ادعوا الله وأنتم موقنون بالإجابة» — الترمذي | [Tirmidhi 3479](https://sunnah.com/tirmidhi:3479) | **Mixed:** al-Albani hasan (Sahih al-Jami' 245, as-Sahiha 596); Darussalam / Zubair Ali Zai da'if; at-Tirmidhi: gharib. Meets our bar through al-Albani — Mariam to decide |
+| Etiquette 3 | Don't say "if You will" — البخاري ومسلم | [Bukhari 6339](https://sunnah.com/bukhari:6339), [Muslim 2679a](https://sunnah.com/muslim:2679a) | Bukhari & Muslim |
+| Etiquette 4 | «إن ربكم حييٌّ كريم…» — أبو داود والترمذي | [Abu Dawud 1488](https://sunnah.com/abudawud:1488), [Tirmidhi 3556](https://sunnah.com/tirmidhi:3556) | Abu Dawud: sahih (al-Albani); Tirmidhi's version da'if (Darussalam) |
+| Etiquette 5 | He made dua three times — مسلم | [Muslim 1794a](https://sunnah.com/muslim:1794a) | Muslim |
+| Etiquette 6 | «آمين، ولك بمثل» — مسلم | [Muslim 2732a, 2732b](https://sunnah.com/muslim:2732b) ("الملك الموكل به آمين ولك بمثل") | Muslim |
+| Avoid 1 | «يُستجاب لأحدكم ما لم يَعجل…» — البخاري ومسلم | [Bukhari 6340](https://sunnah.com/bukhari:6340), [Muslim 2735a](https://sunnah.com/muslim:2735a) | Bukhari & Muslim |
+| Avoid 2 | «لا يزال يُستجاب للعبد ما لم يدعُ بإثمٍ أو قطيعة رحم» — مسلم | [Muslim 2735c](https://sunnah.com/muslim:2735c) | Muslim |
+| Avoid 3 | «لا تدعوا على أنفسكم…» — مسلم | Muslim 3009 ([dorar.net](https://dorar.net/h/sUk6RZaz); sunnah.com's page didn't load); also [Abu Dawud 1532](https://sunnah.com/abudawud:1532), adding "خدمكم" | Muslim; Abu Dawud sahih (al-Albani) |
+| "دعاؤك لا يضيع" | «ما من مسلم يدعو بدعوة…» — مسند أحمد | Ahmad 11133 ([dorar.net](https://dorar.net/h/4qZM4VXn)) | **To confirm:** al-Mundhiri — "with good chains"; al-Albani's own grading not confirmed |
+| Last-third alert | ينزل ربنا… «من يدعوني فأستجيب له؟» | [Bukhari 1145](https://sunnah.com/bukhari:1145) | Bukhari |
+
+The English renderings of all of these are ours.

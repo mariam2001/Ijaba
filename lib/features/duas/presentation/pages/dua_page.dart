@@ -13,6 +13,8 @@ import 'package:ijaba/core/components/error_view.dart';
 import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
+import 'package:ijaba/features/duas/presentation/completion.dart';
+import 'package:ijaba/features/duas/presentation/controller/completion_log_controller.dart';
 import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
 import 'package:ijaba/features/duas/presentation/controller/saved_duas_controller.dart';
 import 'package:ijaba/features/duas/presentation/dua_selection.dart';
@@ -20,6 +22,7 @@ import 'package:ijaba/features/duas/presentation/widgets/dua_header.dart';
 import 'package:ijaba/features/duas/presentation/widgets/dua_view.dart';
 import 'package:ijaba/features/duas/presentation/widgets/tasbih_counter.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Duas one at a time: read, count, move on. Opened for a window (Home's
 /// "Make dua now", a tapped alert), a Library shelf, or one search result.
@@ -78,6 +81,10 @@ class _DuaSequence extends HookConsumerWidget {
     final counts = useState(const <String, int>{});
     final now = ref.watch(clockProvider).value ?? DateTime.now();
     final saved = ref.watch(savedDuasProvider);
+    // Shows "اكتمل التسبيح" for a moment: fades in, stays, fades out.
+    final toast = useAnimationController(
+      duration: const Duration(milliseconds: 2600),
+    );
     if (duas.isEmpty) {
       return Center(
         child: Text(
@@ -96,9 +103,28 @@ class _DuaSequence extends HookConsumerWidget {
       counts.value = {...counts.value, dua.id: count + 1};
       if (count + 1 == dua.repeat) {
         HapticFeedback.mediumImpact();
+        // "اكتمل التسبيح" for a dhikr said more than once.
+        if (dua.repeat > 1) toast.forward(from: 0);
       } else {
         HapticFeedback.selectionClick();
       }
+    }
+
+    // The last dua's "Next" finishes: the completion screen, then back to
+    // where the Dua screen was opened from.
+    final completion = Completion.of(selection, duas.length);
+    final last = index.value >= duas.length - 1;
+    Future<void> finish() async {
+      final nth = await ref
+          .read(completionLogProvider.notifier)
+          .record(completion!.key, DateTime.now());
+      if (!context.mounted) return;
+      await context.push(
+        AppRoutes.completion,
+        extra: (completion: completion, nth: nth),
+      );
+      if (!context.mounted) return;
+      context.canPop() ? context.pop() : context.go(AppRoutes.home);
     }
 
     return Column(
@@ -124,54 +150,67 @@ class _DuaSequence extends HookConsumerWidget {
         // waking) scroll, fading out at the edges rather than cut mid-line.
         // Each dua starts at its top.
         Expanded(
-          child: ShaderMask(
-            blendMode: BlendMode.dstIn,
-            shaderCallback: (bounds) {
-              final fade = bounds.height == 0 ? 0.0 : 18.h / bounds.height;
-              return LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: const [
-                  Colors.transparent,
-                  Colors.white,
-                  Colors.white,
-                  Colors.transparent,
-                ],
-                stops: [0, fade, 1 - fade, 1],
-              ).createShader(bounds);
-            },
-            child: AnimatedSwitcher(
-              duration: Motion.of(context, Motion.medium),
-              switchInCurve: Motion.curve,
-              switchOutCurve: Curves.easeIn,
-              // Rebuilt each time with the current direction, so the dua
-              // leaving slides out the way the new one pushes it.
-              transitionBuilder: (child, animation) {
-                final incoming = child.key == ValueKey(dua.id);
-                final towardsEnd = forward == incoming;
-                final dx = 0.12 * (towardsEnd ? 1 : -1) * (rtl ? -1 : 1);
-                return FadeTransition(
-                  opacity: animation,
-                  child: SlideTransition(
-                    position: Tween(
-                      begin: Offset(dx, 0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
+          // The toast floats over the foot of the dua, taking no room.
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: ShaderMask(
+                  blendMode: BlendMode.dstIn,
+                  shaderCallback: (bounds) {
+                    final fade = bounds.height == 0
+                        ? 0.0
+                        : 18.h / bounds.height;
+                    return LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: const [
+                        Colors.transparent,
+                        Colors.white,
+                        Colors.white,
+                        Colors.transparent,
+                      ],
+                      stops: [0, fade, 1 - fade, 1],
+                    ).createShader(bounds);
+                  },
+                  child: AnimatedSwitcher(
+                    duration: Motion.of(context, Motion.medium),
+                    switchInCurve: Motion.curve,
+                    switchOutCurve: Curves.easeIn,
+                    // Rebuilt each time with the current direction, so the dua
+                    // leaving slides out the way the new one pushes it.
+                    transitionBuilder: (child, animation) {
+                      final incoming = child.key == ValueKey(dua.id);
+                      final towardsEnd = forward == incoming;
+                      final dx = 0.12 * (towardsEnd ? 1 : -1) * (rtl ? -1 : 1);
+                      return FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: Tween(
+                            begin: Offset(dx, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Center(
+                      key: ValueKey(dua.id),
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 30.w,
+                          vertical: 16.h,
+                        ),
+                        child: DuaView(dua: dua),
+                      ),
+                    ),
                   ),
-                );
-              },
-              child: Center(
-                key: ValueKey(dua.id),
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 30.w,
-                    vertical: 16.h,
-                  ),
-                  child: DuaView(dua: dua),
                 ),
               ),
-            ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: _TasbihToast(animation: toast),
+              ),
+            ],
           ),
         ),
         // Its own per dua, so stepping to another doesn't count as a tap.
@@ -184,7 +223,12 @@ class _DuaSequence extends HookConsumerWidget {
         SizedBox(height: 10.h),
         _PagerBar(
           onPrevious: index.value > 0 ? () => index.value-- : null,
-          onNext: index.value < duas.length - 1 ? () => index.value++ : null,
+          onNext: !last
+              ? () => index.value++
+              : completion == null
+              ? null
+              : finish,
+          finishes: last && completion != null,
         ),
       ],
     );
@@ -193,10 +237,17 @@ class _DuaSequence extends HookConsumerWidget {
 
 /// Previous · Next, on a bar ruled off from the dua.
 class _PagerBar extends StatelessWidget {
-  const _PagerBar({required this.onPrevious, required this.onNext});
+  const _PagerBar({
+    required this.onPrevious,
+    required this.onNext,
+    required this.finishes,
+  });
 
   final VoidCallback? onPrevious;
   final VoidCallback? onNext;
+
+  /// On the last dua: "تمّ" rather than "التالي".
+  final bool finishes;
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +291,11 @@ class _PagerBar extends StatelessWidget {
                   foregroundColor: night ? context.colors.paper : null,
                   textStyle: context.textStyles.pagerButton,
                 ),
-                child: Text(context.tr(LocaleKeys.dua_next)),
+                child: Text(
+                  context.tr(
+                    finishes ? LocaleKeys.dua_done : LocaleKeys.dua_next,
+                  ),
+                ),
               ),
             ),
           ],
@@ -248,4 +303,62 @@ class _PagerBar extends StatelessWidget {
       ),
     );
   }
+}
+
+/// "✓ اكتمل التسبيح — زادك الله من فضله" (Figma ١٧), in the space above
+/// the counter; driven by [animation] (0 → 1 over its life).
+class _TasbihToast extends StatelessWidget {
+  const _TasbihToast({required this.animation});
+
+  final Animation<double> animation;
+
+  @override
+  Widget build(BuildContext context) => AnimatedBuilder(
+    animation: animation,
+    builder: (context, child) {
+      final t = animation.value;
+      // In over the first tenth, out over the last fifth.
+      final opacity = t <= 0 || t >= 1
+          ? 0.0
+          : t < 0.1
+          ? t / 0.1
+          : t > 0.8
+          ? (1 - t) / 0.2
+          : 1.0;
+      return SizedBox(
+        height: 56.h,
+        child: opacity == 0
+            ? null
+            : Opacity(
+                opacity: opacity,
+                child: Center(child: child),
+              ),
+      );
+    },
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 22.w),
+      padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
+      decoration: BoxDecoration(
+        color: context.colors.ink,
+        borderRadius: BorderRadius.circular(20.r),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(LucideIcons.check300, size: 15.r, color: context.colors.paper),
+          SizedBox(width: 6.w),
+          Flexible(
+            child: Text(
+              context.tr(LocaleKeys.dua_tasbih_complete),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: context.textStyles.chipLabel.copyWith(
+                color: context.colors.paper,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
