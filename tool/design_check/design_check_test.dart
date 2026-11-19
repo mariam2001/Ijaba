@@ -207,6 +207,24 @@ void main() {
         if (name.startsWith('night/')) {
           await cache.write(CacheKey.themeMode, 'dark');
         }
+        // Figma ١٨–١٩: Home mid-week (Saturday, Sunday, Tuesday and
+        // Wednesday done; the design's moment is that Friday), and 42 days
+        // since 2 October 2026 in Settings.
+        if (path == AppRoutes.home) {
+          await cache.write(
+            CacheKey.duaDays,
+            '["2028-09-02","2028-09-03","2028-09-05","2028-09-06"]',
+          );
+        }
+        if (path == AppRoutes.settings) {
+          await cache.write(
+            CacheKey.duaDays,
+            jsonEncode([
+              for (var i = 0; i < 42; i++)
+                DateTime(2026, 10, 2 + i).toIso8601String().substring(0, 10),
+            ]),
+          );
+        }
         if (name.endsWith('23_home_welcome')) {
           await cache.write(CacheKey.welcomePending, 'true');
         }

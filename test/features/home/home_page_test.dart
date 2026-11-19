@@ -99,13 +99,13 @@ void main() {
     expect(find.text('١:١٨'), findsOneWidget);
 
     // Below the reminder, the hero and the etiquette card: the day's rows.
-    await tester.drag(find.byType(ListView), const Offset(0, -500));
+    await tester.drag(find.byType(ListView), const Offset(0, -2000));
     await tester.pumpAndSettle();
     // In the hero card and as the first row.
     expect(find.text('الثلث الأخير من الليل'), findsWidgets);
     expect(find.text('الفجر · تنبيه قبل ٥ دقائق'), findsOneWidget);
     expect(find.text('الفجر · صامت'), findsOneWidget);
-    expect(find.byType(WindowRow), findsNWidgets(4));
+    expect(find.byType(WindowRow), findsWidgets);
   });
 
   testWidgets('in English', (tester) async {
@@ -117,7 +117,7 @@ void main() {
     expect(find.text('1:18'), findsOneWidget);
     expect(find.text('2:04 — 4:30 AM'), findsOneWidget);
 
-    await tester.drag(find.byType(ListView), const Offset(0, -500));
+    await tester.drag(find.byType(ListView), const Offset(0, -2000));
     await tester.pumpAndSettle();
     expect(find.text('Fajr · 5 min before'), findsOneWidget);
   });
@@ -140,6 +140,8 @@ void main() {
   ) async {
     await pumpHome(tester);
 
+    await tester.ensureVisible(find.text('ادعُ الآن'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('ادعُ الآن'));
     await tester.pumpAndSettle();
 

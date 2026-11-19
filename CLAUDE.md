@@ -147,12 +147,24 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
 - Completion (Figma ١٤): on a window's or shelf's last dua "Next" reads
   "تمّ" and opens `CompletionPage` (`/done`, `CompletionArgs` as extra);
   closing it closes the Dua screen too. `Completion.of(selection)` says what
-  was finished and the chip's noun (ليلة/جمعة/يوم, `ordinal()` in
-  `core/utils/ordinal.dart` — Arabic words to 31, by gender);
-  `CompletionLog` (`CacheKey.completions`) counts days per month. The share
+  was finished; `ordinal()` (`core/utils/ordinal.dart`, Arabic words to 31,
+  by gender) names the day;
+  the chip is "يومك الرابع هذا الأسبوع" (the week's days, as on Home). The share
   line opens Android's share sheet (`android_intent_plus`; no store link
   until release). A count reaching its target (repeat > 1) shows the
   "اكتمل التسبيح" toast over the dua (Figma ١٧).
+- The days with duas (Figma ١٨–١٩, `features/progress`): `DuaDays`
+  (`CacheKey.duaDays`) keeps only the dates a set of duas was finished —
+  any completion screen, a window's or a shelf's — on the phone, never
+  shared or notified, only ever added (it folded in the first version's
+  per-window `completions`). `DuaWeek` (pure) lays out Saturday→Friday:
+  done (honey with the logo's star, `LogoStar` — Friday's bigger), today
+  (green ring), missed (quiet sand, no red), future (dashed); the line is
+  the hadith mid-week, "أسبوع كامل…" at 7/7, "أسبوع جديد…" on Saturday.
+  `WeekTracker` sits on Home under the reminder; a day lighting up pops in.
+  `DaysCard` ("أيامك مع إجابة": the total, since the first day, "بينك
+  وبين الله — لا يراه أحد غيرك 🤍") is in Settings above "التطبيق" only,
+  once there's a day. No all-time streak.
 - Warm notification wording (Figma ١٧, `AlertText`): the last third
   ("يقترب" for the 15-minute heads-up, "بدأ" at its start), the Friday
   hour and morning adhkar, when an alert is for that window alone; others
@@ -292,7 +304,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   design's moment (Friday 03:12, `designTodayWindows()` in the fakes). The
   Settings sheets, the sleep/waking shelves' Dua screens and My duas (no
   design) are rendered too, to check by eye, and frames ١٤–١٧'s screens
-  (completion, etiquette, Home with the welcome, My duas empty); entry animations get a
+  (completion, etiquette, Home with the welcome, My duas empty) — Home
+  mid-week and Settings' 42 days are seeded like frames ١٨–١٩; entry animations get a
   second to finish (not on the splash, which moves on); and every
   screen but the splash again in the night palette, to
   `build/design_check/night/` (the night Dua frame is the one to compare).

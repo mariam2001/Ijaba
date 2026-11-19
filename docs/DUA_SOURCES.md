@@ -289,7 +289,7 @@ are on the linked page):
 
 | Where | As shown | Checked against | Grade |
 |---|---|---|---|
-| Completion | «أحبُّ الأعمال إلى الله أدومُها وإن قلّ» — متفق عليه | [Bukhari 6464](https://sunnah.com/bukhari:6464), [Muslim 783b](https://sunnah.com/muslim:783b) | Bukhari & Muslim |
+| Completion; Home's week (mid-week line) | «أحبُّ الأعمال إلى الله أدومُها وإن قلّ» — متفق عليه | [Bukhari 6464](https://sunnah.com/bukhari:6464), [Muslim 783b](https://sunnah.com/muslim:783b) | Bukhari & Muslim |
 | Completion (share line) | الدالّ على الخير كفاعله | [Tirmidhi 2670](https://sunnah.com/tirmidhi:2670) | Sahih (Darussalam) |
 | Etiquette 1 | Praise, then salawat, then ask — الترمذي وأبو داود | [Tirmidhi 3477](https://sunnah.com/tirmidhi:3477), [Abu Dawud 1481](https://sunnah.com/abudawud:1481) | Tirmidhi: hasan sahih; al-Albani: sahih |
 | Etiquette 2 | «ادعوا الله وأنتم موقنون بالإجابة» — الترمذي | [Tirmidhi 3479](https://sunnah.com/tirmidhi:3479) | **Mixed:** al-Albani hasan (Sahih al-Jami' 245, as-Sahiha 596); Darussalam / Zubair Ali Zai da'if; at-Tirmidhi: gharib. Meets our bar through al-Albani — Mariam to decide |
