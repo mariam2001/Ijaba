@@ -16,6 +16,9 @@ import 'package:ijaba/features/home/presentation/widgets/reminder_card.dart';
 import 'package:ijaba/features/home/presentation/widgets/warm_cards.dart';
 import 'package:ijaba/features/home/presentation/widgets/window_hero_card.dart';
 import 'package:ijaba/features/home/presentation/widgets/window_row.dart';
+import 'package:ijaba/features/progress/data/model/dua_week.dart';
+import 'package:ijaba/features/progress/presentation/controller/dua_days_controller.dart';
+import 'package:ijaba/features/progress/presentation/widgets/week_tracker.dart';
 import 'package:ijaba/features/windows/presentation/controller/enabled_windows_controller.dart';
 import 'package:ijaba/features/windows/presentation/controller/today_windows_controller.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
@@ -56,6 +59,14 @@ class HomePage extends ConsumerWidget {
             Reveal(
               delay: const Duration(milliseconds: 60),
               child: ReminderCard(start: ref.watch(reminderStartProvider)),
+            ),
+            SizedBox(height: 16.h),
+            // Figma ١٨: the week, lit by the days duas were finished.
+            Reveal(
+              delay: const Duration(milliseconds: 85),
+              child: WeekTracker(
+                week: DuaWeek(now, ref.watch(duaDaysProvider)),
+              ),
             ),
             SizedBox(height: 16.h),
             // Recomputed on every clock tick: keep showing the last result.

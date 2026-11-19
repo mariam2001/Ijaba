@@ -274,9 +274,6 @@ abstract class LocaleKeys {
   static const completion_done_shelf = 'completion.done_shelf';
   static const completion_done_mine = 'completion.done_mine';
   static const completion_done_saved = 'completion.done_saved';
-  static const completion_streak_night = 'completion.streak_night';
-  static const completion_streak_friday = 'completion.streak_friday';
-  static const completion_streak_day = 'completion.streak_day';
   static const completion_close_label = 'completion.close_label';
   static const completion_verse_source = 'completion.verse_source';
   static const completion_verse_meaning = 'completion.verse_meaning';
@@ -285,6 +282,7 @@ abstract class LocaleKeys {
   static const completion_share = 'completion.share';
   static const completion_share_text = 'completion.share_text';
   static const completion_close = 'completion.close';
+  static const completion_streak_week = 'completion.streak_week';
   static const completion = 'completion';
   static const etiquette_title = 'etiquette.title';
   static const etiquette_subtitle = 'etiquette.subtitle';
@@ -337,4 +335,22 @@ abstract class LocaleKeys {
   static const warm_alerts_morning_title = 'warm_alerts.morning_title';
   static const warm_alerts_morning_body = 'warm_alerts.morning_body';
   static const warm_alerts = 'warm_alerts';
+  static const week_title = 'week.title';
+  static const week_count = 'week.count';
+  static const week_sat = 'week.sat';
+  static const week_sun = 'week.sun';
+  static const week_mon = 'week.mon';
+  static const week_tue = 'week.tue';
+  static const week_wed = 'week.wed';
+  static const week_thu = 'week.thu';
+  static const week_fri = 'week.fri';
+  static const week_line_mid = 'week.line_mid';
+  static const week_line_full = 'week.line_full';
+  static const week_line_saturday = 'week.line_saturday';
+  static const week = 'week';
+  static const days_title = 'days.title';
+  static const days_label = 'days.label';
+  static const days_since = 'days.since';
+  static const days_private = 'days.private';
+  static const days = 'days';
 }

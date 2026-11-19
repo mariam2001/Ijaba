@@ -12,11 +12,13 @@ import 'package:ijaba/core/utils/ordinal.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
 import 'package:ijaba/features/duas/presentation/completion.dart';
-import 'package:ijaba/features/duas/presentation/controller/completion_log_controller.dart';
 import 'package:ijaba/features/duas/presentation/dua_selection.dart';
 import 'package:ijaba/features/duas/presentation/pages/completion_page.dart';
 import 'package:ijaba/features/etiquette/presentation/pages/etiquette_page.dart';
 import 'package:ijaba/features/home/presentation/controller/home_greeting_controller.dart';
+import 'package:ijaba/features/progress/data/model/dua_week.dart';
+import 'package:ijaba/features/progress/presentation/controller/dua_days_controller.dart';
+import 'package:ijaba/features/progress/presentation/widgets/days_card.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -75,21 +77,79 @@ void main() {
     expect(ordinal(23, 'en'), '23rd');
   });
 
-  test('completions count the days this month, once a day', () async {
+  test('days are kept once each, and the week counts from Saturday', () async {
     final cache = MemoryCache();
     final container = ProviderContainer(
       overrides: [SimpleCache.provider.overrideWithValue(cache)],
     );
     addTearDown(container.dispose);
-    final log = container.read(completionLogProvider.notifier);
+    final days = container.read(duaDaysProvider.notifier);
 
-    expect(await log.record('window.x', DateTime(2026, 11, 3, 3)), 1);
-    expect(await log.record('window.x', DateTime(2026, 11, 3, 4)), 1);
-    expect(await log.record('window.x', DateTime(2026, 11, 9)), 2);
-    expect(await log.record('window.y', DateTime(2026, 11, 9)), 1);
-    // A new month starts again.
-    expect(await log.record('window.x', DateTime(2026, 12)), 1);
-    expect(cache.read(CacheKey.completions), contains('2026-12-01'));
+    // Thursday 19 Nov 2026: the week began on Saturday the 14th.
+    expect(await days.record(DateTime(2026, 11, 14, 22)), 1);
+    expect(await days.record(DateTime(2026, 11, 16, 3)), 2);
+    expect(await days.record(DateTime(2026, 11, 16, 4)), 2); // Same day.
+    expect(await days.record(DateTime(2026, 11, 19, 3)), 3);
+    // Saturday the 21st starts a new week; the total keeps every day.
+    expect(await days.record(DateTime(2026, 11, 21)), 1);
+    expect(container.read(duaDaysProvider), hasLength(4));
+    expect(cache.read(CacheKey.duaDays), contains('2026-11-21'));
+  });
+
+  test("the first version's per-window dates are folded in", () {
+    final cache = MemoryCache()
+      ..write(
+        CacheKey.completions,
+        '{"window.lastThirdOfNight":["2026-11-18","2026-11-19"],'
+        '"shelf.morning":["2026-11-19"]}',
+      );
+    final container = ProviderContainer(
+      overrides: [SimpleCache.provider.overrideWithValue(cache)],
+    );
+    addTearDown(container.dispose);
+
+    expect(container.read(duaDaysProvider), {
+      DateTime(2026, 11, 18),
+      DateTime(2026, 11, 19),
+    });
+  });
+
+  group('the week', () {
+    final thursday = DateTime(2026, 11, 19, 9); // Week of Sat 14 Nov.
+    Set<DateTime> days(List<int> dates) => {
+      for (final d in dates) DateTime(2026, 11, d),
+    };
+
+    test('marks done, missed, today and the days to come', () {
+      final week = DuaWeek(thursday, days([14, 15, 17, 18]));
+      expect(week.marks, [
+        DayMark.done, // Sat
+        DayMark.done, // Sun
+        DayMark.missed, // Mon
+        DayMark.done, // Tue
+        DayMark.done, // Wed
+        DayMark.today, // Thu
+        DayMark.future, // Fri
+      ]);
+      expect(week.done, 4);
+      expect(week.line, WeekLine.midWeek);
+    });
+
+    test('a full week; a new one on Saturday', () {
+      final friday = DateTime(2026, 11, 20, 20);
+      final full = DuaWeek(friday, days([14, 15, 16, 17, 18, 19, 20]));
+      expect(full.done, 7);
+      expect(full.marks.last, DayMark.todayDone);
+      expect(full.line, WeekLine.full);
+
+      final saturday = DuaWeek(
+        DateTime(2026, 11, 21, 8),
+        days([14, 15, 16, 17, 18, 19, 20]),
+      );
+      expect(saturday.done, 0);
+      expect(saturday.marks.first, DayMark.today);
+      expect(saturday.line, WeekLine.saturday);
+    });
   });
 
   test('what was finished, and how it is counted', () {
@@ -97,7 +157,6 @@ void main() {
       const WindowDuas(DuaWindowType.lastThirdOfNight),
       7,
     )!;
-    expect(night.key, 'window.lastThirdOfNight');
     expect(night.adhkar, isFalse);
     expect(
       Completion.of(const CategoryDuas(LibraryCategory.morning), 15)!.adhkar,
@@ -113,6 +172,7 @@ void main() {
       required String language,
       required Size size,
       Object? extra,
+      MemoryCache? cache,
     }) async {
       tester.view
         ..physicalSize = size
@@ -121,7 +181,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            SimpleCache.provider.overrideWithValue(MemoryCache()),
+            SimpleCache.provider.overrideWithValue(cache ?? MemoryCache()),
             NotificationService.provider.overrideWithValue(FakeNotifications()),
             routerProvider.overrideWithValue(
               GoRouter(
@@ -141,6 +201,40 @@ void main() {
       }
       await tester.pumpAndSettle();
     }
+
+    testWidgets('Settings counts the days, once there is one', (
+      tester,
+    ) async {
+      await pump(
+        tester,
+        AppRoutes.settings,
+        language: 'ar',
+        size: const Size(390, 844),
+      );
+      expect(find.byType(DaysCard), findsNothing);
+
+      final cache = MemoryCache();
+      await cache.write(
+        CacheKey.duaDays,
+        '["2026-10-02","2026-10-03","2026-11-19"]',
+      );
+      await pump(
+        tester,
+        AppRoutes.settings,
+        language: 'ar',
+        size: const Size(390, 844),
+        cache: cache,
+      );
+      await tester.scrollUntilVisible(
+        find.byType(DaysCard),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.text('٣'), findsOneWidget);
+      expect(find.text('أيام من الدعاء'), findsOneWidget);
+      expect(find.text('منذ ٢ أكتوبر ٢٠٢٦'), findsOneWidget);
+      expect(find.text('بينك وبين الله — لا يراه أحد غيرك 🤍'), findsOneWidget);
+    });
 
     const phones = {
       'small (360 × 640)': Size(360, 640),
@@ -182,7 +276,7 @@ void main() {
           );
           expect(find.byType(CompletionPage), findsOneWidget);
           if (language == 'ar') {
-            expect(find.text('ليلتك الرابعة هذا الشهر'), findsOneWidget);
+            expect(find.text('يومك الرابع هذا الأسبوع'), findsOneWidget);
           }
           expect(tester.takeException(), isNull);
         });

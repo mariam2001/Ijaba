@@ -306,9 +306,6 @@
     "done_shelf": "You've finished {name}",
     "done_mine": "You've finished your duas",
     "done_saved": "You've finished your saved duas",
-    "streak_night": "Your {ordinal} night this month",
-    "streak_friday": "Your {ordinal} Friday this month",
-    "streak_day": "Your {ordinal} day this month",
     "close_label": "Close your dua",
     "verse_source": "Al-Baqarah 2:127",
     "verse_meaning": "Our Lord, accept from us. You are the All-Hearing, the All-Knowing.",
@@ -316,7 +313,8 @@
     "praise": "Alhamdulillah",
     "share": "Share Ijaba with those you love — whoever guides to good is like the one who does it",
     "share_text": "Ijaba — an app that reminds you of the times dua is answered: the last third of the night, between adhan and iqama, and the Friday hour.",
-    "close": "Close"
+    "close": "Close",
+    "streak_week": "Your {ordinal} day this week"
   },
   "etiquette": {
     "title": "The etiquette of dua",
@@ -369,5 +367,29 @@
     "friday_body": "The last hour before Maghrib — an hour when acceptance is hoped for, so don't miss it.",
     "morning_title": "Morning remembrance ☀️",
     "morning_body": "Your morning adhkar await — a few minutes that guard your day, by Allah's leave."
+  },
+  "week": {
+    "title": "Your week with dua",
+    "count": "{done} of {total}",
+    "sat": "Sat",
+    "sun": "Sun",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "line_mid": "“The deeds most loved by Allah are the most constant, even if few.”",
+    "line_full": "A full week — may Allah accept it from you and increase you from His bounty",
+    "line_saturday": "A new week, a new page — begin it with a dua"
+  },
+  "days": {
+    "title": "Your days with Ijaba",
+    "label": {
+      "zero": "days of dua",
+      "one": "day of dua",
+      "other": "days of dua"
+    },
+    "since": "since {date}",
+    "private": "Between you and Allah — no one else sees it 🤍"
   }
 }

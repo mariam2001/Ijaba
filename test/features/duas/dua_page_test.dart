@@ -144,9 +144,9 @@ void main() {
     expect(find.byType(CompletionPage), findsOneWidget);
     expect(find.text('تقبّل الله منك'), findsOneWidget);
     expect(find.text('أتممت أدعية الثلث الأخير من الليل'), findsOneWidget);
-    expect(find.text('ليلتك الأولى هذا الشهر'), findsOneWidget);
+    expect(find.text('يومك الأول هذا الأسبوع'), findsOneWidget);
     expect(find.text('٧ أدعية'), findsOneWidget);
-    expect(cache.read(CacheKey.completions), contains('lastThirdOfNight'));
+    expect(cache.read(CacheKey.duaDays), isNotNull);
 
     await tapText(tester, 'الحمد لله');
     expect(find.byType(CompletionPage), findsNothing);

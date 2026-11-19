@@ -12,6 +12,7 @@ import 'package:ijaba/generated/locale_keys.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// What the Dua screen hands the completion screen.
+/// [nth]: which day of this week (from Saturday) has duas finished.
 typedef CompletionArgs = ({Completion completion, int nth});
 
 /// "تقبّل الله منك" (Figma ١٤): shown on finishing a window's or shelf's
@@ -29,7 +30,7 @@ class CompletionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final completion = args.completion;
-    final streak = completion.streakText(context, args.nth);
+    final week = completion.weekText(context, args.nth);
     final english = context.locale.languageCode != 'ar';
 
     return Scaffold(
@@ -87,14 +88,14 @@ class CompletionPage extends StatelessWidget {
                         alignment: WrapAlignment.center,
                         spacing: 8.w,
                         runSpacing: 6.h,
-                        // As in the frame: how many first, then the
-                        // month's count.
+                        // As in the frame: how many, then which day of the
+                        // week — the same story as the week on Home.
                         children: [
                           _Chip(
                             text: completion.countText(context),
                             honey: true,
                           ),
-                          if (streak != null) _Chip(text: streak, honey: false),
+                          _Chip(text: week, honey: false),
                         ],
                       ),
                     ),

@@ -16,6 +16,8 @@ import 'package:ijaba/features/location/data/repository/location_repository.dart
 import 'package:ijaba/features/location/presentation/controller/location_controller.dart';
 import 'package:ijaba/features/prayer_times/data/model/prayer.dart';
 import 'package:ijaba/features/prayer_times/presentation/controller/prayer_times_controller.dart';
+import 'package:ijaba/features/progress/presentation/controller/dua_days_controller.dart';
+import 'package:ijaba/features/progress/presentation/widgets/days_card.dart';
 import 'package:ijaba/features/settings/presentation/controller/theme_controller.dart';
 import 'package:ijaba/features/settings/presentation/widgets/about_sheet.dart';
 import 'package:ijaba/features/settings/presentation/widgets/adjustment_sheet.dart';
@@ -41,6 +43,7 @@ class SettingsPage extends ConsumerWidget {
     final controller = ref.read(prayerSettingsControllerProvider.notifier);
     final notifications = ref.read(NotificationService.provider);
     final themePreference = ref.watch(themeControllerProvider);
+    final duaDays = ref.watch(duaDaysProvider);
 
     String madhabName(Madhab madhab) => context.tr(
       madhab == Madhab.hanafi
@@ -197,6 +200,14 @@ class SettingsPage extends ConsumerWidget {
               ],
             ),
             SizedBox(height: 20.h),
+            // Figma ١٩: a quiet count, here only — once there's a day.
+            if (duaDays.isNotEmpty) ...[
+              DaysCard(
+                days: duaDays.length,
+                since: duaDays.reduce((a, b) => a.isBefore(b) ? a : b),
+              ),
+              SizedBox(height: 20.h),
+            ],
             SettingsSection(
               label: context.tr(LocaleKeys.settings_section_app),
               rows: [

@@ -11,5 +11,8 @@ enum CacheKey {
   customDuas,
   reminderIndex,
   welcomePending,
+  // Dates per window, from the first version: folded into duaDays, then
+  // removed.
   completions,
+  duaDays,
 }

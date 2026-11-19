@@ -14,13 +14,13 @@ import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/features/duas/data/datasource/dua_catalog.dart';
 import 'package:ijaba/features/duas/presentation/completion.dart';
-import 'package:ijaba/features/duas/presentation/controller/completion_log_controller.dart';
 import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
 import 'package:ijaba/features/duas/presentation/controller/saved_duas_controller.dart';
 import 'package:ijaba/features/duas/presentation/dua_selection.dart';
 import 'package:ijaba/features/duas/presentation/widgets/dua_header.dart';
 import 'package:ijaba/features/duas/presentation/widgets/dua_view.dart';
 import 'package:ijaba/features/duas/presentation/widgets/tasbih_counter.dart';
+import 'package:ijaba/features/progress/presentation/controller/dua_days_controller.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -115,13 +115,14 @@ class _DuaSequence extends HookConsumerWidget {
     final completion = Completion.of(selection, duas.length);
     final last = index.value >= duas.length - 1;
     Future<void> finish() async {
+      // Lights today in the week on Home, and counts in Settings.
       final nth = await ref
-          .read(completionLogProvider.notifier)
-          .record(completion!.key, DateTime.now());
+          .read(duaDaysProvider.notifier)
+          .record(DateTime.now());
       if (!context.mounted) return;
       await context.push(
         AppRoutes.completion,
-        extra: (completion: completion, nth: nth),
+        extra: (completion: completion!, nth: nth),
       );
       if (!context.mounted) return;
       context.canPop() ? context.pop() : context.go(AppRoutes.home);

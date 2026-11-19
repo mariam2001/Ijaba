@@ -52,4 +52,4 @@ final class HomeGreetingProvider
   }
 }
 
-String _$homeGreetingHash() => r'b050a0c6c1abcccdec8dd76b1b0318c9a26e5d70';
+String _$homeGreetingHash() => r'878da0918f59e8a22113c7a03a3008b9f3bcd566';
