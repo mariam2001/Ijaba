@@ -6,13 +6,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ijaba/app.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/routes/routes.dart';
+import 'package:ijaba/core/components/card_dots.dart';
 import 'package:ijaba/core/controllers/clock_controller.dart';
 import 'package:ijaba/core/service/local/cache/simple_cache.dart';
 import 'package:ijaba/features/alerts/data/datasource/notification_service.dart';
 import 'package:ijaba/features/duas/presentation/controller/dua_catalog_controller.dart';
 import 'package:ijaba/features/duas/presentation/pages/dua_page.dart';
 import 'package:ijaba/features/home/presentation/pages/home_page.dart';
+import 'package:ijaba/features/home/presentation/widgets/window_hero_card.dart';
 import 'package:ijaba/features/home/presentation/widgets/window_row.dart';
+import 'package:ijaba/features/windows/data/model/dua_window.dart';
+import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 import 'package:ijaba/features/windows/data/model/today_windows.dart';
 import 'package:ijaba/features/windows/presentation/controller/today_windows_controller.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -35,6 +39,7 @@ void main() {
     Size size = const Size(390, 844),
     String language = 'ar',
     TodayWindows? today,
+    DateTime? now,
   }) async {
     tester.view
       ..physicalSize = size
@@ -46,7 +51,7 @@ void main() {
         overrides: [
           SimpleCache.provider.overrideWithValue(MemoryCache()),
           NotificationService.provider.overrideWithValue(FakeNotifications()),
-          clockProvider.overrideWith((ref) => Stream.value(designNow)),
+          clockProvider.overrideWith((ref) => Stream.value(now ?? designNow)),
           duaCatalogProvider.overrideWith((ref) async => designDuaCatalog()),
           todayWindowsProvider.overrideWith(
             (ref) async => today ?? designTodayWindows(),
@@ -127,7 +132,7 @@ void main() {
     await pumpHome(
       tester,
       language: 'en',
-      today: TodayWindows(windows: [next], featured: next),
+      today: TodayWindows(windows: [next], hero: [next]),
     );
 
     expect(find.text('UP NEXT'), findsOneWidget);
@@ -147,6 +152,74 @@ void main() {
 
     expect(find.byType(DuaPage), findsOneWidget);
     expect(find.text('الثلث الأخير من الليل'), findsOneWidget);
+  });
+
+  testWidgets('several windows open at once: swipe between them', (
+    tester,
+  ) async {
+    // That Friday at 17:30: evening adhkar and the Friday hour are open.
+    DateTime at(int hour, int minute) =>
+        DateTime(2028, 9, 8, hour, minute).toUtc();
+    final friday = DuaWindow(
+      type: DuaWindowType.fridayHour,
+      start: at(17, 6),
+      end: at(18, 6),
+    );
+    final evening = DuaWindow(
+      type: DuaWindowType.eveningAdhkar,
+      start: at(15, 30),
+      end: at(18, 6),
+    );
+    await pumpHome(
+      tester,
+      now: DateTime(2028, 9, 8, 17, 30),
+      today: TodayWindows(windows: [evening, friday], hero: [friday, evening]),
+    );
+    await tester.pumpAndSettle();
+    final hero = find.byType(WindowHeroCard);
+    Finder inHero(Finder finder) => find.descendant(of: hero, matching: finder);
+
+    expect(inHero(find.text('ساعة الإجابة')), findsOneWidget);
+    expect(inHero(find.byType(CardDots)), findsOneWidget);
+
+    // In Arabic the next one comes from the left: swipe to the right.
+    await tester.ensureVisible(hero);
+    await tester.fling(hero, const Offset(250, 0), 1000);
+    await tester.pumpAndSettle();
+    expect(inHero(find.text('أذكار المساء')), findsOneWidget);
+    expect(inHero(find.text('ساعة الإجابة')), findsNothing);
+
+    await tester.tap(inHero(find.text('ادعُ الآن')));
+    await tester.pumpAndSettle();
+    expect(find.byType(DuaPage), findsOneWidget);
+    expect(find.text('أذكار المساء'), findsOneWidget);
+  });
+
+  testWidgets('one window: no dots, nothing to swipe', (tester) async {
+    await pumpHome(tester);
+    await tester.pumpAndSettle();
+
+    expect(
+      find.descendant(
+        of: find.byType(WindowHeroCard),
+        matching: find.byType(CardDots),
+      ),
+      findsNothing,
+    );
+  });
+
+  testWidgets("a row opens its window's duas", (tester) async {
+    await pumpHome(tester);
+    await tester.pumpAndSettle();
+
+    // Fajr's adhan to iqama, below the cards.
+    await tester.drag(find.byType(ListView), const Offset(0, -2000));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('الفجر · تنبيه قبل ٥ دقائق'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(DuaPage), findsOneWidget);
+    expect(find.text('بين الأذان والإقامة'), findsOneWidget);
   });
 
   testWidgets('says so when no windows are left', (tester) async {

@@ -43,5 +43,4 @@ abstract final class AppRoutes {
   static const permissions = '/onboarding/permissions';
 
   /// Developer-only notification test page; remove before release.
-  static const alertsDebug = '/debug/alerts';
 }

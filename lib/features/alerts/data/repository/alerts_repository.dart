@@ -96,30 +96,4 @@ class AlertsRepository {
     }
     return (alerts: alerts, mode: effectiveMode);
   });
-
-  /// Developer tool: a one-off alert [after] from now, to check delivery on a
-  /// real device. Its body states the intended time to compare against.
-  FutureEither<DateTime> scheduleTest({
-    required Duration after,
-    required AndroidScheduleMode mode,
-  }) => guard(() async {
-    final at = DateTime.now().add(after).toUtc();
-    final effectiveMode = await _notifications.canScheduleExactAlarms()
-        ? mode
-        : AndroidScheduleMode.inexactAllowWhileIdle;
-    await _notifications.schedule(
-      // Below NotificationService.firstWindowAlertId, so rescheduling the
-      // windows leaves pending test alerts alone.
-      id: at.millisecondsSinceEpoch ~/ 1000 % 900 + 1,
-      at: at,
-      title: 'Ijaba test alert',
-      body:
-          'Scheduled for ${DateFormat.Hms().format(at.toLocal())} '
-          '(${effectiveMode.name})',
-      mode: effectiveMode,
-      // Tapping it opens the last third's duas, to check the deep link too.
-      payload: AlertPayload.encode([DuaWindowType.lastThirdOfNight]),
-    );
-    return at;
-  });
 }

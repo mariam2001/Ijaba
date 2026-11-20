@@ -1,6 +1,5 @@
 import 'package:adhan_dart/adhan_dart.dart' show CalculationMethod, Madhab;
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -252,14 +251,6 @@ class SettingsPage extends ConsumerWidget {
                 ),
               ],
             ),
-            // Temporary, for testing alerts on a real phone; debug builds only.
-            if (kDebugMode) ...[
-              SizedBox(height: 16.h),
-              TextButton(
-                onPressed: () => context.push(AppRoutes.alertsDebug),
-                child: const Text('Alert test (developer)'),
-              ),
-            ],
           ]),
         ),
       ),

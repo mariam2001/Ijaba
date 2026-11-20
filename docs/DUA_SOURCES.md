@@ -270,9 +270,10 @@ as-Silsila as-Sahiha 114).
 ## Other texts in the app — Figma ١٤–١٧ (checked 2026-11-19)
 
 Quoted in the designs and kept as worded there; each checked against its
-source. The etiquette page shows the design's "المصادر تُراجَع قبل النشر"
-until Mariam signs these off (`etiquetteVerified` in
-`lib/features/etiquette/data/etiquette.dart`).
+source, and signed off by Mariam on 2026-11-20 once the two open gradings
+below were confirmed (`etiquetteVerified` in
+`lib/features/etiquette/data/etiquette.dart`; while false, the page shows the
+design's "المصادر تُراجَع قبل النشر").
 
 **Quran** (cut from api.alquran.cloud "quran-simple", to the first pause
 mark; checked character for character in the code):
@@ -292,7 +293,7 @@ are on the linked page):
 | Completion; Home's week (mid-week line) | «أحبُّ الأعمال إلى الله أدومُها وإن قلّ» — متفق عليه | [Bukhari 6464](https://sunnah.com/bukhari:6464), [Muslim 783b](https://sunnah.com/muslim:783b) | Bukhari & Muslim |
 | Completion (share line) | الدالّ على الخير كفاعله | [Tirmidhi 2670](https://sunnah.com/tirmidhi:2670) | Sahih (Darussalam) |
 | Etiquette 1 | Praise, then salawat, then ask — الترمذي وأبو داود | [Tirmidhi 3477](https://sunnah.com/tirmidhi:3477), [Abu Dawud 1481](https://sunnah.com/abudawud:1481) | Tirmidhi: hasan sahih; al-Albani: sahih |
-| Etiquette 2 | «ادعوا الله وأنتم موقنون بالإجابة» — الترمذي | [Tirmidhi 3479](https://sunnah.com/tirmidhi:3479) | **Mixed:** al-Albani hasan (Sahih al-Jami' 245, as-Sahiha 596); Darussalam / Zubair Ali Zai da'if; at-Tirmidhi: gharib. Meets our bar through al-Albani — Mariam to decide |
+| Etiquette 2 | «ادعوا الله وأنتم موقنون بالإجابة» — الترمذي | [Tirmidhi 3479](https://sunnah.com/tirmidhi:3479) | al-Albani: hasan (Sahih al-Jami' 245, as-Sahiha 596). Darussalam / Zubair Ali Zai: da'if; at-Tirmidhi: gharib. Meets our bar through al-Albani — confirmed 2026-11-20 |
 | Etiquette 3 | Don't say "if You will" — البخاري ومسلم | [Bukhari 6339](https://sunnah.com/bukhari:6339), [Muslim 2679a](https://sunnah.com/muslim:2679a) | Bukhari & Muslim |
 | Etiquette 4 | «إن ربكم حييٌّ كريم…» — أبو داود والترمذي | [Abu Dawud 1488](https://sunnah.com/abudawud:1488), [Tirmidhi 3556](https://sunnah.com/tirmidhi:3556) | Abu Dawud: sahih (al-Albani); Tirmidhi's version da'if (Darussalam) |
 | Etiquette 5 | He made dua three times — مسلم | [Muslim 1794a](https://sunnah.com/muslim:1794a) | Muslim |
@@ -300,7 +301,7 @@ are on the linked page):
 | Avoid 1 | «يُستجاب لأحدكم ما لم يَعجل…» — البخاري ومسلم | [Bukhari 6340](https://sunnah.com/bukhari:6340), [Muslim 2735a](https://sunnah.com/muslim:2735a) | Bukhari & Muslim |
 | Avoid 2 | «لا يزال يُستجاب للعبد ما لم يدعُ بإثمٍ أو قطيعة رحم» — مسلم | [Muslim 2735c](https://sunnah.com/muslim:2735c) | Muslim |
 | Avoid 3 | «لا تدعوا على أنفسكم…» — مسلم | Muslim 3009 ([dorar.net](https://dorar.net/h/sUk6RZaz); sunnah.com's page didn't load); also [Abu Dawud 1532](https://sunnah.com/abudawud:1532), adding "خدمكم" | Muslim; Abu Dawud sahih (al-Albani) |
-| "دعاؤك لا يضيع" | «ما من مسلم يدعو بدعوة…» — مسند أحمد | Ahmad 11133 ([dorar.net](https://dorar.net/h/4qZM4VXn)) | **To confirm:** al-Mundhiri — "with good chains"; al-Albani's own grading not confirmed |
+| "دعاؤك لا يضيع" | «ما من مسلم يدعو بدعوة…» — مسند أحمد | Ahmad 11133 ([dorar.net](https://dorar.net/h/4qZM4VXn)) | al-Albani: hasan sahih (Sahih at-Targhib 1633), sahih (Sahih al-Adab al-Mufrad 547 — al-Bukhari's [al-Adab al-Mufrad 710](https://sunnah.com/adab:710)); al-Mundhiri: "with good chains" — confirmed 2026-11-20 |
 | Last-third alert | ينزل ربنا… «من يدعوني فأستجيب له؟» | [Bukhari 1145](https://sunnah.com/bukhari:1145) | Bukhari |
 
 The English renderings of all of these are ours.

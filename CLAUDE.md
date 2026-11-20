@@ -142,16 +142,17 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   frame's hero has the corner illustration; Mariam's row layout stays.
 - آداب الدعاء (Figma ١٥): `EtiquettePage` (`/etiquette`), items in
   `features/etiquette/data/etiquette.dart` (strings `etiquette.<id>_*`),
-  sources in docs/DUA_SOURCES.md; the design's "المصادر تُراجَع قبل النشر"
-  shows until `etiquetteVerified` (Mariam's sign-off).
+  sources in docs/DUA_SOURCES.md; signed off 2026-11-20
+  (`etiquetteVerified` — while false, the design's "المصادر تُراجَع قبل
+  النشر" shows).
 - Completion (Figma ١٤): on a window's or shelf's last dua "Next" reads
   "تمّ" and opens `CompletionPage` (`/done`, `CompletionArgs` as extra);
   closing it closes the Dua screen too. `Completion.of(selection)` says what
   was finished; `ordinal()` (`core/utils/ordinal.dart`, Arabic words to 31,
   by gender) names the day;
   the chip is "يومك الرابع هذا الأسبوع" (the week's days, as on Home). The share
-  line opens Android's share sheet (`android_intent_plus`; no store link
-  until release). A count reaching its target (repeat > 1) shows the
+  line opens Android's share sheet (`android_intent_plus`) with the Play
+  link. A count reaching its target (repeat > 1) shows the
   "اكتمل التسبيح" toast over the dua (Figma ١٧).
 - The days with duas (Figma ١٨–١٩, `features/progress`): `DuaDays`
   (`CacheKey.duaDays`) keeps only the dates a set of duas was finished —
@@ -171,10 +172,13 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   keep "name · time". My duas' empty state is the frame's card.
 - Home: `features/home`. `todayWindowsProvider` (windows open now or starting
   in the next 24 h, from yesterday/today/tomorrow's prayer days) is recomputed
-  on each `clockProvider` tick (20 s). The hero card features the open window
-  with the highest `featurePriority`, else the next one ("up next" state is
-  ours — the design only shows "open now"; it gets the "التالية" badge and
-  an empty progress bar). The window's illustration sits at the end of the
+  on each `clockProvider` tick (20 s). The hero card shows
+  `TodayWindows.hero`: every open window, highest `featurePriority` first,
+  else the next one ("up next" state is ours — the design only shows "open
+  now"; it gets the "التالية" badge and an empty progress bar). When several
+  are open at once (Mariam's idea; no design) the reader swipes between
+  them like the reminder card, with `CardDots` under the button; a swiped-to
+  window stays until it closes. Ready for windows to come (rain). The window's illustration sits at the end of the
   text (left in Arabic), centred on the block from the badge down to the
   countdown — Mariam's call over the handover's corner placement, which
   looked stuck to the top. It's drawn at its full 160 × 120, reaching into
@@ -182,7 +186,8 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   fades out at its foot (`ShaderMask`). The progress bar and button run full
   width below.
   The card colour and Amiri title stay as in the design. Rows show the window's
-  icon in place of the status dot, tinted by status. The Hijri date is Umm al-Qura by
+  icon in place of the status dot, tinted by status; a tap opens that
+  window's Dua screen (ours — the design's rows aren't buttons). The Hijri date is Umm al-Qura by
   civil date (package `hijri`; month names come from l10n). "Make dua now"
   opens the Dua screen for the featured window; search opens the Library
   (Duas tab) with its search field focused (`AppRoutes.librarySearch()`, a
@@ -250,7 +255,7 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   (`launchLinkProvider`, or `PendingAlertLink` if the plugin reported it as
   a live tap during the splash) — navigating any earlier loses to GoRouter's
   initial route and the splash timer. Verified on the emulator, warm and
-  cold. The developer test alert opens the last third, to check this too.
+  cold.
 - Settings tab: `SettingsPage` — rows (`SettingsSection`/`SettingsRow`) open
   bottom sheets (`showOptionSheet`/`showAppSheet` in core/components; no
   design for them yet; they open on the root navigator so they cover the
@@ -265,15 +270,23 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   detection and city picker. Location and settings changes re-plan the
   alerts. Alert tone and vibration open Android's settings for the alert
   channel (a channel's sound and vibration can't be changed by the app once
-  created, and we have no sound files). Night mode: `ThemePreference` —
+  created, and we have no sound files — the Windows tab says "بالنغمة التي
+  تختارها"; a chime may come in an update). Night mode: `ThemePreference` —
   follow the phone (default), automatic after Maghrib (night from Maghrib
   until sunrise; the design's label), always light, always dark — saved by
   `ThemeController` (`features/settings`, `CacheKey.themeMode`);
   `themeModeProvider` turns it into a `ThemeMode`, re-checking after-Maghrib
   on each clock tick and following the phone until a location exists.
   `_StatusBar` (app.dart) sets the status-bar icons for the theme.
-- **Temporary, remove before release:** the `/debug/alerts` page; its link
-  at the bottom of Settings shows in debug builds only.
+- Release (v1.0.0, 2026-11-20): signed with the upload key in
+  `C:\Users\LENOVO\ijaba-release\` (outside the repo; `android/key.properties`,
+  gitignored, points to it — without it release builds fall back to the
+  debug key). Ship the app bundle (`flutter build appbundle`); absolutedevs
+  uploads it (Play App Signing). R8 keeps `com.dexterous.**`
+  (`android/app/proguard-rules.pro`) so saved alerts survive updates.
+  `android:allowBackup="false"`: the saved location must never leave the
+  phone, not even in a Google backup. Privacy policy: `docs/PRIVACY_POLICY.md`
+  (needs hosting and a contact email). The developer alert-test page is gone.
 - The phone's navigation bar is hidden while the app is open; a swipe up
   shows it for a moment (`MainActivity`, re-applied after Flutter's
   `onPostResume` and on regaining focus). Done natively because
@@ -309,6 +322,11 @@ and prayer reminders. **The spec is `docs/HANDOVER.md` — read it first.** (Its
   second to finish (not on the splash, which moves on); and every
   screen but the splash again in the night palette, to
   `build/design_check/night/` (the night Dua frame is the one to compare).
+
+- Play Store assets: `flutter test tool/store_assets/store_assets_test.dart`
+  renders the screenshots (Arabic and English, 1080 × 1920, real duas) and
+  the 1024 × 500 feature graphic (the splash's composition, laid out wide)
+  to `build/store_assets/`; flatten the PNGs (no alpha) before uploading.
 
 ## Commands
 - Codegen: `dart run build_runner build` (build_runner 2.15+ ignores

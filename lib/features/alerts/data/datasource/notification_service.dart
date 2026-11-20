@@ -173,9 +173,4 @@ class NotificationService {
       }
     }
   }
-
-  Future<List<PendingNotificationRequest>> pending() async {
-    await _ensureInitialized();
-    return _plugin.pendingNotificationRequests();
-  }
 }

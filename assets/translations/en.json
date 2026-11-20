@@ -134,7 +134,7 @@
     "after_prayers": "After obligatory prayers",
     "friday_hour": "The hour of response (Friday)",
     "adhkar": "Morning and evening adhkar",
-    "soft_chime": "soft chime",
+    "soft_chime": "your chosen tone",
     "fajr_maghrib_only": "Fajr and Maghrib only",
     "silent_no_alert": "Silent — no alert",
     "quiet_alert": "A quiet alert, no sound",
@@ -312,7 +312,7 @@
     "hadith": "“The deeds most loved by Allah are the most constant, even if few.” — al-Bukhari and Muslim",
     "praise": "Alhamdulillah",
     "share": "Share Ijaba with those you love — whoever guides to good is like the one who does it",
-    "share_text": "Ijaba — an app that reminds you of the times dua is answered: the last third of the night, between adhan and iqama, and the Friday hour.",
+    "share_text": "Ijaba — an app that reminds you of the times dua is answered: the last third of the night, between adhan and iqama, and the Friday hour.\nhttps://play.google.com/store/apps/details?id=com.absolutedevs.ijaba",
     "close": "Close",
     "streak_week": "Your {ordinal} day this week"
   },

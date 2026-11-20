@@ -1,9 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ijaba/config/themes/app_colors.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
+import 'package:ijaba/core/components/card_dots.dart';
 import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/core/utils/localized_digits.dart';
 import 'package:ijaba/features/windows/data/model/dua_window.dart';
@@ -12,54 +14,106 @@ import 'package:ijaba/features/windows/presentation/window_names.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
 
 /// The featured window: open now (with time left and progress), or the next
-/// one to open (with time until it starts).
+/// one to open (with time until it starts). When several are open at once
+/// (evening adhkar and the Friday hour, say), the reader swipes between
+/// them, as on the reminder card, and dots say which; it opens on the
+/// first.
 ///
 /// The card's green follows the theme; what's on it keeps its day colours
 /// in both (the handover).
-class WindowHeroCard extends StatelessWidget {
+class WindowHeroCard extends HookWidget {
   const WindowHeroCard({
-    required this.window,
+    required this.windows,
     required this.now,
     required this.onMakeDua,
     super.key,
   });
 
-  final DuaWindow window;
+  /// `TodayWindows.hero`: never empty.
+  final List<DuaWindow> windows;
   final DateTime now;
-  final VoidCallback onMakeDua;
+
+  /// "Make dua now", for the window shown.
+  final ValueChanged<DuaWindow> onMakeDua;
 
   @override
   Widget build(BuildContext context) {
     final language = context.locale.languageCode;
+    final rtl = Directionality.of(context) == TextDirection.rtl;
+    // The one swiped to stays while it's open; when it closes, or before
+    // any swipe, the first.
+    final swipedTo = useState<DuaWindow?>(null);
+    final chosen = swipedTo.value;
+    // indexOf gives -1 once it has closed.
+    final index = chosen == null ? 0 : windows.indexOf(chosen).clamp(0, 99);
+    final window = windows[index];
     final open = window.isOpenAt(now);
+    final several = windows.length > 1;
 
-    return DecoratedBox(
+    // A swipe towards the reading direction's start brings the next one.
+    void swiped(DragEndDetails details) {
+      final velocity = details.primaryVelocity ?? 0;
+      if (velocity.abs() < 150) return;
+      final towardsStart = rtl ? velocity > 0 : velocity < 0;
+      swipedTo.value =
+          windows[(index + (towardsStart ? 1 : -1)) % windows.length];
+    }
+
+    final card = DecoratedBox(
       decoration: BoxDecoration(
         color: context.colors.green,
         borderRadius: BorderRadius.circular(22.r),
       ),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(22.w, 23.h, 22.w, 22.h),
-        // A new window (or this one opening) cross-fades in; the clock's
-        // ticks within one don't.
-        child: AnimatedSwitcher(
-          duration: Motion.of(context, Motion.long),
-          switchInCurve: Motion.curve,
-          switchOutCurve: Curves.easeIn,
-          layoutBuilder: (current, previous) => Stack(
-            alignment: AlignmentDirectional.topStart,
-            children: [...previous, ?current],
-          ),
-          child: KeyedSubtree(
-            key: ValueKey('${window.type.name} ${window.start} $open'),
-            child: _content(context, language, open: open),
-          ),
+        padding: EdgeInsets.fromLTRB(22.w, 23.h, 22.w, several ? 16.h : 22.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // A new window (or this one opening) cross-fades in; the
+            // clock's ticks within one don't.
+            AnimatedSwitcher(
+              duration: Motion.of(context, Motion.long),
+              switchInCurve: Motion.curve,
+              switchOutCurve: Curves.easeIn,
+              layoutBuilder: (current, previous) => Stack(
+                alignment: AlignmentDirectional.topStart,
+                children: [...previous, ?current],
+              ),
+              child: KeyedSubtree(
+                key: ValueKey('${window.type.name} ${window.start} $open'),
+                child: _content(context, language, window, open: open),
+              ),
+            ),
+            if (several) ...[
+              SizedBox(height: 14.h),
+              Center(
+                child: CardDots(
+                  count: windows.length,
+                  index: index,
+                  activeColor: _fixed.honey,
+                  color: _fixed.greenDeep,
+                ),
+              ),
+            ],
+          ],
         ),
       ),
     );
+    return several
+        ? GestureDetector(
+            onHorizontalDragEnd: swiped,
+            behavior: HitTestBehavior.opaque,
+            child: card,
+          )
+        : card;
   }
 
-  Widget _content(BuildContext context, String language, {required bool open}) {
+  Widget _content(
+    BuildContext context,
+    String language,
+    DuaWindow window, {
+    required bool open,
+  }) {
     final arabic = language == 'ar';
     final countdown = Text(
       _hoursMinutes(open ? window.end : window.start, language),
@@ -113,7 +167,7 @@ class WindowHeroCard extends StatelessWidget {
         ),
         SizedBox(height: 5.h),
         Text(
-          _timeRange(context, language),
+          _timeRange(context, language, window),
           style: context.textStyles.heroCaption,
         ),
         SizedBox(height: 8.h),
@@ -178,13 +232,13 @@ class WindowHeroCard extends StatelessWidget {
         ),
         SizedBox(height: 2.h),
         // Empty until the window opens.
-        _Progress(fraction: open ? _elapsed : 0),
+        _Progress(fraction: open ? _elapsed(window) : 0),
         SizedBox(height: 6.h),
         SizedBox(
           width: double.infinity,
           height: 47.h,
           child: FilledButton(
-            onPressed: onMakeDua,
+            onPressed: () => onMakeDua(window),
             style: FilledButton.styleFrom(
               backgroundColor: _fixed.paperSoft,
               foregroundColor: _fixed.green,
@@ -200,7 +254,7 @@ class WindowHeroCard extends StatelessWidget {
     );
   }
 
-  double get _elapsed {
+  double _elapsed(DuaWindow window) {
     final total = window.end.difference(window.start).inSeconds;
     final done = now.difference(window.start).inSeconds;
     return total <= 0 ? 0 : (done / total).clamp(0, 1);
@@ -219,7 +273,11 @@ class WindowHeroCard extends StatelessWidget {
 
   /// "٢:٠٤ — ٤:٣٠" in Arabic; "2:04 — 4:30 AM" in English, with the
   /// prayer first for prayer windows.
-  String _timeRange(BuildContext context, String language) {
+  String _timeRange(
+    BuildContext context,
+    String language,
+    DuaWindow window,
+  ) {
     final clock = DateFormat('h:mm', language);
     final range =
         '${clock.format(window.start.toLocal())} — ${clock.format(window.end.toLocal())}'

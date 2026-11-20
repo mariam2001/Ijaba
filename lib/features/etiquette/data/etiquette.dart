@@ -31,6 +31,6 @@ const etiquette = [
 /// "١٠ آداب" on Home's entry card.
 final etiquetteCount = etiquette.length;
 
-/// Until Mariam signs the sources off, the page keeps the design's footer
-/// "المصادر تُراجَع قبل النشر".
-const etiquetteVerified = false;
+/// While false, the page shows the design's footer "المصادر تُراجَع قبل
+/// النشر". Signed off 2026-11-20 after the source check (DUA_SOURCES.md).
+const etiquetteVerified = true;

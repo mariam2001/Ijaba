@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ijaba/config/routes/app_routes.dart';
 import 'package:ijaba/config/routes/main_shell.dart';
-import 'package:ijaba/features/alerts/presentation/pages/alerts_debug_page.dart';
 import 'package:ijaba/features/duas/data/model/library_category.dart';
 import 'package:ijaba/features/duas/presentation/dua_selection.dart';
 import 'package:ijaba/features/duas/presentation/pages/completion_page.dart';
@@ -120,10 +119,6 @@ final appRoutes = <RouteBase>[
   GoRoute(
     path: AppRoutes.permissions,
     builder: (context, state) => const PermissionsPage(),
-  ),
-  GoRoute(
-    path: AppRoutes.alertsDebug,
-    builder: (context, state) => const AlertsDebugPage(),
   ),
 ];
 
