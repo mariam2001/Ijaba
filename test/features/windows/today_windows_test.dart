@@ -41,10 +41,13 @@ void main() {
   test('overlapping windows: the Friday hour outranks evening adhkar', () {
     // 16:30 Friday: evening adhkar (15:00–17:00) and the Friday hour
     // (16:00–17:00) are both open.
-    expect(
-      at(DateTime.utc(2026, 10, 23, 16, 30)).featured?.type,
+    final today = at(DateTime.utc(2026, 10, 23, 16, 30));
+    expect(today.featured?.type, DuaWindowType.fridayHour);
+    // The hero card has both, to swipe between.
+    expect(today.hero.map((window) => window.type), [
       DuaWindowType.fridayHour,
-    );
+      DuaWindowType.eveningAdhkar,
+    ]);
   });
 
   test('with nothing open, the next window is featured', () {
@@ -53,5 +56,6 @@ void main() {
 
     expect(today.featured?.type, DuaWindowType.afterPrayer);
     expect(today.featured?.start, DateTime.utc(2026, 10, 23, 12, 25));
+    expect(today.hero, hasLength(1));
   });
 }

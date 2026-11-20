@@ -78,14 +78,14 @@ class HomePage extends ConsumerWidget {
               ],
               error: (error, _) => [ErrorView(error: error)],
               data: (today) => [
-                if (today.featured case final featured?)
+                if (today.hero.isNotEmpty)
                   Reveal(
                     delay: const Duration(milliseconds: 70),
                     child: WindowHeroCard(
-                      window: featured,
+                      windows: today.hero,
                       now: now,
-                      onMakeDua: () =>
-                          context.push(AppRoutes.duaFor(featured.type.name)),
+                      onMakeDua: (window) =>
+                          context.push(AppRoutes.duaFor(window.type.name)),
                     ),
                   ),
                 SizedBox(height: 16.h),
@@ -142,6 +142,8 @@ class HomePage extends ConsumerWidget {
                       now: now,
                       alertOn: enabled.contains(window.type),
                       leadTime: planner.leadTimeOf(window.type),
+                      onTap: () =>
+                          context.push(AppRoutes.duaFor(window.type.name)),
                     ),
                 ]),
               ],

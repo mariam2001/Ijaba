@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ijaba/config/themes/app_theme_context.dart';
+import 'package:ijaba/core/components/card_dots.dart';
 import 'package:ijaba/core/components/motion.dart';
 import 'package:ijaba/features/home/data/reminders.dart';
 import 'package:ijaba/generated/locale_keys.g.dart';
@@ -90,37 +91,15 @@ class ReminderCard extends HookWidget {
               ),
             ),
             SizedBox(height: 10.h),
-            _Dots(count: reminders.length, index: page.value),
+            CardDots(
+              count: reminders.length,
+              index: page.value,
+              activeColor: context.colors.honey,
+              color: context.colors.line,
+            ),
           ],
         ),
       ),
     );
   }
-}
-
-/// The current one long and honey, the others small dots.
-class _Dots extends StatelessWidget {
-  const _Dots({required this.count, required this.index});
-
-  final int count;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) => Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      for (var i = 0; i < count; i++)
-        AnimatedContainer(
-          duration: Motion.of(context, Motion.medium),
-          curve: Motion.curve,
-          margin: EdgeInsets.symmetric(horizontal: 2.5.w),
-          width: i == index ? 14.r : 6.r,
-          height: 6.r,
-          decoration: BoxDecoration(
-            color: i == index ? context.colors.honey : context.colors.line,
-            borderRadius: BorderRadius.circular(3.r),
-          ),
-        ),
-    ],
-  );
 }

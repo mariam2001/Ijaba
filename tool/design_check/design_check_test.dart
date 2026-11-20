@@ -33,7 +33,9 @@ import 'package:ijaba/features/location/data/model/saved_location.dart';
 import 'package:ijaba/features/onboarding/data/datasource/device_power_settings.dart';
 import 'package:ijaba/features/onboarding/presentation/pages/splash_page.dart';
 import 'package:ijaba/features/prayer_times/data/model/geo_point.dart';
+import 'package:ijaba/features/windows/data/model/dua_window.dart';
 import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
+import 'package:ijaba/features/windows/data/model/today_windows.dart';
 import 'package:ijaba/features/windows/presentation/controller/today_windows_controller.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -187,6 +189,9 @@ void main() {
     '22_etiquette': (AppRoutes.etiquette, 'ar', null),
     '23_home_welcome': (AppRoutes.home, 'ar', null),
     '24_my_duas_empty': (AppRoutes.myDuas, 'ar', null),
+    // No design: two windows open at once (the Friday hour and evening
+    // adhkar, that Friday at 17:30), the hero card's dots.
+    '25_home_two_open': (AppRoutes.home, 'ar', null),
   };
 
   // The night palette, for every screen but the splash (fixed colours):
@@ -259,7 +264,13 @@ void main() {
               cityDirectoryProvider.overrideWith(
                 (ref) async => testCityDirectory(),
               ),
-              clockProvider.overrideWith((ref) => Stream.value(designNow)),
+              clockProvider.overrideWith(
+                (ref) => Stream.value(
+                  name.endsWith('25_home_two_open')
+                      ? DateTime(2028, 9, 8, 17, 30)
+                      : designNow,
+                ),
+              ),
               // The Dua frames show "2 of 7"; elsewhere, the real duas,
               // with the user's own added after them.
               if (path.startsWith('${AppRoutes.dua}/'))
@@ -271,7 +282,9 @@ void main() {
                   (ref) async => testDuaCatalog(),
                 ),
               todayWindowsProvider.overrideWith(
-                (ref) async => designTodayWindows(),
+                (ref) async => name.endsWith('25_home_two_open')
+                    ? _twoOpen()
+                    : designTodayWindows(),
               ),
               routerProvider.overrideWithValue(
                 GoRouter(
@@ -326,4 +339,21 @@ void main() {
       await tester.pump(SplashPage.duration);
     });
   }
+}
+
+/// That Friday at 17:30: the Friday hour and evening adhkar both open.
+TodayWindows _twoOpen() {
+  DateTime at(int hour, int minute) =>
+      DateTime(2028, 9, 8, hour, minute).toUtc();
+  final friday = DuaWindow(
+    type: DuaWindowType.fridayHour,
+    start: at(17, 6),
+    end: at(18, 6),
+  );
+  final evening = DuaWindow(
+    type: DuaWindowType.eveningAdhkar,
+    start: at(15, 30),
+    end: at(18, 6),
+  );
+  return TodayWindows(windows: [evening, friday], hero: [friday, evening]);
 }

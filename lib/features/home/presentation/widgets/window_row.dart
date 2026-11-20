@@ -12,13 +12,14 @@ import 'package:ijaba/generated/locale_keys.g.dart';
 
 /// One line of "Today's windows": the window's icon, name and detail, start
 /// time. Open windows get a honey icon; silent ones (alert switched off on
-/// the Windows screen) are drawn faded.
+/// the Windows screen) are drawn faded. A tap opens the window's duas.
 class WindowRow extends StatelessWidget {
   const WindowRow({
     required this.window,
     required this.now,
     required this.alertOn,
     required this.leadTime,
+    required this.onTap,
     super.key,
   });
 
@@ -31,57 +32,62 @@ class WindowRow extends StatelessWidget {
   /// How long before the window its alert fires (from the alert planner).
   final Duration leadTime;
 
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     final language = context.locale.languageCode;
     final open = window.isOpenAt(now);
     final faded = !alertOn && !open;
 
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 14.h),
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: context.colors.line)),
-      ),
-      child: Row(
-        children: [
-          AppIconView(
-            windowIcon(window.type),
-            size: 20.r,
-            color: open
-                ? context.colors.honey
-                : faded
-                ? context.colors.faint
-                : context.colors.greenMid,
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.tr(windowNameKey(window.type)),
-                  style: context.textStyles.rowTitle.copyWith(
-                    color: faded ? context.colors.faint : context.colors.ink,
-                  ),
-                ),
-                Text(
-                  _detail(context, language, open: open),
-                  style: context.textStyles.caption.copyWith(
-                    fontSize: 10.5.sp,
-                    fontWeight: FontWeight.w300,
-                    color: context.colors.muted,
-                  ),
-                ),
-              ],
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 14.h),
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: context.colors.line)),
+        ),
+        child: Row(
+          children: [
+            AppIconView(
+              windowIcon(window.type),
+              size: 20.r,
+              color: open
+                  ? context.colors.honey
+                  : faded
+                  ? context.colors.faint
+                  : context.colors.greenMid,
             ),
-          ),
-          Text(
-            DateFormat('h:mm', language).format(window.start.toLocal()),
-            style: context.textStyles.rowTime.copyWith(
-              color: faded ? context.colors.faint : context.colors.ink,
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.tr(windowNameKey(window.type)),
+                    style: context.textStyles.rowTitle.copyWith(
+                      color: faded ? context.colors.faint : context.colors.ink,
+                    ),
+                  ),
+                  Text(
+                    _detail(context, language, open: open),
+                    style: context.textStyles.caption.copyWith(
+                      fontSize: 10.5.sp,
+                      fontWeight: FontWeight.w300,
+                      color: context.colors.muted,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Text(
+              DateFormat('h:mm', language).format(window.start.toLocal()),
+              style: context.textStyles.rowTime.copyWith(
+                color: faded ? context.colors.faint : context.colors.ink,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

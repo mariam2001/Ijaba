@@ -5,7 +5,7 @@ import 'package:ijaba/features/windows/data/model/dua_window_type.dart';
 
 /// What the Home screen shows at a given moment.
 class TodayWindows {
-  const TodayWindows({required this.windows, this.featured});
+  const TodayWindows({required this.windows, this.hero = const []});
 
   /// From the windows of [days]: those still open at [now] or starting
   /// within the next 24 hours, by start time — whether or not they alert.
@@ -31,11 +31,12 @@ class TodayWindows {
       );
     return TodayWindows(
       windows: windows,
-      featured: open.isNotEmpty ? open.first : windows.firstOrNull,
+      hero: open.isNotEmpty ? open : [?windows.firstOrNull],
     );
   }
 
-  /// Which open window the hero card shows when several overlap.
+  /// The order of the hero card's windows when several overlap: it opens
+  /// on the first.
   static const featurePriority = [
     DuaWindowType.lastThirdOfNight,
     DuaWindowType.fridayHour,
@@ -47,6 +48,10 @@ class TodayWindows {
 
   final List<DuaWindow> windows;
 
-  /// The window to feature: the open one, or else the next to open.
-  final DuaWindow? featured;
+  /// What the hero card shows: the open windows by [featurePriority] (the
+  /// reader swipes between them), or else the next one to open.
+  final List<DuaWindow> hero;
+
+  /// The window the hero card opens on.
+  DuaWindow? get featured => hero.firstOrNull;
 }

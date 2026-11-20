@@ -164,7 +164,7 @@ TodayWindows designTodayWindows() {
     end: at(4, 30),
   );
   return TodayWindows(
-    featured: lastThird,
+    hero: [lastThird],
     windows: [
       lastThird,
       DuaWindow(
